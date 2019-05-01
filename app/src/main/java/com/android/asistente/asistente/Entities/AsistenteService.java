@@ -94,16 +94,26 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
 
                               //  voice.startVoiceInput();
                               //  voice = new VoiceRecognition();
-                                voice.startVoiceInput();
-                                voice.voiceListening();
+                                new Thread(new Runnable() {
+                                    public void run() {
+                                        voice.startVoiceInput();
+                                        voice.voiceListening();
+                                    }
+                                }).start();
+
                                 //speech.startListening(intent);
                                 VoiceRecognition.matches = null;
                             } else {
 
 
                                 //voice = new VoiceRecognition();
-                                voice.startVoiceInput();
-                                voice.voiceListening();
+                                new Thread(new Runnable() {
+                                    public void run() {
+                                        voice.startVoiceInput();
+                                        voice.voiceListening();
+                                        //java.lang.RuntimeException: SpeechRecognizer should be used only from the application's main thread
+                                    }
+                                }).start();
                                 VoiceRecognition.matches = null;
                             }
 
