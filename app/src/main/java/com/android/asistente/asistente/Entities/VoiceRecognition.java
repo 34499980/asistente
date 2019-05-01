@@ -27,7 +27,10 @@ public class VoiceRecognition extends AppCompatActivity {
     private Intent mSpeechRecognizerIntent;
     private ListView wordsList;
     static ArrayList<String> matches;
+    RecognitionListener rec;
     final Speech speek = new Speech();
+
+    Intent intent;
     Button btnPrueba;
 
     @Override
@@ -35,13 +38,61 @@ public class VoiceRecognition extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnPrueba = (Button) findViewById(R.id.btnHablar);
+         rec = new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle bundle) {
 
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+
+            }
+
+            @Override
+            public void onRmsChanged(float v) {
+
+            }
+
+            @Override
+            public void onBufferReceived(byte[] bytes) {
+
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+
+            }
+
+            @Override
+            public void onError(int i) {
+
+            }
+
+            @Override
+            public void onResults(Bundle data) {
+                matches = data.getStringArrayList(
+                        SpeechRecognizer.RESULTS_RECOGNITION);
+
+            }
+
+            @Override
+            public void onPartialResults(Bundle bundle) {
+
+            }
+
+            @Override
+            public void onEvent(int i, Bundle bundle) {
+
+            }
+        };
         //  mVoiceInputTv = (TextView) findViewById(R.id.voiceInput);
         //   mSpeakBtn = (ImageButton) findViewById(R.id.btnSpeak);
         //  mSpeakBtn.setOnClickListener(new View.OnClickListener() {
 
     }
 public void voiceListening(){
+
 
     try {
 
@@ -80,12 +131,6 @@ public void voiceListening(){
             public void onResults(Bundle data) {
                 matches = data.getStringArrayList(
                         SpeechRecognizer.RESULTS_RECOGNITION);
-                if(matches.get(0).toLowerCase().equals("hola")){
-                    speek.speek("En que lo puedo ayudar");
-
-                }
-                speek.speek("No funciono");
-
             }
 
             @Override
@@ -98,10 +143,6 @@ public void voiceListening(){
 
             }
         });
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                MainActivity.getContext().getPackageName());
 
         speech.startListening(intent);
 
@@ -116,8 +157,17 @@ public void voiceListening(){
     }
 }
     void startVoiceInput() {
-
-        speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
+        try {
+            if(speech == null) {
+                speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
+            }
+            intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
+            intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                    MainActivity.getContext().getPackageName());
+        }catch(Exception ex){
+            throw ex;
+        }
     }
 
     @Override
