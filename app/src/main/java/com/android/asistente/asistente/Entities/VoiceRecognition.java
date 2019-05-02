@@ -95,6 +95,9 @@ public void voiceListening(){
 
 
     try {
+        new Thread(new Runnable() {
+            public void run() {
+
 
         speech.setRecognitionListener(new RecognitionListener() {
             @Override
@@ -143,7 +146,8 @@ public void voiceListening(){
 
             }
         });
-
+            }
+        }).start();
         speech.startListening(intent);
 
 
