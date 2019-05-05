@@ -71,8 +71,8 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
     }
     @Override
     public void onDestroy(){
-        timerObj.cancel();
-        timerObj.purge();
+      //  timerObj.cancel();
+       // timerObj.purge();
         Toast.makeText(this, "Servicio detenido", Toast.LENGTH_SHORT).show();
     }
 
@@ -90,35 +90,54 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
                         matches = voice.getMatches();
                         if (matches != null) {
 
-                            if (matches.get(0).equals("hola")) {
+                            if (matches.get(0).toLowerCase().equals("hola")) {
 
-                              //  voice.startVoiceInput();
-                              //  voice = new VoiceRecognition();
-                                new Thread(new Runnable() {
+                                //  voice.startVoiceInput();
+                                //  voice = new VoiceRecognition();
+                                try {
+                                    Thread.sleep(3000);
+
+                            }catch(InterruptedException e)
+                            {
+                                System.out.println("Thread Interrupted");
+                            }
+                            finally {
+                                    speek.speek("En que lo puedo ayudar");
+                                    VoiceRecognition.matches = null;
+                                }
+
+
+
+                              /*  new Thread(new Runnable() {
+                                    @Override
                                     public void run() {
-                                        voice.startVoiceInput();
-                                        voice.voiceListening();
+
+                                        speek.speek("En que lo puedo ayudar");
+                                        VoiceRecognition.matches = null;
                                     }
-                                }).start();
+                                }).start();*/
+
+                                    //    voice.startVoiceInput();
+                                    //    voice.voiceListening();
+
 
                                 //speech.startListening(intent);
-                                VoiceRecognition.matches = null;
+                               // VoiceRecognition.matches = null;
                             } else {
 
 
                                 //voice = new VoiceRecognition();
-                                new Thread(new Runnable() {
-                                    public void run() {
-                                        voice.startVoiceInput();
-                                        voice.voiceListening();
+
+                                      //  voice.startVoiceInput();
+                                      //  voice.voiceListening();
                                         //java.lang.RuntimeException: SpeechRecognizer should be used only from the application's main thread
-                                    }
-                                }).start();
+
+
                                 VoiceRecognition.matches = null;
                             }
 
                         } else {
-                          //  voice.voiceListening();
+                           // voice.voiceListening();
 
                            // speek.speek("no funciono");
                           //  speech.startListening(intent);

@@ -38,54 +38,7 @@ public class VoiceRecognition extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnPrueba = (Button) findViewById(R.id.btnHablar);
-         rec = new RecognitionListener() {
-            @Override
-            public void onReadyForSpeech(Bundle bundle) {
 
-            }
-
-            @Override
-            public void onBeginningOfSpeech() {
-
-            }
-
-            @Override
-            public void onRmsChanged(float v) {
-
-            }
-
-            @Override
-            public void onBufferReceived(byte[] bytes) {
-
-            }
-
-            @Override
-            public void onEndOfSpeech() {
-
-            }
-
-            @Override
-            public void onError(int i) {
-
-            }
-
-            @Override
-            public void onResults(Bundle data) {
-                matches = data.getStringArrayList(
-                        SpeechRecognizer.RESULTS_RECOGNITION);
-
-            }
-
-            @Override
-            public void onPartialResults(Bundle bundle) {
-
-            }
-
-            @Override
-            public void onEvent(int i, Bundle bundle) {
-
-            }
-        };
         //  mVoiceInputTv = (TextView) findViewById(R.id.voiceInput);
         //   mSpeakBtn = (ImageButton) findViewById(R.id.btnSpeak);
         //  mSpeakBtn.setOnClickListener(new View.OnClickListener() {
@@ -95,62 +48,60 @@ public void voiceListening(){
 
 
     try {
-        new Thread(new Runnable() {
-            public void run() {
 
+                if (rec == null) {
+                    rec = new RecognitionListener() {
+                        @Override
+                        public void onReadyForSpeech(Bundle bundle) {
 
-        speech.setRecognitionListener(new RecognitionListener() {
-            @Override
-            public void onReadyForSpeech(Bundle bundle) {
+                        }
 
-            }
+                        @Override
+                        public void onBeginningOfSpeech() {
 
-            @Override
-            public void onBeginningOfSpeech() {
+                        }
 
-            }
+                        @Override
+                        public void onRmsChanged(float v) {
 
-            @Override
-            public void onRmsChanged(float v) {
+                        }
 
-            }
+                        @Override
+                        public void onBufferReceived(byte[] bytes) {
 
-            @Override
-            public void onBufferReceived(byte[] bytes) {
+                        }
 
-            }
+                        @Override
+                        public void onEndOfSpeech() {
 
-            @Override
-            public void onEndOfSpeech() {
+                        }
 
-            }
+                        @Override
+                        public void onError(int i) {
 
-            @Override
-            public void onError(int i) {
+                        }
 
-            }
+                        @Override
+                        public void onResults(Bundle data) {
+                            matches = data.getStringArrayList(
+                                    SpeechRecognizer.RESULTS_RECOGNITION);
 
-            @Override
-            public void onResults(Bundle data) {
-                matches = data.getStringArrayList(
-                        SpeechRecognizer.RESULTS_RECOGNITION);
-            }
+                        }
 
-            @Override
-            public void onPartialResults(Bundle bundle) {
+                        @Override
+                        public void onPartialResults(Bundle bundle) {
 
-            }
+                        }
 
-            @Override
-            public void onEvent(int i, Bundle bundle) {
+                        @Override
+                        public void onEvent(int i, Bundle bundle) {
 
-            }
-        });
-            }
-        }).start();
-        speech.startListening(intent);
+                        }
+                    };
+                }
 
-
+                speech.setRecognitionListener(rec);
+                speech.startListening(intent);
 
 
 
