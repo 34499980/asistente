@@ -71,8 +71,8 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
     }
     @Override
     public void onDestroy(){
-      //  timerObj.cancel();
-       // timerObj.purge();
+       timerObj.cancel();
+        timerObj.purge();
         Toast.makeText(this, "Servicio detenido", Toast.LENGTH_SHORT).show();
     }
 
@@ -92,6 +92,8 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
 
                             if (matches.get(0).toLowerCase().equals("hola")) {
 
+                                timerObj.cancel();
+                                timerObj.purge();
                                 //  voice.startVoiceInput();
                                 //  voice = new VoiceRecognition();
                                 try {
@@ -104,6 +106,7 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
                             finally {
                                     speek.speek("En que lo puedo ayudar");
                                     VoiceRecognition.matches = null;
+                                    startTimer();
                                 }
 
 
