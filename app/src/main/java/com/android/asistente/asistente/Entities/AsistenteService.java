@@ -44,7 +44,7 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
         Toast.makeText(this, "Servicio Iniciado", Toast.LENGTH_SHORT).show();
         try {
             voice.startVoiceInput();
-            voice.voiceListening();
+            //voice.voiceListening();
             startTimer();
          //   speech.startListening(intent);
 
@@ -97,6 +97,7 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
                                 //  voice.startVoiceInput();
                                 //  voice = new VoiceRecognition();
                                 try {
+                                    speek.speek("En que lo puedo ayudar");
                                     Thread.sleep(3000);
 
                             }catch(InterruptedException e)
@@ -104,9 +105,11 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
                                 System.out.println("Thread Interrupted");
                             }
                             finally {
-                                    speek.speek("En que lo puedo ayudar");
+
                                     VoiceRecognition.matches = null;
+                                    voice.startVoiceInput();
                                     startTimer();
+
                                 }
 
 

@@ -38,13 +38,62 @@ public class VoiceRecognition extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnPrueba = (Button) findViewById(R.id.btnHablar);
-
+        speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
+        speech.setRecognitionListener(new listener());
         //  mVoiceInputTv = (TextView) findViewById(R.id.voiceInput);
         //   mSpeakBtn = (ImageButton) findViewById(R.id.btnSpeak);
         //  mSpeakBtn.setOnClickListener(new View.OnClickListener() {
 
     }
-public void voiceListening(){
+    class listener implements RecognitionListener{
+        @Override
+        public void onReadyForSpeech(Bundle bundle) {
+
+        }
+
+        @Override
+        public void onBeginningOfSpeech() {
+
+        }
+
+        @Override
+        public void onRmsChanged(float v) {
+
+        }
+
+        @Override
+        public void onBufferReceived(byte[] bytes) {
+
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+
+        }
+
+        @Override
+        public void onError(int i) {
+
+        }
+
+        @Override
+        public void onResults(Bundle data) {
+            matches = data.getStringArrayList(
+                    SpeechRecognizer.RESULTS_RECOGNITION);
+
+        }
+
+        @Override
+        public void onPartialResults(Bundle bundle) {
+
+        }
+
+        @Override
+        public void onEvent(int i, Bundle bundle) {
+
+        }
+    }
+    public void voiceListening(){
 
 
     try {
@@ -113,13 +162,15 @@ public void voiceListening(){
 }
     void startVoiceInput() {
         try {
-            if(speech == null) {
+
+            /*if(speech == null) {
                 speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
-            }
+            }*/
             intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
             intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                     MainActivity.getContext().getPackageName());
+            speech.startListening(intent);
         }catch(Exception ex){
             throw ex;
         }
