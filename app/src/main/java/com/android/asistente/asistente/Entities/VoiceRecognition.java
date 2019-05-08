@@ -76,6 +76,7 @@ public class VoiceRecognition extends AppCompatActivity {
         public void onResults(Bundle data) {
             matches = data.getStringArrayList(
                     SpeechRecognizer.RESULTS_RECOGNITION);
+            speech.stopListening();
 
         }
 
