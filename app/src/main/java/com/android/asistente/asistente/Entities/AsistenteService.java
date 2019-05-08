@@ -43,7 +43,10 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
     public int onStartCommand(Intent intente, int flag,int idProcess){
         Toast.makeText(this, "Servicio Iniciado", Toast.LENGTH_SHORT).show();
         try {
-            voice.startVoiceInput();
+            if(intent == null){
+                intent = intente;
+            }
+            voice.OnInit();
             //voice.voiceListening();
             startTimer();
          //   speech.startListening(intent);
@@ -57,9 +60,6 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
         }catch(Exception ex){
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
-           // voice.voiceListening();
-           // start = true;
-
 
 
 
@@ -94,8 +94,7 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
 
                                 timerObj.cancel();
                                 timerObj.purge();
-                                //  voice.startVoiceInput();
-                                //  voice = new VoiceRecognition();
+
                                 try {
                                     speek.speek("En que lo puedo ayudar");
                                     Thread.sleep(3000);
@@ -107,35 +106,14 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
                             finally {
 
                                     VoiceRecognition.matches = null;
+                                    //onStartCommand(intent,0,2);
                                     voice.startVoiceInput();
-                                    startTimer();
 
                                 }
 
-
-
-                              /*  new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                        speek.speek("En que lo puedo ayudar");
-                                        VoiceRecognition.matches = null;
-                                    }
-                                }).start();*/
-
-                                    //    voice.startVoiceInput();
-                                    //    voice.voiceListening();
-
-
-                                //speech.startListening(intent);
-                               // VoiceRecognition.matches = null;
                             } else {
+                                    //Ejecuta los comandos
 
-
-                                //voice = new VoiceRecognition();
-
-                                      //  voice.startVoiceInput();
-                                      //  voice.voiceListening();
                                         //java.lang.RuntimeException: SpeechRecognizer should be used only from the application's main thread
 
 
@@ -143,10 +121,9 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
                             }
 
                         } else {
-                           // voice.voiceListening();
-
-                           // speek.speek("no funciono");
-                          //  speech.startListening(intent);
+                            //No escucho nada
+                           // onStartCommand(intent,0,2);
+                            voice.startVoiceInput();
 
                         }
 

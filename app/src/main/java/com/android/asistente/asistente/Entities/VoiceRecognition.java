@@ -21,15 +21,10 @@ import java.util.Locale;
 
 public class VoiceRecognition extends AppCompatActivity {
     private static final int REQ_CODE_SPEECH_INPUT = 1000;
-    // private TextView mVoiceInputTv;
-    // private ImageButton mSpeakBtn;
+
     private SpeechRecognizer speech;
-    private Intent mSpeechRecognizerIntent;
-    private ListView wordsList;
     static ArrayList<String> matches;
     RecognitionListener rec;
-    final Speech speek = new Speech();
-
     Intent intent;
     Button btnPrueba;
 
@@ -38,12 +33,13 @@ public class VoiceRecognition extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnPrueba = (Button) findViewById(R.id.btnHablar);
+
+
+
+    }
+    public void OnInit(){
         speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
         speech.setRecognitionListener(new listener());
-        //  mVoiceInputTv = (TextView) findViewById(R.id.voiceInput);
-        //   mSpeakBtn = (ImageButton) findViewById(R.id.btnSpeak);
-        //  mSpeakBtn.setOnClickListener(new View.OnClickListener() {
-
     }
     class listener implements RecognitionListener{
         @Override
@@ -163,9 +159,6 @@ public class VoiceRecognition extends AppCompatActivity {
     void startVoiceInput() {
         try {
 
-            /*if(speech == null) {
-                speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
-            }*/
             intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
             intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
