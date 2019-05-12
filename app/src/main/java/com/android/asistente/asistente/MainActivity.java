@@ -2,6 +2,8 @@ package com.android.asistente.asistente;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,14 +13,24 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.android.asistente.asistente.Entities.AsistenteService;
 import com.android.asistente.asistente.Entities.Speech;
+import com.android.asistente.asistente.Entities.VoiceRecognition;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnStartService, btnStopService,btHablar;
+    Button btnStartService, btnStopService;
+    Button btHablar;
     static Context context;
     Speech speech = new Speech();
+    GradientDrawable shape;
+    VoiceRecognition voice = new VoiceRecognition();
+    Timer timerObj ;
+    TimerTask timerTaskObj;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +65,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
     public void CargarComponentes() {
+        shape =  new GradientDrawable();
+        shape.setCornerRadius( 90 );
+
+       shape.setColor(Color.parseColor("#81c784"));
+
+
+
+
+        findViewById(R.id.btnHablar).setBackground(shape);
+
         btnStartService = (Button)findViewById(R.id.btnStartService);
         btnStopService = (Button)findViewById(R.id.btnStopService);
         btHablar = (Button)findViewById(R.id.btnHablar);
         btnStartService.setOnClickListener(this);
         btnStopService.setOnClickListener(this);
         btHablar.setOnClickListener(this);
+        startTimer();
         speech.speek("");
     }
 
@@ -74,12 +97,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 stopService(new Intent(this,AsistenteService.class));
                 break;
             case R.id.btnHablar:
-                speech.speek("Hola");
+
+                shape.setColor(Color.parseColor("#ef5350"));
+                voice.InitSpeech();
+                voice.StartvoiceListening();
+
+
+
+
+
                 break;
         }
 
     }
     public static Context getContext(){
         return context;
+    }
+    public void startTimer(){
+        try {
+
+            timerObj = new Timer();
+            timerTaskObj = new TimerTask() {
+                public void run() {
+                    if(voice.listening == true){
+                        shape.setColor(Color.parseColor("#ef5350"));
+                    }else{
+                        shape.setColor(Color.parseColor("#81c784"));
+                    }
+                    findViewById(R.id.btnHablar).setBackground(shape);
+                }
+            };
+            try {
+                timerObj.schedule(timerTaskObj, 0, 3000);
+            }catch(Exception ex){
+                throw ex;
+            }
+
+
+        }catch(Exception ex){
+            throw ex;
+        }
+
     }
 }

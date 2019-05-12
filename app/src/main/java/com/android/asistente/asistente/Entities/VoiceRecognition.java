@@ -27,6 +27,7 @@ public class VoiceRecognition extends AppCompatActivity {
     RecognitionListener rec;
     Intent intent;
     Button btnPrueba;
+    public static boolean listening;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +39,8 @@ public class VoiceRecognition extends AppCompatActivity {
 
     }
     public void OnInit(){
-        speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
-        speech.setRecognitionListener(new listener());
+       // speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
+       // speech.setRecognitionListener(new listener());
     }
     class listener implements RecognitionListener{
         @Override
@@ -90,81 +91,84 @@ public class VoiceRecognition extends AppCompatActivity {
 
         }
     }
-    public void voiceListening(){
+    public void StartvoiceListening(){
 
 
-    try {
-
-                if (rec == null) {
-                    rec = new RecognitionListener() {
-                        @Override
-                        public void onReadyForSpeech(Bundle bundle) {
-
-                        }
-
-                        @Override
-                        public void onBeginningOfSpeech() {
-
-                        }
-
-                        @Override
-                        public void onRmsChanged(float v) {
-
-                        }
-
-                        @Override
-                        public void onBufferReceived(byte[] bytes) {
-
-                        }
-
-                        @Override
-                        public void onEndOfSpeech() {
-
-                        }
-
-                        @Override
-                        public void onError(int i) {
-
-                        }
-
-                        @Override
-                        public void onResults(Bundle data) {
-                            matches = data.getStringArrayList(
-                                    SpeechRecognizer.RESULTS_RECOGNITION);
-
-                        }
-
-                        @Override
-                        public void onPartialResults(Bundle bundle) {
-
-                        }
-
-                        @Override
-                        public void onEvent(int i, Bundle bundle) {
-
-                        }
-                    };
-                }
-
-                speech.setRecognitionListener(rec);
-                speech.startListening(intent);
-
-
-
-
-
-    }catch(Exception ex){
-        Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-    }
-}
-    void startVoiceInput() {
         try {
 
+            if (rec == null) {
+                rec = new RecognitionListener() {
+                    @Override
+                    public void onReadyForSpeech(Bundle bundle) {
+
+                    }
+
+                    @Override
+                    public void onBeginningOfSpeech() {
+
+                    }
+
+                    @Override
+                    public void onRmsChanged(float v) {
+
+                    }
+
+                    @Override
+                    public void onBufferReceived(byte[] bytes) {
+
+                    }
+
+                    @Override
+                    public void onEndOfSpeech() {
+                        listening=false;
+                    }
+
+                    @Override
+                    public void onError(int i) {
+
+                    }
+
+                    @Override
+                    public void onResults(Bundle data) {
+                        matches = data.getStringArrayList(
+                                SpeechRecognizer.RESULTS_RECOGNITION);
+
+
+
+                    }
+
+                    @Override
+                    public void onPartialResults(Bundle bundle) {
+
+                    }
+
+                    @Override
+                    public void onEvent(int i, Bundle bundle) {
+
+                    }
+                };
+            }
+
+            speech.setRecognitionListener(rec);
+            speech.startListening(intent);
+            listening = true;
+
+
+
+
+        }catch(Exception ex){
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+   public  void InitSpeech() {
+        try {
+            if(speech == null) {
+                speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
+            }
             intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
             intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                     MainActivity.getContext().getPackageName());
-            speech.startListening(intent);
         }catch(Exception ex){
             throw ex;
         }

@@ -29,6 +29,7 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
     private SpeechRecognizer speech =  SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
     static ArrayList<String> matches;
     Intent intent=null;
+    boolean flag;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -46,8 +47,8 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
             if(intent == null){
                 intent = intente;
             }
-            voice.OnInit();
-            //voice.voiceListening();
+           // voice.OnInit();
+
             startTimer();
          //   speech.startListening(intent);
 
@@ -95,21 +96,17 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
                                 timerObj.cancel();
                                 timerObj.purge();
 
-                                try {
-                                    speek.speek("En que lo puedo ayudar");
-                                    Thread.sleep(3000);
 
-                            }catch(InterruptedException e)
-                            {
-                                System.out.println("Thread Interrupted");
-                            }
-                            finally {
+                                    speek.speek("En que lo puedo ayudar");
+
+
+
 
                                     VoiceRecognition.matches = null;
                                     //onStartCommand(intent,0,2);
-                                    voice.startVoiceInput();
+                                    //voice.startVoiceInput();
+                                startTimer();
 
-                                }
 
                             } else {
                                     //Ejecuta los comandos
@@ -119,11 +116,6 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
 
                                 VoiceRecognition.matches = null;
                             }
-
-                        } else {
-                            //No escucho nada
-                           // onStartCommand(intent,0,2);
-                            voice.startVoiceInput();
 
                         }
 
@@ -141,4 +133,5 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
         }
 
         }
+
 }
