@@ -27,6 +27,7 @@ public class VoiceRecognition extends AppCompatActivity {
     RecognitionListener rec;
     Intent intent;
     Button btnPrueba;
+    final Speech speek = new Speech();
     public static boolean listening;
 
     @Override
@@ -100,7 +101,10 @@ public class VoiceRecognition extends AppCompatActivity {
                 rec = new RecognitionListener() {
                     @Override
                     public void onReadyForSpeech(Bundle bundle) {
-
+                        listening=false;
+                        if(matches == null){
+                            StartvoiceListening();
+                        }
                     }
 
                     @Override
@@ -121,6 +125,9 @@ public class VoiceRecognition extends AppCompatActivity {
                     @Override
                     public void onEndOfSpeech() {
                         listening=false;
+                        if(matches == null){
+                            StartvoiceListening();
+                        }
                     }
 
                     @Override
@@ -132,9 +139,34 @@ public class VoiceRecognition extends AppCompatActivity {
                     public void onResults(Bundle data) {
                         matches = data.getStringArrayList(
                                 SpeechRecognizer.RESULTS_RECOGNITION);
+                        if (matches != null) {
+
+                            if (matches.get(0).toLowerCase().equals("hola")) {
 
 
+                                speek.speek("En que lo puedo ayudar");
+                                StartvoiceListening();
 
+                                VoiceRecognition.matches = null;
+                                //onStartCommand(intent,0,2);
+                                //voice.startVoiceInput();
+                                // startTimer();
+
+
+                            } else {
+                                //Ejecuta los comandos
+                                speek.speek("Lo siento, no tengo una respuesta");
+                                StartvoiceListening();
+                                //java.lang.RuntimeException: SpeechRecognizer should be used only from the application's main thread
+
+
+                                VoiceRecognition.matches = null;
+                            }
+
+
+                        }else{
+                            StartvoiceListening();
+                        }
                     }
 
                     @Override

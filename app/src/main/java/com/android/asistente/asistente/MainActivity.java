@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if(voice.listening == true){
                         shape.setColor(Color.parseColor("#ef5350"));
                     }else{
+                      // prueba();
                         shape.setColor(Color.parseColor("#81c784"));
                     }
                     findViewById(R.id.btnHablar).setBackground(shape);
@@ -138,5 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             throw ex;
         }
 
+    }
+    public void prueba(){
+        voice.InitSpeech();
+        voice.StartvoiceListening();
     }
 }

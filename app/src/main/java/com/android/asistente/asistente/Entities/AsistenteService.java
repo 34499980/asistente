@@ -97,12 +97,12 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
                                 timerObj.purge();
 
 
-                                    speek.speek("En que lo puedo ayudar");
+                                 //   speek.speek("En que lo puedo ayudar");
 
 
 
 
-                                    VoiceRecognition.matches = null;
+                                   // VoiceRecognition.matches = null;
                                     //onStartCommand(intent,0,2);
                                     //voice.startVoiceInput();
                                 startTimer();
@@ -114,7 +114,7 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
                                         //java.lang.RuntimeException: SpeechRecognizer should be used only from the application's main thread
 
 
-                                VoiceRecognition.matches = null;
+                               // VoiceRecognition.matches = null;
                             }
 
                         }
