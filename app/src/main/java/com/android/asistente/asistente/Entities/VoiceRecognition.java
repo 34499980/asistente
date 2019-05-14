@@ -17,17 +17,20 @@ import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class VoiceRecognition extends AppCompatActivity {
     private static final int REQ_CODE_SPEECH_INPUT = 1000;
 
-    private SpeechRecognizer speech;
+    private SpeechRecognizer voice;
     static ArrayList<String> matches;
     RecognitionListener rec;
     Intent intent;
     Button btnPrueba;
-    final Speech speek = new Speech();
+    final Speech speech = new Speech();
+    String sResult;
     public static boolean listening;
 
     @Override
@@ -39,59 +42,7 @@ public class VoiceRecognition extends AppCompatActivity {
 
 
     }
-    public void OnInit(){
-       // speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
-       // speech.setRecognitionListener(new listener());
-    }
-    class listener implements RecognitionListener{
-        @Override
-        public void onReadyForSpeech(Bundle bundle) {
 
-        }
-
-        @Override
-        public void onBeginningOfSpeech() {
-
-        }
-
-        @Override
-        public void onRmsChanged(float v) {
-
-        }
-
-        @Override
-        public void onBufferReceived(byte[] bytes) {
-
-        }
-
-        @Override
-        public void onEndOfSpeech() {
-
-        }
-
-        @Override
-        public void onError(int i) {
-
-        }
-
-        @Override
-        public void onResults(Bundle data) {
-            matches = data.getStringArrayList(
-                    SpeechRecognizer.RESULTS_RECOGNITION);
-            speech.stopListening();
-
-        }
-
-        @Override
-        public void onPartialResults(Bundle bundle) {
-
-        }
-
-        @Override
-        public void onEvent(int i, Bundle bundle) {
-
-        }
-    }
     public void StartvoiceListening(){
 
 
@@ -145,29 +96,34 @@ public class VoiceRecognition extends AppCompatActivity {
                             if (matches.get(0).toLowerCase().equals("hola")) {
 
 
-                                speek.speek("En que lo puedo ayudar");
-                                StartvoiceListening();
+                                speech.speek("En que lo puedo ayudar");
 
-                                VoiceRecognition.matches = null;
-                                //onStartCommand(intent,0,2);
-                                //voice.startVoiceInput();
-                                // startTimer();
 
 
                             } else {
                                 //Ejecuta los comandos
-                                speek.speek("Lo siento, no tengo una respuesta");
-                                StartvoiceListening();
-                                //java.lang.RuntimeException: SpeechRecognizer should be used only from the application's main thread
+                                switch (matches.get(0).toLowerCase()){
+                                    case "que hora es":
+                                        Calendar cal = Calendar.getInstance();
+                                        String Hour = String.valueOf(cal.get(Calendar.HOUR));
+                                        String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
+                                        speech.speek("Son las "+ Hour + " y "+ Minutes);
+                                        break;
+                                     default:
+                                         speech.speek("Lo siento, no tengo una respuesta");
+                                            break;
+                                }
 
 
-                                VoiceRecognition.matches = null;
+                               // StartvoiceListening();
+
+
+
                             }
+                            VoiceRecognition.matches = null;
 
-
-                        }else{
-                            StartvoiceListening();
                         }
+                        StartvoiceListening();
                     }
 
                     @Override
@@ -182,8 +138,8 @@ public class VoiceRecognition extends AppCompatActivity {
                 };
             }
 
-            speech.setRecognitionListener(rec);
-            speech.startListening(intent);
+            voice.setRecognitionListener(rec);
+            voice.startListening(intent);
             listening = true;
 
 
@@ -195,8 +151,8 @@ public class VoiceRecognition extends AppCompatActivity {
     }
    public  void InitSpeech() {
         try {
-            if(speech == null) {
-                speech = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
+            if(voice == null) {
+                voice = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
             }
             intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());

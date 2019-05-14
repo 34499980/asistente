@@ -44,12 +44,10 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
     public int onStartCommand(Intent intente, int flag,int idProcess){
         Toast.makeText(this, "Servicio Iniciado", Toast.LENGTH_SHORT).show();
         try {
-            if(intent == null){
-                intent = intente;
-            }
+
            // voice.OnInit();
 
-            startTimer();
+           // startTimer();
          //   speech.startListening(intent);
 
 
@@ -96,15 +94,6 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
                                 timerObj.cancel();
                                 timerObj.purge();
 
-
-                                 //   speek.speek("En que lo puedo ayudar");
-
-
-
-
-                                   // VoiceRecognition.matches = null;
-                                    //onStartCommand(intent,0,2);
-                                    //voice.startVoiceInput();
                                 startTimer();
 
 
