@@ -124,7 +124,7 @@ public class VoiceRecognition extends AppCompatActivity {
 
                     @Override
                     public void onEndOfSpeech() {
-                        listening=false;
+                        listening=true;
                         if(matches == null){
                             StartvoiceListening();
                         }
@@ -139,6 +139,7 @@ public class VoiceRecognition extends AppCompatActivity {
                     public void onResults(Bundle data) {
                         matches = data.getStringArrayList(
                                 SpeechRecognizer.RESULTS_RECOGNITION);
+                        listening=true;
                         if (matches != null) {
 
                             if (matches.get(0).toLowerCase().equals("hola")) {
