@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnHablar:
 
-                shape.setColor(Color.parseColor("#ef5350"));
+                shape.setColor(Color.parseColor("#ef5350"));//Color rojo
                 voice.InitSpeech();
                 voice.StartvoiceListening();
 
@@ -120,10 +120,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             timerTaskObj = new TimerTask() {
                 public void run() {
                     if(voice.listening == true){
-                        shape.setColor(Color.parseColor("#ef5350"));
+                        shape.setColor(Color.parseColor("#ef5350"));//Color rojo
                     }else{
                       // prueba();
-                        shape.setColor(Color.parseColor("#81c784"));
+                        shape.setColor(Color.parseColor("#81c784"));//Color verde
                     }
                     findViewById(R.id.btnHablar).setBackground(shape);
                 }
