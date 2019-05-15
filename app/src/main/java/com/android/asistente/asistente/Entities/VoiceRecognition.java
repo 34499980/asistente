@@ -103,7 +103,7 @@ public class VoiceRecognition extends AppCompatActivity {
                             } else {
                                 //Ejecuta los comandos
                                 switch (matches.get(0).toLowerCase()){
-                                    case "que hora es":
+                                    case "qué hora es":
                                         Calendar cal = Calendar.getInstance();
                                         String Hour = String.valueOf(cal.get(Calendar.HOUR));
                                         String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
