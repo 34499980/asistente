@@ -30,7 +30,7 @@ public class VoiceRecognition extends AppCompatActivity {
     Intent intent;
     Button btnPrueba;
     final Speech speech = new Speech();
-    String sResult;
+    Sound sound = new Sound();
     public static boolean listening;
 
     @Override
@@ -101,13 +101,29 @@ public class VoiceRecognition extends AppCompatActivity {
 
 
                             } else {
+                                String letters=null;
+                                if(matches.get(0).toLowerCase().indexOf("volumen")> -1){
+                                    letters = "volumen";
+                                }else if(matches.get(0).toLowerCase().indexOf("cámara")> -1){
+                                    letters = "cámara";
+                                }else{
+                                    letters = matches.get(0).toLowerCase();
+                                }
                                 //Ejecuta los comandos
-                                switch (matches.get(0).toLowerCase()){
+                                switch (letters){
                                     case "qué hora es":
                                         Calendar cal = Calendar.getInstance();
                                         String Hour = String.valueOf(cal.get(Calendar.HOUR));
                                         String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
                                         speech.speek("Son las "+ Hour + " y "+ Minutes);
+                                        break;
+                                    case "cámara":
+                                        Camera.OpenCammera();
+                                        break;
+                                    case "volumen":
+                                      int volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().indexOf("volumen")+11));
+                                        sound.setVolumen(volume);
+                                        speech.speek("El volumen se encuentra en "+ String.valueOf(volume));
                                         break;
                                      default:
                                          speech.speek("Lo siento, no tengo una respuesta");
