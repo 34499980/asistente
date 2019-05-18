@@ -14,6 +14,15 @@ int val;
         try {
             val=(Volumen * 15) / 100;
             AudioManager audioManager = (AudioManager) MainActivity.getContext().getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, val, 0);
+        }catch (Exception ex){
+            throw ex;
+        }
+    }
+    public void setMusicVolumen(int Volumen){
+        try {
+            val=(Volumen * 15) / 100;
+            AudioManager audioManager = (AudioManager) MainActivity.getContext().getSystemService(Context.AUDIO_SERVICE);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, val, 0);
         }catch (Exception ex){
             throw ex;

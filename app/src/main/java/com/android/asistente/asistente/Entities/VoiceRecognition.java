@@ -121,9 +121,17 @@ public class VoiceRecognition extends AppCompatActivity {
                                         Camera.OpenCammera();
                                         break;
                                     case "volumen":
-                                      int volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().indexOf("volumen")+11));
-                                        sound.setVolumen(volume);
-                                        speech.speek("El volumen se encuentra en "+ String.valueOf(volume));
+                                        int volume;
+                                        if(matches.get(0).toLowerCase().indexOf("multimedia")>0) {
+                                       volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen multimedia")+22));
+
+                                          sound.setMusicVolumen(volume);
+                                        }else{
+                                             volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen")+11));
+
+                                            sound.setVolumen(volume);
+                                        }
+                                        speech.speek("El volumen se encuentra en "+ String.valueOf(volume)+ " porciento");
                                         break;
                                      default:
                                          speech.speek("Lo siento, no tengo una respuesta");

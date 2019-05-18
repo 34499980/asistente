@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     VoiceRecognition voice = new VoiceRecognition();
     Timer timerObj ;
     TimerTask timerTaskObj;
+    int countTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,9 +122,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void run() {
                     if(voice.listening == true){
                         shape.setColor(Color.parseColor("#ef5350"));//Color rojo
+                        if(voice.getMatches()==null) {
+                            countTimer++;
+                        }
+                        if(countTimer==3){
+                            countTimer=0;
+                         voice.listening=false;
+                        }
                     }else{
                       // prueba();
                         shape.setColor(Color.parseColor("#81c784"));//Color verde
+
                     }
                     findViewById(R.id.btnHablar).setBackground(shape);
                 }
