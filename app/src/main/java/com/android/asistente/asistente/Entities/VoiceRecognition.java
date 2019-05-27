@@ -29,6 +29,8 @@ public class VoiceRecognition extends AppCompatActivity {
     RecognitionListener rec;
     Intent intent;
     Button btnPrueba;
+    Contacts contacts = new Contacts();
+    Gallery gallery = new Gallery();
     final Speech speech = new Speech();
     Sound sound = new Sound();
     public static boolean listening;
@@ -106,7 +108,11 @@ public class VoiceRecognition extends AppCompatActivity {
                                     letters = "volumen";
                                 }else if(matches.get(0).toLowerCase().indexOf("cámara")> -1){
                                     letters = "cámara";
-                                }else{
+                                }else if(matches.get(0).toLowerCase().indexOf("galería")> -1 ) {
+                                    letters = "galeria";
+                                     }else if(matches.get(0).toLowerCase().indexOf("contacto")> -1 || matches.get(0).toLowerCase().indexOf("llamar a")> -1 || matches.get(0).toLowerCase().indexOf("mensaje")> -1 ) {
+                                          letters = "contacto";
+                                     }{
                                     letters = matches.get(0).toLowerCase();
                                 }
                                 //Ejecuta los comandos
@@ -117,11 +123,29 @@ public class VoiceRecognition extends AppCompatActivity {
                                         String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
                                         speech.speek("Son las "+ Hour + " y "+ Minutes);
                                         break;
+                                    case "galeria":
+                                        gallery.OpenGallery();
+                                        break;
+                                    case "contacto":
+                                        if(matches.get(0).toLowerCase().indexOf("contacto")> -1 ){
+                                            contacts.OpenContacts();
+                                        }else {
+                                            String contactName = contacts.procesarDatosEntrada(matches.get(0).toLowerCase());
+                                            String contactNumber = contacts.getContactByName(contactName);
+                                            if(matches.get(0).toLowerCase().indexOf("llamar a")> -1){
+                                                //Hacer llamado
+                                            }else{
+                                                //Mandar mensaje
+                                            }
+                                        }
+
+                                        break;
                                     case "cámara":
                                         Camera.OpenCammera();
                                         break;
                                     case "volumen":
                                         int volume;
+                                        matches.set(0,matches.get(0).replace("%","").replace("porcentaje", ""));
                                         if(matches.get(0).toLowerCase().indexOf("multimedia")>0) {
                                        volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen multimedia")+22));
 
