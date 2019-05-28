@@ -110,9 +110,9 @@ public class VoiceRecognition extends AppCompatActivity {
                                     letters = "cámara";
                                 }else if(matches.get(0).toLowerCase().indexOf("galería")> -1 ) {
                                     letters = "galeria";
-                                     }else if(matches.get(0).toLowerCase().indexOf("contacto")> -1 || matches.get(0).toLowerCase().indexOf("llamar a")> -1 || matches.get(0).toLowerCase().indexOf("mensaje")> -1 ) {
+                                     }else if(matches.get(0).toLowerCase().indexOf("contacto")> -1 || matches.get(0).toLowerCase().indexOf("llamar")> -1 || matches.get(0).toLowerCase().indexOf("mensaje")> -1 ) {
                                           letters = "contacto";
-                                     }{
+                                     }else{
                                     letters = matches.get(0).toLowerCase();
                                 }
                                 //Ejecuta los comandos

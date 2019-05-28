@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             };
             try {
-                timerObj.schedule(timerTaskObj, 0, 3000);
+                timerObj.schedule(timerTaskObj, 0, 1000);
             }catch(Exception ex){
                 throw ex;
             }

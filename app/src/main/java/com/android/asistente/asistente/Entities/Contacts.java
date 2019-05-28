@@ -20,14 +20,15 @@ public class Contacts extends AppCompatActivity {
         int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
         int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
-        people.moveToFirst();
-        do {
-
-            if(people.getString(indexName).equalsIgnoreCase(name)){
-                number = people.getString(indexNumber);
+        //people.moveToFirst();
+        people.moveToNext();
+        while(people.moveToNext() && !people.getString(indexName).toLowerCase().equals(name)) {
+            String valueName = people.getString(indexName).toLowerCase();
+            if(valueName.equals(name)){
+                return people.getString(indexNumber);
             }
 
-        } while (people.moveToNext() && !people.getString(indexName).equalsIgnoreCase(name));
+        }
 
         return number;
 
@@ -35,7 +36,7 @@ public class Contacts extends AppCompatActivity {
     }
     public  String procesarDatosEntrada(String value){
         String result="";
-        int index = value.indexOf("llamar a");
+        int index = value.indexOf("llamar");
         if(index > -1){
            result = value.substring(index+9);
         }else if(value.indexOf("mensaje a") > -1){
