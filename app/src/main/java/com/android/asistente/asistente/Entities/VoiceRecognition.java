@@ -2,6 +2,7 @@ package com.android.asistente.asistente.Entities;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -29,6 +30,7 @@ public class VoiceRecognition extends AppCompatActivity {
     RecognitionListener rec;
     Intent intent;
     Button btnPrueba;
+    ExternalApp externalApp = new ExternalApp();
     Contacts contacts = new Contacts();
     Gallery gallery = new Gallery();
     final Speech speech = new Speech();
@@ -112,9 +114,11 @@ public class VoiceRecognition extends AppCompatActivity {
                                     letters = "galeria";
                                      }else if(matches.get(0).toLowerCase().indexOf("contacto")> -1 || matches.get(0).toLowerCase().indexOf("llamar")> -1 || matches.get(0).toLowerCase().indexOf("mensaje")> -1 ) {
                                           letters = "contacto";
+                                     }else if (matches.get(0).toLowerCase().indexOf("abrir aplicación")> -1) {
+                                         letters = "ExternalApp";
                                      }else{
-                                    letters = matches.get(0).toLowerCase();
-                                }
+                                      letters = matches.get(0).toLowerCase();
+                                     }
                                 //Ejecuta los comandos
                                 switch (letters){
                                     case "qué hora es":
@@ -122,6 +126,11 @@ public class VoiceRecognition extends AppCompatActivity {
                                         String Hour = String.valueOf(cal.get(Calendar.HOUR));
                                         String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
                                         speech.speek("Son las "+ Hour + " y "+ Minutes);
+                                        break;
+                                    case "ExternalApp":
+                                      String appName =  externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
+                                      ResolveInfo app = externalApp.getAllAplication(appName);
+                                      externalApp.startApp(app);
                                         break;
                                     case "galeria":
                                         gallery.OpenGallery();
