@@ -24,7 +24,7 @@ import java.util.Locale;
 
 public class VoiceRecognition extends AppCompatActivity {
     private static final int REQ_CODE_SPEECH_INPUT = 1000;
-
+    Call call = new Call();
     private SpeechRecognizer voice;
     static ArrayList<String> matches;
     RecognitionListener rec;
@@ -142,7 +142,7 @@ public class VoiceRecognition extends AppCompatActivity {
                                       externalApp.startApp(app);
                                         break;
                                     case "whatsapp":
-                                        if(!bFlag) {
+                                       /* if(!bFlag) {
                                             appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
                                             if (appName.isEmpty()) {
                                                 bFlag = true;
@@ -154,18 +154,19 @@ public class VoiceRecognition extends AppCompatActivity {
                                         }else{
                                             if (appName.isEmpty()) {
                                                 speech.speek("a quien desea enviar mensaje");
-                                            }else if (message.isEmpty()) {
+                                            }else if (message==null) {
                                                 message = matches.get(0);
                                             }else if(!bConfirm){
                                                 speech.speek("Desea enviar el mensaje");
                                                 bConfirm = true;
                                             }else{
                                                 if (matches.get(0).toLowerCase().equals("si") || matches.get(0).toLowerCase().equals("enviar")){
-                                                    whatsapp.SendMessageTo(appName,message);
+                                                    whatsapp.SendMessageTo(contacts.getContactByName(appName),message);
                                                 }
                                             }
 
-                                        }
+                                        }*/
+                                       whatsapp.SendMessageTo("+5491164298731","prueba");
 
                                         break;
                                     case "galeria":
@@ -178,7 +179,7 @@ public class VoiceRecognition extends AppCompatActivity {
                                             String contactName = contacts.procesarDatosEntrada(matches.get(0).toLowerCase());
                                             String contactNumber = contacts.getContactByName(contactName);
                                             if(matches.get(0).toLowerCase().indexOf("llamar a")> -1){
-                                                //Hacer llamado
+                                                call.startCall(contactNumber);
                                             }else{
                                                 //Mandar mensaje
                                             }

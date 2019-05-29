@@ -2,8 +2,9 @@ package com.android.asistente.asistente.Entities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.AppCompatActivity;
 
-public class Whatsapp {
+public class Whatsapp extends AppCompatActivity{
     public void SendMessageTo(String contact, String message){
         try{
             Uri uri = Uri.parse("smsto:" + contact);
@@ -11,6 +12,7 @@ public class Whatsapp {
             sendIntent.putExtra(Intent.EXTRA_TEXT, message);
             sendIntent.setType("text/plain");
             sendIntent.setPackage("com.whatsapp");
+            startActivity(Intent.createChooser(sendIntent, "message"));
 
         }catch(Exception ex){
 
