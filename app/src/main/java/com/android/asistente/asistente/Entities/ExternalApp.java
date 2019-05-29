@@ -25,8 +25,8 @@ public class ExternalApp extends AppCompatActivity {
     }
     public  String procesarDatosEntrada(String value){
         String result="";
-        value= value.toLowerCase().replace("abrir aplicación de","abrir aplicación");
-        int index = value.indexOf("abrir aplicación");
+        value= value.toLowerCase().replace("abrir aplicación de","abrir");
+        int index = value.indexOf("abrir");
         if(index > -1){
             result = value.substring(index+17)
                     .replace("movimientos","hola")
