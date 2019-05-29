@@ -30,11 +30,16 @@ public class VoiceRecognition extends AppCompatActivity {
     RecognitionListener rec;
     Intent intent;
     Button btnPrueba;
+    Whatsapp whatsapp = new Whatsapp();
     ExternalApp externalApp = new ExternalApp();
     Contacts contacts = new Contacts();
     Gallery gallery = new Gallery();
+    boolean bFlag= false;
+    boolean bConfirm = false;
     final Speech speech = new Speech();
     Sound sound = new Sound();
+    String appName;
+    String message;
     public static boolean listening;
 
     @Override
@@ -106,19 +111,23 @@ public class VoiceRecognition extends AppCompatActivity {
 
                             } else {
                                 String letters=null;
-                                if(matches.get(0).toLowerCase().indexOf("volumen")> -1){
-                                    letters = "volumen";
-                                }else if(matches.get(0).toLowerCase().indexOf("cámara")> -1){
-                                    letters = "cámara";
-                                }else /*if(matches.get(0).toLowerCase().indexOf("galería")> -1 ) {
-                                    letters = "galeria";
-                                     }else*/ if( matches.get(0).toLowerCase().indexOf("llamar")> -1 || matches.get(0).toLowerCase().indexOf("mensaje")> -1 ) {
-                                          letters = "contacto";
-                                     }else if (matches.get(0).toLowerCase().indexOf("abrir")> -1) {
-                                         letters = "ExternalApp";
-                                     }else{
-                                      letters = matches.get(0).toLowerCase();
-                                     }
+                                if(!bFlag) {
+                                    if (matches.get(0).toLowerCase().indexOf("volumen") > -1) {
+                                        letters = "volumen";
+                                    } else if (matches.get(0).toLowerCase().indexOf("cámara") > -1) {
+                                        letters = "cámara";
+                                    } else if (matches.get(0).toLowerCase().contains("whatsapp")) {
+                                        letters = "whatsapp";
+                                    } else if (matches.get(0).toLowerCase().indexOf("llamar") > -1 || matches.get(0).toLowerCase().indexOf("mensaje") > -1) {
+                                        letters = "contacto";
+                                    } else if (matches.get(0).toLowerCase().indexOf("abrir") > -1) {
+                                        letters = "ExternalApp";
+                                    } else {
+                                        letters = matches.get(0).toLowerCase();
+                                    }
+                                }else{
+                                    letters = "whatsapp";
+                                }
                                 //Ejecuta los comandos
                                 switch (letters){
                                     case "qué hora es":
@@ -128,9 +137,36 @@ public class VoiceRecognition extends AppCompatActivity {
                                         speech.speek("Son las "+ Hour + " y "+ Minutes);
                                         break;
                                     case "ExternalApp":
-                                      String appName =  externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
+                                      appName =  externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
                                       ResolveInfo app = externalApp.getAllAplication(appName);
                                       externalApp.startApp(app);
+                                        break;
+                                    case "whatsapp":
+                                        if(!bFlag) {
+                                            appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
+                                            if (appName.isEmpty()) {
+                                                bFlag = true;
+                                                speech.speek("a quien desea enviar mensaje");
+                                            }else{
+                                                bFlag = true;
+                                                speech.speek("que mensaje desea enviar");
+                                            }
+                                        }else{
+                                            if (appName.isEmpty()) {
+                                                speech.speek("a quien desea enviar mensaje");
+                                            }else if (message.isEmpty()) {
+                                                message = externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
+                                            }else if(!bConfirm){
+                                                speech.speek("Desea enviar el mensaje");
+                                                bConfirm = true;
+                                            }else{
+                                                if (matches.get(0).toLowerCase().equals("si") || matches.get(0).toLowerCase().equals("enviar")){
+                                                    whatsapp.SendMessageTo(appName,message);
+                                                }
+                                            }
+
+                                        }
+
                                         break;
                                     case "galeria":
                                         gallery.OpenGallery();

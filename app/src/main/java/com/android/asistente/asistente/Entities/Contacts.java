@@ -24,7 +24,7 @@ public class Contacts extends AppCompatActivity {
         people.moveToNext();
         while(people.moveToNext() && !people.getString(indexName).toLowerCase().equals(name)) {
             String valueName = people.getString(indexName).toLowerCase();
-            if(valueName.equals(name)){
+            if(valueName.contains(name)){
                 return people.getString(indexNumber);
             }
 
