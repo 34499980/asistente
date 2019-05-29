@@ -155,7 +155,7 @@ public class VoiceRecognition extends AppCompatActivity {
                                             if (appName.isEmpty()) {
                                                 speech.speek("a quien desea enviar mensaje");
                                             }else if (message.isEmpty()) {
-                                                message = externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
+                                                message = matches.get(0);
                                             }else if(!bConfirm){
                                                 speech.speek("Desea enviar el mensaje");
                                                 bConfirm = true;
