@@ -116,7 +116,7 @@ public class VoiceRecognition extends AppCompatActivity {
                                         letters = "volumen";
                                     } else if (matches.get(0).toLowerCase().indexOf("cámara") > -1) {
                                         letters = "cámara";
-                                    } else if (matches.get(0).toLowerCase().contains("whatsapp")) {
+                                    } else if (matches.get(0).toLowerCase().contains("enviar whatsapp") || matches.get(0).toLowerCase().contains("enviar un whatsapp") ) {
                                         letters = "whatsapp";
                                     } else if (matches.get(0).toLowerCase().indexOf("llamar") > -1 || matches.get(0).toLowerCase().indexOf("mensaje") > -1) {
                                         letters = "contacto";

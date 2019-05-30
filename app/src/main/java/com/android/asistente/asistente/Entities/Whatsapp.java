@@ -1,21 +1,33 @@
 package com.android.asistente.asistente.Entities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
+
+import com.android.asistente.asistente.MainActivity;
 
 public class Whatsapp extends AppCompatActivity{
     public void SendMessageTo(String contact, String message){
         try{
-            Uri uri = Uri.parse("smsto:" + contact);
+            String url = "https://api.whatsapp.com/send?phone=+549" + contact;
+            PackageManager pm = MainActivity.getContext().getPackageManager();
+            pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i .setType("text/plain");
+            i.putExtra(Intent.EXTRA_TEXT, message);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+           /* Uri uri = Uri.parse("smsto:" + contact);
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
             sendIntent.putExtra(Intent.EXTRA_TEXT, message);
             sendIntent.setType("text/plain");
             sendIntent.setPackage("com.whatsapp");
-            startActivity(Intent.createChooser(sendIntent, "message"));
+            startActivity(Intent.createChooser(sendIntent, "message"));*/
 
         }catch(Exception ex){
-
+            Toast.makeText(this, "No se pudo enviar el whatsapp", Toast.LENGTH_SHORT).show();
         }
     }
     public String ProcesarDatosEntrada(String value){
