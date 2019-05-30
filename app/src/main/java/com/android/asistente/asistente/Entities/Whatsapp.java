@@ -11,14 +11,14 @@ import com.android.asistente.asistente.MainActivity;
 public class Whatsapp extends AppCompatActivity{
     public void SendMessageTo(String contact, String message){
         try{
-            String url = "https://api.whatsapp.com/send?phone=+549" + contact;
+            String url = "https://api.whatsapp.com/send?phone=" + "1"+contact;
             PackageManager pm = MainActivity.getContext().getPackageManager();
             pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
             Intent i = new Intent(Intent.ACTION_VIEW);
             i .setType("text/plain");
             i.putExtra(Intent.EXTRA_TEXT, message);
             i.setData(Uri.parse(url));
-            startActivity(i);
+            MainActivity.getContext().startActivity(i);
            /* Uri uri = Uri.parse("smsto:" + contact);
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
             sendIntent.putExtra(Intent.EXTRA_TEXT, message);

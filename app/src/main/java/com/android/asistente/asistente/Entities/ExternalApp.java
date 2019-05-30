@@ -40,8 +40,10 @@ public class ExternalApp extends AppCompatActivity {
     }
     public void startApp(ResolveInfo app){
         try {
-            Intent launchIntent = MainActivity.getContext().getPackageManager().getLaunchIntentForPackage(app.activityInfo.packageName);
-            MainActivity.getContext().startActivity(launchIntent);
+            if(app != null) {
+                Intent launchIntent = MainActivity.getContext().getPackageManager().getLaunchIntentForPackage(app.activityInfo.packageName);
+                MainActivity.getContext().startActivity(launchIntent);
+            }
         }catch(Exception ex){
             Toast.makeText(this, "No se pudo abrir la app", Toast.LENGTH_SHORT).show();
         }

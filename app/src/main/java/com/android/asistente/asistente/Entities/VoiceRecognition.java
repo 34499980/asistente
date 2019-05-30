@@ -142,7 +142,7 @@ public class VoiceRecognition extends AppCompatActivity {
                                       externalApp.startApp(app);
                                         break;
                                     case "whatsapp":
-                                       /* if(!bFlag) {
+                                        if(!bFlag) {
                                             appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
                                             if (appName.isEmpty()) {
                                                 bFlag = true;
@@ -162,11 +162,15 @@ public class VoiceRecognition extends AppCompatActivity {
                                             }else{
                                                 if (matches.get(0).toLowerCase().equals("si") || matches.get(0).toLowerCase().equals("enviar")){
                                                     whatsapp.SendMessageTo(contacts.getContactByName(appName),message);
+                                                    message = "";
+                                                    appName = "";
+                                                    bFlag=false;
+                                                    bConfirm=false;
                                                 }
                                             }
 
-                                        }*/
-                                       whatsapp.SendMessageTo("+5491164298731","prueba");
+                                        }
+                                      // whatsapp.SendMessageTo("+5491164298731","prueba");
 
                                         break;
                                     case "galeria":
