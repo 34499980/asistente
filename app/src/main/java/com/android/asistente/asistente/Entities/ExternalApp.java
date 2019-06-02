@@ -16,7 +16,7 @@ public class ExternalApp extends AppCompatActivity {
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> pkgAppsList = MainActivity.getContext().getPackageManager().queryIntentActivities( mainIntent, 0);
         for (ResolveInfo item:pkgAppsList) {
-            if(item.activityInfo.packageName.toLowerCase().indexOf(appName) > -1){
+            if(item.activityInfo.packageName.toLowerCase().contains(appName.trim())){
                 app = item;
                 break;
             }
@@ -28,7 +28,7 @@ public class ExternalApp extends AppCompatActivity {
         value= value.toLowerCase().replace("abrir aplicación de","abrir");
         int index = value.indexOf("abrir");
         if(index > -1){
-            result = value.substring(index+17)
+            result = value.substring(index+5)
                     .replace("movimientos","hola")
                     .replace("contactos","contacts")
                     .replace("galería","photo")

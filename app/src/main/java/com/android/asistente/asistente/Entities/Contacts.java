@@ -8,9 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.android.asistente.asistente.MainActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Contacts extends AppCompatActivity {
-    public static String getContactByName(String name){
+    public static List<Cursor> getContactByName(String name){
         String number="";
+        List<Cursor> listContacs = new ArrayList<Cursor>();
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.NUMBER};
@@ -23,14 +27,35 @@ public class Contacts extends AppCompatActivity {
         //people.moveToFirst();
         people.moveToNext();
         while(people.moveToNext() && !people.getString(indexName).toLowerCase().equals(name)) {
-            String valueName = people.getString(indexName).toLowerCase();
-            if(valueName.contains(name)){
-                return people.getString(indexNumber);
+            String[] peopleCell = people.getString(indexName).toLowerCase().split(" ");
+            String[] inputName = name.split(" ");
+            int index=0;
+            int words=inputName[0].length();
+            int total = inputName.length;
+            int porcent = 100/words;
+            int porcentTotal = 0;
+            int i= 0;
+            while(index <= total){
+                String value = peopleCell[index];
+                String input = inputName[0];
+
+                while(i <= words){
+                    if(input.charAt(i)==value.charAt(i)){
+                        porcentTotal+=porcent;
+                    }
+                }
+                if(porcent > 75) {
+                    listContacs.add(people);
+                }
+                index++;
             }
+
+               // return people.getString(indexNumber);
+
 
         }
 
-        return number;
+        return listContacs;
 
 
     }

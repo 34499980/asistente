@@ -144,30 +144,41 @@ public class VoiceRecognition extends AppCompatActivity {
                                     case "whatsapp":
                                         if(!bFlag) {
                                             appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
+                                            if(!appName.isEmpty()) {
+                                                appName = Contacts.getContactByName(appName);
+                                            }
                                             if (appName.isEmpty()) {
-                                                bFlag = true;
+
                                                 speech.speek("a quien desea enviar mensaje");
                                             }else{
                                                 bFlag = true;
                                                 speech.speek("que mensaje desea enviar");
                                             }
                                         }else{
+                                            /*appName = matches.get(0).toLowerCase();
+                                            if(!appName.isEmpty()) {
+                                                appName = Contacts.getContactByName(appName);
+                                            }
                                             if (appName.isEmpty()) {
+                                                bFlag = true;
                                                 speech.speek("a quien desea enviar mensaje");
-                                            }else if (message==null) {
+
+                                            }else*/
+
+                                            if (message == null && !bConfirm) {
                                                 message = matches.get(0);
-                                            }else if(!bConfirm){
                                                 speech.speek("Desea enviar el mensaje");
-                                                bConfirm = true;
+                                                //message = matches.get(0);
                                             }else{
                                                 if (matches.get(0).toLowerCase().equals("si") || matches.get(0).toLowerCase().equals("enviar")){
-                                                    whatsapp.SendMessageTo(contacts.getContactByName(appName),message);
+                                                    whatsapp.SendMessageTo(appName,message);
                                                     message = "";
                                                     appName = "";
                                                     bFlag=false;
                                                     bConfirm=false;
                                                 }
                                             }
+
 
                                         }
                                       // whatsapp.SendMessageTo("+5491164298731","prueba");
