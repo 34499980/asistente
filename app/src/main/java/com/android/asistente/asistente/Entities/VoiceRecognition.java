@@ -3,8 +3,10 @@ package com.android.asistente.asistente.Entities;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -20,6 +22,7 @@ import com.android.asistente.asistente.R;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class VoiceRecognition extends AppCompatActivity {
@@ -40,6 +43,7 @@ public class VoiceRecognition extends AppCompatActivity {
     Sound sound = new Sound();
     String appName;
     String message;
+    List<Cursor> listContacts= null;
     public static boolean listening;
 
     @Override
@@ -145,7 +149,7 @@ public class VoiceRecognition extends AppCompatActivity {
                                         if(!bFlag) {
                                             appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
                                             if(!appName.isEmpty()) {
-                                                appName = Contacts.getContactByName(appName);
+                                                listContacts = Contacts.getContactByName(appName);
                                             }
                                             if (appName.isEmpty()) {
 
@@ -192,12 +196,17 @@ public class VoiceRecognition extends AppCompatActivity {
                                             contacts.OpenContacts();
                                         }else {
                                             String contactName = contacts.procesarDatosEntrada(matches.get(0).toLowerCase());
-                                            String contactNumber = contacts.getContactByName(contactName);
-                                            if(matches.get(0).toLowerCase().indexOf("llamar a")> -1){
-                                                call.startCall(contactNumber);
+                                            listContacts = contacts.getContactByName(contactName);
+                                            if (listContacts.size() == 1){
+                                                if(matches.get(0).toLowerCase().indexOf("llamar a")> -1){
+                                                    call.startCall(String.valueOf(listContacts.get(0).getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+                                                }else{
+                                                    //Mandar mensaje
+                                                }
                                             }else{
-                                                //Mandar mensaje
+                                                //Mostrar todos los usuarios que encontro
                                             }
+
                                         }
 
                                         break;

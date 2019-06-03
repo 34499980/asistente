@@ -29,25 +29,60 @@ public class Contacts extends AppCompatActivity {
         while(people.moveToNext() && !people.getString(indexName).toLowerCase().equals(name)) {
             String[] peopleCell = people.getString(indexName).toLowerCase().split(" ");
             String[] inputName = name.split(" ");
-            int index=0;
-            int words=inputName[0].length();
-            int total = inputName.length;
+            int inputIndex=0;
+            int words=inputName[inputIndex].length();
+            int inputTotal = inputName.length;
+            int peopleIndex=0;
+            int peoplewords=inputName[peopleIndex].length();
+            int peopleTotal = inputName.length;
             int porcent = 100/words;
             int porcentTotal = 0;
             int i= 0;
-            while(index <= total){
-                String value = peopleCell[index];
-                String input = inputName[0];
+            while(inputIndex <= inputTotal){
+                String value = peopleCell[peopleIndex];
+                String input = inputName[inputIndex];
 
                 while(i <= words){
                     if(input.charAt(i)==value.charAt(i)){
                         porcentTotal+=porcent;
                     }
+                    i++;
                 }
                 if(porcent > 75) {
                     listContacs.add(people);
+                }else {
+                    inputIndex++;
+                    words=inputName[inputIndex].length();
+                    porcent = 100/words;
+                    i=0;
+                    porcentTotal=0;
                 }
-                index++;
+            }
+            if(listContacs.isEmpty()){
+                inputIndex = 0;
+                peopleIndex++;
+                porcentTotal=0;
+                words=inputName[inputIndex].length();
+                while(inputIndex <= inputTotal){
+                    String value = peopleCell[peopleIndex];
+                    String input = inputName[inputIndex];
+
+                    while(i <= words){
+                        if(input.charAt(i)==value.charAt(i)){
+                            porcentTotal+=porcent;
+                        }
+                        i++;
+                    }
+                    if(porcent > 75) {
+                        listContacs.add(people);
+                    }else {
+                        inputIndex++;
+                        words=inputName[inputIndex].length();
+                        porcent = 100/words;
+                        i=0;
+                        porcentTotal=0;
+                    }
+                }
             }
 
                // return people.getString(indexNumber);
