@@ -39,6 +39,7 @@ public class VoiceRecognition extends AppCompatActivity {
     Gallery gallery = new Gallery();
     boolean bFlag= false;
     boolean bConfirm = false;
+    boolean bSelectContac = false;
     final Speech speech = new Speech();
     Sound sound = new Sound();
     String appName;
@@ -151,10 +152,17 @@ public class VoiceRecognition extends AppCompatActivity {
                                             if(!appName.isEmpty()) {
                                                 listContacts = Contacts.getContactByName(appName);
                                             }
-                                            if (appName.isEmpty()) {
+                                            if (listContacts.isEmpty()) {
 
                                                 speech.speek("a quien desea enviar mensaje");
+                                            }else if(listContacts.size() > 1) {
+                                                //Muchos usuarios
+                                               /* Intent dialogIntent = new Intent(this, MyActivity.class);
+                                                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(dialogIntent);*/
+                                                speech.speek("Seleccione uno de los contactos");
                                             }else{
+                                                appName = String.valueOf(listContacts.get(0).getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                                                 bFlag = true;
                                                 speech.speek("que mensaje desea enviar");
                                             }
@@ -204,7 +212,9 @@ public class VoiceRecognition extends AppCompatActivity {
                                                     //Mandar mensaje
                                                 }
                                             }else{
-                                                //Mostrar todos los usuarios que encontro
+                                                  /* Intent dialogIntent = new Intent(this, MyActivity.class);
+                                                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(dialogIntent);*/
                                             }
 
                                         }

@@ -34,6 +34,8 @@ public class Whatsapp extends AppCompatActivity{
         String result="";
         if(value.toLowerCase().contains("whatsapp a")){
             result = value.substring(value.toLowerCase().indexOf("whatsapp a")+11);
+        }else{
+            result = value;
         }
         return result;
     }
