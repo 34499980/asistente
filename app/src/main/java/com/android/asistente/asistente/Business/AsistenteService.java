@@ -1,12 +1,8 @@
-package com.android.asistente.asistente.Entities;
+package com.android.asistente.asistente.Business;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.speech.RecognitionListener;
-import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
@@ -15,7 +11,6 @@ import android.widget.Toast;
 import com.android.asistente.asistente.MainActivity;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 

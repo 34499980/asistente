@@ -5,22 +5,22 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.android.asistente.asistente.Entities.AsistenteService;
-import com.android.asistente.asistente.Entities.Speech;
-import com.android.asistente.asistente.Entities.VoiceRecognition;
+import com.android.asistente.asistente.Business.AsistenteService;
+import com.android.asistente.asistente.Business.Speech;
+import com.android.asistente.asistente.Business.VoiceRecognition;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.app.PendingIntent.getActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnStartService, btnStopService;
@@ -98,7 +98,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 stopService(new Intent(this,AsistenteService.class));
                 break;
             case R.id.btnHablar:
+                try {
+                   /* AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("Prueba");
+// 2. Chain together various setter methods to set the dialog characteristics
 
+// 3. Get the AlertDialog from create()
+                    AlertDialog dialog = builder.create();
+                    dialog.show();*/
+
+                }catch(Exception ex){
+                    Toast.makeText(getBaseContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
+                }
                 shape.setColor(Color.parseColor("#ef5350"));//Color rojo
                 voice.InitSpeech();
                 voice.StartvoiceListening();
@@ -130,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                          voice.listening=false;
                         }
                     }else{
-                      // prueba();
+
                         shape.setColor(Color.parseColor("#81c784"));//Color verde
 
                     }
@@ -153,4 +164,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         voice.InitSpeech();
         voice.StartvoiceListening();
     }
+
 }

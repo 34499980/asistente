@@ -1,31 +1,34 @@
-package com.android.asistente.asistente.Entities;
+package com.android.asistente.asistente.Business;
 
-import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.asistente.asistente.Entities.Phone;
+import com.android.asistente.asistente.Helper.General;
+import com.android.asistente.asistente.ListContacts;
 
 import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class VoiceRecognition extends AppCompatActivity {
+public class VoiceRecognition extends AppCompatActivity implements Serializable {
     private static final int REQ_CODE_SPEECH_INPUT = 1000;
     Call call = new Call();
     private SpeechRecognizer voice;
@@ -44,7 +47,8 @@ public class VoiceRecognition extends AppCompatActivity {
     Sound sound = new Sound();
     String appName;
     String message;
-    List<Cursor> listContacts= null;
+    List<Phone> listContacts= null;
+    View mView;
     public static boolean listening;
 
     @Override
@@ -142,9 +146,9 @@ public class VoiceRecognition extends AppCompatActivity {
                                         speech.speek("Son las "+ Hour + " y "+ Minutes);
                                         break;
                                     case "ExternalApp":
-                                      appName =  externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
-                                      ResolveInfo app = externalApp.getAllAplication(appName);
-                                      externalApp.startApp(app);
+                                        appName =  externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
+                                        ResolveInfo app = externalApp.getAllAplication(appName);
+                                        externalApp.startApp(app);
                                         break;
                                     case "whatsapp":
                                         if(!bFlag) {
@@ -156,13 +160,14 @@ public class VoiceRecognition extends AppCompatActivity {
 
                                                 speech.speek("a quien desea enviar mensaje");
                                             }else if(listContacts.size() > 1) {
+
                                                 //Muchos usuarios
                                                /* Intent dialogIntent = new Intent(this, MyActivity.class);
                                                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 startActivity(dialogIntent);*/
                                                 speech.speek("Seleccione uno de los contactos");
                                             }else{
-                                                appName = String.valueOf(listContacts.get(0).getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                                appName = ((Phone)listContacts.get(0)).number;
                                                 bFlag = true;
                                                 speech.speek("que mensaje desea enviar");
                                             }
@@ -193,7 +198,7 @@ public class VoiceRecognition extends AppCompatActivity {
 
 
                                         }
-                                      // whatsapp.SendMessageTo("+5491164298731","prueba");
+                                        // whatsapp.SendMessageTo("+5491164298731","prueba");
 
                                         break;
                                     case "galeria":
@@ -204,14 +209,25 @@ public class VoiceRecognition extends AppCompatActivity {
                                             contacts.OpenContacts();
                                         }else {
                                             String contactName = contacts.procesarDatosEntrada(matches.get(0).toLowerCase());
-                                            listContacts = contacts.getContactByName(contactName);
+                                            listContacts =  contacts.getContactByName(contactName);
                                             if (listContacts.size() == 1){
                                                 if(matches.get(0).toLowerCase().indexOf("llamar a")> -1){
-                                                    call.startCall(String.valueOf(listContacts.get(0).getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+                                                    call.startCall(((Phone)listContacts.get(0)).number);
                                                 }else{
                                                     //Mandar mensaje
                                                 }
                                             }else{
+                                                try {
+                                                    Intent t= new Intent(MainActivity.getContext(), ListContacts.class);
+                                                    General.list = listContacts;
+                                                   // t.putParcelableArrayListExtra("contacts", listContacts);
+                                                    MainActivity.getContext().startActivity(t);
+
+                                                }catch(Exception ex){
+                                                    Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
+                                                }
+                                                // MainActivity.OpenDialog();                                                                          //Toast.makeText(MainActivity.getContext(),ex.getMessage(), Toast.LENGTH_LONG).show();
+
                                                   /* Intent dialogIntent = new Intent(this, MyActivity.class);
                                                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 startActivity(dialogIntent);*/
@@ -227,23 +243,23 @@ public class VoiceRecognition extends AppCompatActivity {
                                         int volume;
                                         matches.set(0,matches.get(0).replace("%","").replace("porcentaje", ""));
                                         if(matches.get(0).toLowerCase().indexOf("multimedia")>0) {
-                                       volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen multimedia")+22));
+                                            volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen multimedia")+22));
 
-                                          sound.setMusicVolumen(volume);
+                                            sound.setMusicVolumen(volume);
                                         }else{
-                                             volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen")+11));
+                                            volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen")+11));
 
                                             sound.setVolumen(volume);
                                         }
                                         speech.speek("El volumen se encuentra en "+ String.valueOf(volume)+ " porciento");
                                         break;
-                                     default:
-                                         speech.speek("Lo siento, no tengo una respuesta");
-                                            break;
+                                    default:
+                                        speech.speek("Lo siento, no tengo una respuesta");
+                                        break;
                                 }
 
 
-                               // StartvoiceListening();
+                                // StartvoiceListening();
 
 
 
@@ -277,7 +293,7 @@ public class VoiceRecognition extends AppCompatActivity {
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-   public  void InitSpeech() {
+    public  void InitSpeech() {
         try {
             if(voice == null) {
                 voice = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());

@@ -1,4 +1,4 @@
-package com.android.asistente.asistente.Entities;
+package com.android.asistente.asistente.Business;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;

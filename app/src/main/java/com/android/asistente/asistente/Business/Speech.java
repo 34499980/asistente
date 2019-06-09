@@ -1,4 +1,4 @@
-package com.android.asistente.asistente.Entities;
+package com.android.asistente.asistente.Business;
 
 import android.app.Activity;
 import android.speech.tts.TextToSpeech;
