@@ -30,7 +30,7 @@
         <service android:name=".Business.AsistenteService" />
 
         <activity android:name=".ListContacts"
-
+            android:theme="@style/Theme.UserDialog"
             ></activity>
     </application>
 
