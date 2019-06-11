@@ -31,6 +31,9 @@ public void speek(String text){
           speech();
         }
     tts.speak(text, TextToSpeech.QUEUE_ADD, null);
+    while(tts.isSpeaking()){
+
+    }
 }
    /* @Override
     protected void onDestroy() {
