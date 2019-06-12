@@ -73,6 +73,8 @@ public class Contacts extends AppCompatActivity {
 
         } if(value.indexOf("abrir contactos") > -1){
             result = "contactos";
+        }else{
+            result = value;
         }
         return result;
     }

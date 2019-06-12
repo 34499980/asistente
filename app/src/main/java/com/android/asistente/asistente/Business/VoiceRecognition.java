@@ -40,15 +40,16 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     ExternalApp externalApp = new ExternalApp();
     Contacts contacts = new Contacts();
     Gallery gallery = new Gallery();
-    boolean bFlag= false;
+    public static boolean  bFlag= false;
     boolean bConfirm = false;
-    boolean bSelectContac = false;
+    public static boolean bSelectContac = false;
     final Speech speech = new Speech();
     Sound sound = new Sound();
     String appName;
     String message;
     List<Phone> listContacts= null;
     View mView;
+    String letters=null;
     public static boolean listening;
 
     @Override
@@ -119,7 +120,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
 
                             } else {
-                                String letters=null;
+
                                 if(!bFlag) {
                                     if (matches.get(0).toLowerCase().indexOf("volumen") > -1) {
                                         letters = "volumen";
@@ -134,8 +135,10 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                     } else {
                                         letters = matches.get(0).toLowerCase();
                                     }
+                                }else if(!bSelectContac && bFlag){
+                                //    letters = "whatsapp";
                                 }else{
-                                    letters = "whatsapp";
+                                 //   letters = "contacto";
                                 }
                                 //Ejecuta los comandos
                                 switch (letters){
@@ -161,31 +164,27 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                                 speech.speek("a quien desea enviar mensaje");
                                             }else if(listContacts.size() > 1) {
 
-                                                //Muchos usuarios
-                                               /* Intent dialogIntent = new Intent(this, MyActivity.class);
-                                                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                startActivity(dialogIntent);*/
-                                                speech.speek("Seleccione uno de los contactos");
+                                                try {
+                                                   // bFlag = true;
+                                                   // bSelectContac = true;
+                                                    speech.speek("Seleccione uno de los contactos");
+                                                    Intent t= new Intent(MainActivity.getContext(), ListContacts.class);
+                                                    General.list = listContacts;
+                                                    MainActivity.getContext().startActivity(t);
+
+                                                }catch(Exception ex){
+                                                    Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
+                                                }
                                             }else{
                                                 appName = ((Phone)listContacts.get(0)).number;
                                                 bFlag = true;
                                                 speech.speek("que mensaje desea enviar");
                                             }
                                         }else{
-                                            /*appName = matches.get(0).toLowerCase();
-                                            if(!appName.isEmpty()) {
-                                                appName = Contacts.getContactByName(appName);
-                                            }
-                                            if (appName.isEmpty()) {
-                                                bFlag = true;
-                                                speech.speek("a quien desea enviar mensaje");
-
-                                            }else*/
 
                                             if (message == null && !bConfirm) {
                                                 message = matches.get(0);
                                                 speech.speek("Desea enviar el mensaje");
-                                                //message = matches.get(0);
                                             }else{
                                                 if (matches.get(0).toLowerCase().equals("si") || matches.get(0).toLowerCase().equals("enviar")){
                                                     whatsapp.SendMessageTo(appName,message);
@@ -196,9 +195,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                                 }
                                             }
 
-
                                         }
-                                        // whatsapp.SendMessageTo("+5491164298731","prueba");
 
                                         break;
                                     case "galeria":
@@ -218,19 +215,16 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                                 }
                                             }else{
                                                 try {
+                                                    bFlag = true;
+                                                    bSelectContac = true;
+                                                    speech.speek("Seleccione uno de los contactos");
                                                     Intent t= new Intent(MainActivity.getContext(), ListContacts.class);
                                                     General.list = listContacts;
-                                                   // t.putParcelableArrayListExtra("contacts", listContacts);
                                                     MainActivity.getContext().startActivity(t);
 
                                                 }catch(Exception ex){
                                                     Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
                                                 }
-                                                // MainActivity.OpenDialog();                                                                          //Toast.makeText(MainActivity.getContext(),ex.getMessage(), Toast.LENGTH_LONG).show();
-
-                                                  /* Intent dialogIntent = new Intent(this, MyActivity.class);
-                                                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                startActivity(dialogIntent);*/
                                             }
 
                                         }
