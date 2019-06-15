@@ -1,6 +1,5 @@
-package com.android.asistente.asistente.Business;
+package com.android.asistente.asistente.business;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -12,7 +11,6 @@ import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.MainActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Contacts extends AppCompatActivity {
     public static ArrayList<Phone> getContactByName(String name){
@@ -21,22 +19,22 @@ public class Contacts extends AppCompatActivity {
         Boolean bFlag=false;
         name = General.CleanString(name.toLowerCase());
         ArrayList<Phone> listContacs = new ArrayList<Phone>();
-       // Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        //String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-         //       ContactsContract.CommonDataKinds.Phone.NUMBER};
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        String[] projection    = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+               ContactsContract.CommonDataKinds.Phone.NUMBER};
 
-        //Cursor people = MainActivity.getContext().getContentResolver().query(uri, projection, null, null, null);
+        Cursor people = MainActivity.getContext().getContentResolver().query(uri, projection, null, null, null);
         //Prueba contactos
-        ContentResolver cr = MainActivity.getContext().getContentResolver();
-        Cursor people = cr.query(ContactsContract.Contacts.CONTENT_URI, null,
-                null, null, null);
+       //ContentResolver cr = MainActivity.getContext().getContentResolver();
+        //Cursor people = cr.query(ContactsContract.Contacts.CONTENT_URI, null,
+         //       null, null, null);
         //Fin prueba
         int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
         int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
         //people.moveToFirst();
         people.moveToNext();
-        while(people.moveToNext() && !people.getString(indexName).toLowerCase().equals(name)) {
+        while(people.moveToNext() && !General.CleanString(people.getString(indexName)).toLowerCase().equals(name)) {
             //Limpio toda la cadea de acentos
             String valueName = General.CleanString(people.getString(indexName).toLowerCase());
             if(valueName.contains(name)){
@@ -78,8 +76,7 @@ public class Contacts extends AppCompatActivity {
         }else if(value.indexOf("mensaje a") > -1){
             result = value.substring(index+9);
 
-        } if(value.indexOf("abrir contactos") > -1){
-            result = "contactos";
+
         }else{
             result = value;
         }

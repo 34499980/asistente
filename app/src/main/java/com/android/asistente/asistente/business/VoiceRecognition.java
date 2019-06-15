@@ -1,18 +1,14 @@
-package com.android.asistente.asistente.Business;
+package com.android.asistente.asistente.business;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Entities.Phone;
@@ -133,7 +129,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                     } else if (matches.get(0).toLowerCase().indexOf("abrir") > -1) {
                                         letters = "ExternalApp";
                                     } else {
-                                        letters = matches.get(0).toLowerCase();
+                                       // letters = matches.get(0).toLowerCase();
                                     }
                                 }else if(!bSelectContac && bFlag){
                                 //    letters = "whatsapp";
@@ -168,10 +164,11 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                                    // bFlag = true;
                                                    // bSelectContac = true;
                                                     speech.speek("Seleccione uno de los contactos");
-                                                    Intent t= new Intent(MainActivity.getContext(), ListContacts.class);
-                                                    General.list = listContacts;
-                                                    MainActivity.getContext().startActivity(t);
-
+                                                    if(!listContacts.isEmpty()) {
+                                                        Intent t = new Intent(MainActivity.getContext(), ListContacts.class);
+                                                        General.list = listContacts;
+                                                        MainActivity.getContext().startActivity(t);
+                                                    }
                                                 }catch(Exception ex){
                                                     Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
                                                 }
@@ -218,10 +215,11 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                                     bFlag = true;
                                                     bSelectContac = true;
                                                     speech.speek("Seleccione uno de los contactos");
-                                                    Intent t= new Intent(MainActivity.getContext(), ListContacts.class);
-                                                    General.list = listContacts;
-                                                    MainActivity.getContext().startActivity(t);
-
+                                                    if(!listContacts.isEmpty()) {
+                                                        Intent t = new Intent(MainActivity.getContext(), ListContacts.class);
+                                                        General.list = listContacts;
+                                                        MainActivity.getContext().startActivity(t);
+                                                    }
                                                 }catch(Exception ex){
                                                     Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
                                                 }

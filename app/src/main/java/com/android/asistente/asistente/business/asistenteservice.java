@@ -1,4 +1,4 @@
-package com.android.asistente.asistente.Business;
+package com.android.asistente.asistente.business;
 
 import android.app.Service;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class AsistenteService extends Service implements TextToSpeech.OnInitListener {
+public class asistenteservice extends Service implements TextToSpeech.OnInitListener {
    //final Speech speech = new Speech();
     Timer timerObj=null;
      TimerTask timerTaskObj=null;
@@ -37,13 +37,14 @@ public class AsistenteService extends Service implements TextToSpeech.OnInitList
 
     @Override
     public int onStartCommand(Intent intente, int flag,int idProcess){
+       // android.os.Debug.waitForDebugger();
         Toast.makeText(this, "Servicio Iniciado", Toast.LENGTH_SHORT).show();
         try {
 
            // voice.OnInit();
 
            // startTimer();
-         //   speech.startListening(intent);
+            //new VoiceRecognition().StartvoiceListening();
 
 
 

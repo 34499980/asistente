@@ -1,4 +1,4 @@
-package com.android.asistente.asistente.Business;
+package com.android.asistente.asistente.business;
 
 import android.content.Intent;
 import android.content.pm.ResolveInfo;

@@ -1,4 +1,4 @@
-package com.android.asistente.asistente.Business;
+package com.android.asistente.asistente.business;
 
 import android.content.Context;
 import android.media.AudioManager;

@@ -1,4 +1,4 @@
-package com.android.asistente.asistente.Business;
+package com.android.asistente.asistente.business;
 
 import android.app.Activity;
 import android.speech.tts.TextToSpeech;
@@ -10,6 +10,7 @@ import java.util.Locale;
 
 public class Speech extends Activity{
     private TextToSpeech tts;
+    public static boolean bSpeaking;
     public void speech(){
         try {
              tts = new TextToSpeech(MainActivity.getContext(), new TextToSpeech.OnInitListener() {
@@ -32,8 +33,9 @@ public void speek(String text){
         }
     tts.speak(text, TextToSpeech.QUEUE_ADD, null);
     while(tts.isSpeaking()){
-
+        bSpeaking = true;
     }
+    bSpeaking = false;
 }
    /* @Override
     protected void onDestroy() {

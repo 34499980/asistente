@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Menu;
@@ -13,9 +12,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.asistente.asistente.Business.AsistenteService;
-import com.android.asistente.asistente.Business.Speech;
-import com.android.asistente.asistente.Business.VoiceRecognition;
+
+import com.android.asistente.asistente.business.Speech;
+import com.android.asistente.asistente.business.VoiceRecognition;
+import com.android.asistente.asistente.business.asistenteservice;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -91,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.btnStartService:
                 speech.speek("Servicio Iniciado");
-                startService(new Intent(this, AsistenteService.class));
+                startService(new Intent(this, asistenteservice.class));
                 break;
             case R.id.btnStopService:
                 speech.speek("Servicio detenido");
-                stopService(new Intent(this,AsistenteService.class));
+                stopService(new Intent(this,asistenteservice.class));
                 break;
             case R.id.btnHablar:
                 try {
