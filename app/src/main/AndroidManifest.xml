@@ -37,12 +37,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".ExampleAppWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"></action>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/example_appwidget_info" />
+
+        </receiver>
         <activity android:name=".GridImage" />
-        <service android:name=".business.AsistenteService" />
+        <!--<service android:name=".business.asistenteservice" />-->
 
         <activity android:name=".ListContacts"
             android:theme="@style/Theme.UserDialog"
             ></activity>
+
     </application>
 
 </manifest>

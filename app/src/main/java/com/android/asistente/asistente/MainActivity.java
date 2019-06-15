@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btHablar.setOnClickListener(this);
         startTimer();
         speech.speek("");
+        btHablar.performClick();
     }
 
     @Override
@@ -99,20 +100,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnHablar:
                 try {
-                   /* AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("Prueba");
-// 2. Chain together various setter methods to set the dialog characteristics
-
-// 3. Get the AlertDialog from create()
-                    AlertDialog dialog = builder.create();
-                    dialog.show();*/
+                    shape.setColor(Color.parseColor("#ef5350"));//Color rojo
+                    voice.InitSpeech();
+                    voice.StartvoiceListening();
 
                 }catch(Exception ex){
                     Toast.makeText(getBaseContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
                 }
-                shape.setColor(Color.parseColor("#ef5350"));//Color rojo
-                voice.InitSpeech();
-                voice.StartvoiceListening();
 
 
 
