@@ -59,7 +59,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     }
 
     public void StartvoiceListening(){
-
+        listening = true;
 
         try {
 
@@ -98,7 +98,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onError(int i) {
-
+                     Toast.makeText(MainActivity.getContext(),"Error al intentar escuchar. Posiblemente no tenga conexión!",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -275,7 +275,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             }
 
             voice.setRecognitionListener(rec);
-            voice.startListening(intent);
+
+                voice.startListening(intent);
+
             listening = true;
 
 

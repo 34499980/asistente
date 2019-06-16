@@ -15,13 +15,14 @@ import com.android.asistente.asistente.R;
 import com.android.asistente.asistente.business.VoiceRecognition;
 
 public class ExampleAppWidgetProvider extends AppWidgetProvider {
+    VoiceRecognition voice = new VoiceRecognition();
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        GradientDrawable shape =  new GradientDrawable();
-        shape.setCornerRadius( 90 );
+      //  GradientDrawable shape =  new GradientDrawable();
+     //   shape.setCornerRadius( 90 );
 
-        shape.setColor(Color.parseColor("#81c784"));
-        VoiceRecognition voice = new VoiceRecognition();
+
+
 
 
 
@@ -42,10 +43,15 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     }
     @Override
     public void onReceive(Context context, Intent intent) {
+       /* if(!VoiceRecognition.listening) {
+            voice.InitSpeech();
+            voice.StartvoiceListening();
+            Toast.makeText(context, "Listening...", Toast.LENGTH_SHORT).show();
+        }*/
         super.onReceive(context, intent);
 
 
 
-       // Toast.makeText(context, "Button Clicked.....!!!", Toast.LENGTH_SHORT).show();
+
     }
 }
