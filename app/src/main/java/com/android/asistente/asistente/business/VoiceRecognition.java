@@ -170,7 +170,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                                 listContacts = Contacts.getContactByName(appName);
                                             }
                                             if (listContacts.isEmpty()) {
-                                                if(countSearch == 0) {
+                                                if(countSearch < 3) {
                                                     speech.speek("a quien desea enviar mensaje");
                                                     countSearch++;
                                                 }else{

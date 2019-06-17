@@ -42,7 +42,7 @@ GridView grid;
                         General.selectedPhone = list.get(i);
                         if(VoiceRecognition.letters.equals("whatsapp")){
                             VoiceRecognition.appName =  General.selectedPhone.ID;
-                            onDestroy();
+                            finish();
 
                         }else{
                             Call call = new Call();
