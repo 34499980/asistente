@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         }catch(Exception ex){
-            Log.appendLog("onClick "+ ex.getMessage());
+
             Toast.makeText(getBaseContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
         }
 

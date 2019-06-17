@@ -28,7 +28,7 @@ import static android.support.v4.content.ContextCompat.startActivity;
 
 public class General extends Activity {
  public static List<Phone> list;
-
+ public static Phone selectedPhone;
  public static String CleanString(String cadena) {
   String limpio =null;
   if (cadena !=null) {

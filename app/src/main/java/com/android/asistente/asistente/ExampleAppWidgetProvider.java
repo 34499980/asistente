@@ -27,7 +27,6 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
 
 
 
-
       //  findViewById(R.id.btnHablarWidget).setBackground(shape);
         //super.onUpdate(context, appWidgetManager, appWidgetIds);
         for (int appWidgetId : appWidgetIds ){
@@ -40,7 +39,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
          //   View view = inflater.inflate(R.layout.example_widget, null);
          //   Button buton = (Button)view.findViewById(R.id.btnHablarWidget);
             Intent intent = new Intent(context, MainActivity.class);
-         //   view.findViewById(R.id.btnHablarWidget).setBackground(shape);
+
             PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,0);
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.example_widget);
             views.setOnClickPendingIntent(R.id.btnHablarWidget,pendingIntent);
@@ -51,11 +50,6 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     }
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(!VoiceRecognition.listening) {
-            voice.InitSpeech();
-            voice.StartvoiceListening();
-            Toast.makeText(context, "Listening...", Toast.LENGTH_SHORT).show();
-        }
         super.onReceive(context, intent);
 
 

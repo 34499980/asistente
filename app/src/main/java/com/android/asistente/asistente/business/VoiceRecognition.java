@@ -36,17 +36,17 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     Whatsapp whatsapp = new Whatsapp();
     ExternalApp externalApp = new ExternalApp();
     Contacts contacts = new Contacts();
-    Gallery gallery = new Gallery();
+    int countSearch = 0;
     public static boolean  bFlag= false;
     boolean bConfirm = false;
     public static boolean bSelectContac = false;
     final Speech speech = new Speech();
     Sound sound = new Sound();
-    String appName;
+    public static String appName = "";
     String message;
     List<Phone> listContacts= null;
     View mView;
-    String letters=null;
+    public static String letters=null;
     public static boolean listening;
 
     @Override
@@ -62,7 +62,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     public void StartvoiceListening(){
         listening = true;
         sound.setMusicVolumen(0);
-        Log.appendLog("Inicio StartvoiceListening");
+
         try {
 
             if (rec == null) {
@@ -92,7 +92,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onEndOfSpeech() {
-                        Log.appendLog("onEndOfSpeech");
+
                         listening=false;
                        // sound.setMusicVolumen(70);
                         if(matches == null){
@@ -113,7 +113,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onResults(Bundle data) {
-                        Log.appendLog("onResults");
+
                         sound.setMusicVolumen(70);
                         matches = data.getStringArrayList(
                                 SpeechRecognizer.RESULTS_RECOGNITION);
@@ -132,16 +132,16 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 if(!bFlag) {
                                     if (matches.get(0).toLowerCase().indexOf("volumen") > -1) {
                                         letters = "volumen";
-                                    } else if (matches.get(0).toLowerCase().indexOf("cámara") > -1) {
-                                        letters = "cámara";
+                                    } else if (matches.get(0).toLowerCase().indexOf("qué hora es") > -1) {
+                                        letters = "tiempo";
                                     } else if (matches.get(0).toLowerCase().contains("enviar whatsapp") || matches.get(0).toLowerCase().contains("enviar un whatsapp") ) {
                                         letters = "whatsapp";
                                     } else if (matches.get(0).toLowerCase().indexOf("llamar") > -1 || matches.get(0).toLowerCase().indexOf("mensaje") > -1) {
                                         letters = "contacto";
                                     } else if (matches.get(0).toLowerCase().indexOf("abrir") > -1) {
                                         letters = "ExternalApp";
-                                    } else {
-                                       // letters = matches.get(0).toLowerCase();
+                                    } else if(matches.get(0).toLowerCase().indexOf("cancelar acción") > -1){
+                                       CancelAction();
                                     }
                                 }else if(!bSelectContac && bFlag){
                                 //    letters = "whatsapp";
@@ -150,7 +150,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 }
                                 //Ejecuta los comandos
                                 switch (letters){
-                                    case "que hora es":
+                                    case "tiempo":
                                         Calendar cal = Calendar.getInstance();
                                         String Hour = String.valueOf(cal.get(Calendar.HOUR));
                                         String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
@@ -163,13 +163,20 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                         break;
                                     case "whatsapp":
                                         if(!bFlag) {
-                                            appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
+                                            if(appName.isEmpty()) {
+                                                appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
+                                            }
                                             if(!appName.isEmpty()) {
                                                 listContacts = Contacts.getContactByName(appName);
                                             }
                                             if (listContacts.isEmpty()) {
-
-                                                speech.speek("a quien desea enviar mensaje");
+                                                if(countSearch == 0) {
+                                                    speech.speek("a quien desea enviar mensaje");
+                                                    countSearch++;
+                                                }else{
+                                                    speech.speek("No se pudo encontrar el contacto. Busquelo manualmente.");
+                                                    CancelAction();
+                                                }
                                             }else if(listContacts.size() > 1) {
 
                                                 try {
@@ -196,7 +203,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                                 message = matches.get(0);
                                                 speech.speek("Desea enviar el mensaje");
                                             }else{
-                                                if (matches.get(0).toLowerCase().equals("si") || matches.get(0).toLowerCase().equals("enviar")){
+                                                if (matches.get(0).toLowerCase().equals("sí") || matches.get(0).toLowerCase().equals("enviar")){
                                                     whatsapp.SendMessageTo(appName,message);
                                                     message = "";
                                                     appName = "";
@@ -294,16 +301,23 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
             listening = true;
 
-            Log.appendLog("Fin StartvoiceListening");
+
 
         }catch(Exception ex){
             Log.appendLog("StartvoiceListening "+ ex.getMessage());
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+    private void CancelAction(){
+        bConfirm = false;
+        bFlag = false;
+        bSelectContac= false;
+        appName = "";
+        letters = "";
+    }
     public  void InitSpeech() {
         try {
-            Log.appendLog("Inicio InitSpeech");
+
             if(voice == null) {
                 voice = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
             }
@@ -311,7 +325,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
             intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                     MainActivity.getContext().getPackageName());
-            Log.appendLog("Fin InitSpeech");
+
         }catch(Exception ex){
             Log.appendLog("InitSpeech "+ ex.getMessage());
             throw ex;

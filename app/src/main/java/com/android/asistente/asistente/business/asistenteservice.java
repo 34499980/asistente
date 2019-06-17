@@ -39,10 +39,10 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     @Override
     public int onStartCommand(Intent intente, int flag,int idProcess){
        // android.os.Debug.waitForDebugger();
-        Log.appendLog("Servicio iniciado");
-        Toast.makeText(this, "Servicio Iniciado", Toast.LENGTH_SHORT).show();
-        try {
 
+       // Toast.makeText(this, "Servicio Iniciado", Toast.LENGTH_SHORT).show();
+        try {
+            speek.speek("Hola");
            // voice.OnInit();
 
            // startTimer();
@@ -69,11 +69,11 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     }
     @Override
     public void onDestroy(){
-        Log.appendLog("Deteniendo el servicio");
+
        timerObj.cancel();
         timerObj.purge();
         Toast.makeText(this, "Servicio detenido", Toast.LENGTH_SHORT).show();
-        Log.appendLog("Servicio detenido");
+
     }
 
     @Override

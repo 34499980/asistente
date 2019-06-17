@@ -1,5 +1,7 @@
 package com.android.asistente.asistente.Helper;
 
+import android.os.Environment;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,7 +10,10 @@ import java.io.IOException;
 public class Log {
     public static void appendLog(String text)
     {
-        File logFile = new File("sdcard/log.file");
+        File sd = Environment.getExternalStorageDirectory();
+        File directory = new File(sd.getAbsolutePath());
+        directory.mkdirs();
+        File logFile = new File(directory+"/Document/LogAsistente.txt");
         if (!logFile.exists())
         {
             try
