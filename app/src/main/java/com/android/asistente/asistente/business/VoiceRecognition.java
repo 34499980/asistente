@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.android.asistente.asistente.Entities.Phone;
 import com.android.asistente.asistente.Helper.General;
+import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.ListContacts;
 
 import com.android.asistente.asistente.MainActivity;
@@ -60,7 +61,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
     public void StartvoiceListening(){
         listening = true;
-
+        sound.setMusicVolumen(0);
+        Log.appendLog("Inicio StartvoiceListening");
         try {
 
             if (rec == null) {
@@ -90,7 +92,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onEndOfSpeech() {
+                        Log.appendLog("onEndOfSpeech");
                         listening=false;
+                       // sound.setMusicVolumen(70);
                         if(matches == null){
                             StartvoiceListening();
                         }
@@ -98,11 +102,19 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onError(int i) {
-                     Toast.makeText(MainActivity.getContext(),"Error al intentar escuchar. Posiblemente no tenga conexión!",Toast.LENGTH_SHORT).show();
+                        sound.setMusicVolumen(70);
+                        try{
+
+                        }catch(Exception ex){
+
+                        }
+                  //   Toast.makeText(MainActivity.getContext(),"Error al intentar escuchar. Posiblemente no tenga conexión!",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onResults(Bundle data) {
+                        Log.appendLog("onResults");
+                        sound.setMusicVolumen(70);
                         matches = data.getStringArrayList(
                                 SpeechRecognizer.RESULTS_RECOGNITION);
                         listening=false;
@@ -138,7 +150,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 }
                                 //Ejecuta los comandos
                                 switch (letters){
-                                    case "qué hora es":
+                                    case "que hora es":
                                         Calendar cal = Calendar.getInstance();
                                         String Hour = String.valueOf(cal.get(Calendar.HOUR));
                                         String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
@@ -170,6 +182,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                                         MainActivity.getContext().startActivity(t);
                                                     }
                                                 }catch(Exception ex){
+                                                    Log.appendLog("onResults + whatsapp " + ex.getMessage() );
                                                     Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
                                                 }
                                             }else{
@@ -195,9 +208,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                         }
 
                                         break;
-                                    case "galeria":
+                                   /* case "galeria":
                                         gallery.OpenGallery();
-                                        break;
+                                        break;*/
                                     case "contacto":
                                         if(matches.get(0).toLowerCase().indexOf("contacto")> -1 ){
                                             contacts.OpenContacts();
@@ -221,6 +234,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                                         MainActivity.getContext().startActivity(t);
                                                     }
                                                 }catch(Exception ex){
+                                                    Log.appendLog("onResults + contacto " + ex.getMessage() );
                                                     Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
                                                 }
                                             }
@@ -280,15 +294,16 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
             listening = true;
 
-
-
+            Log.appendLog("Fin StartvoiceListening");
 
         }catch(Exception ex){
+            Log.appendLog("StartvoiceListening "+ ex.getMessage());
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     public  void InitSpeech() {
         try {
+            Log.appendLog("Inicio InitSpeech");
             if(voice == null) {
                 voice = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
             }
@@ -296,7 +311,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
             intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                     MainActivity.getContext().getPackageName());
+            Log.appendLog("Fin InitSpeech");
         }catch(Exception ex){
+            Log.appendLog("InitSpeech "+ ex.getMessage());
             throw ex;
         }
     }

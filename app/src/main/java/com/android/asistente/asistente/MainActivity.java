@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.business.Speech;
 import com.android.asistente.asistente.business.VoiceRecognition;
 import com.android.asistente.asistente.business.asistenteservice;
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        try {
         switch (view.getId()){
             case R.id.btnStartService:
                 speech.speek("Servicio Iniciado");
@@ -99,20 +101,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 stopService(new Intent(this,asistenteservice.class));
                 break;
             case R.id.btnHablar:
-                try {
+
                     shape.setColor(Color.parseColor("#ef5350"));//Color rojo
                     voice.InitSpeech();
                     voice.StartvoiceListening();
-
-                }catch(Exception ex){
-                    Toast.makeText(getBaseContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
-                }
-
-
-
-
-
                 break;
+        }
+        }catch(Exception ex){
+            Log.appendLog("onClick "+ ex.getMessage());
+            Toast.makeText(getBaseContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
         }
 
     }

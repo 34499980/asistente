@@ -8,6 +8,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     @Override
     public int onStartCommand(Intent intente, int flag,int idProcess){
        // android.os.Debug.waitForDebugger();
+        Log.appendLog("Servicio iniciado");
         Toast.makeText(this, "Servicio Iniciado", Toast.LENGTH_SHORT).show();
         try {
 
@@ -53,6 +55,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
 
 
         }catch(Exception ex){
+            Log.appendLog("onStartCommand "+ ex.getMessage());
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
@@ -66,9 +69,11 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     }
     @Override
     public void onDestroy(){
+        Log.appendLog("Deteniendo el servicio");
        timerObj.cancel();
         timerObj.purge();
         Toast.makeText(this, "Servicio detenido", Toast.LENGTH_SHORT).show();
+        Log.appendLog("Servicio detenido");
     }
 
     @Override
