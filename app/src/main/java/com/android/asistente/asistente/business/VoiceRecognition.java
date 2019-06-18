@@ -61,7 +61,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
     public void StartvoiceListening(){
         listening = true;
-        sound.setMusicVolumen(0);
+      //  sound.setMusicVolumen(0);
 
         try {
 
@@ -127,7 +127,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
 
 
-                            } else {
+                            } else if(matches.get(0).toLowerCase().indexOf("cancelar acción") > -1){
+                                CancelAction();
+                            }else{
 
                                 if(!bFlag) {
                                     if (matches.get(0).toLowerCase().indexOf("volumen") > -1) {
@@ -140,8 +142,6 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                         letters = "contacto";
                                     } else if (matches.get(0).toLowerCase().indexOf("abrir") > -1) {
                                         letters = "ExternalApp";
-                                    } else if(matches.get(0).toLowerCase().indexOf("cancelar acción") > -1){
-                                       CancelAction();
                                     }
                                 }else if(!bSelectContac && bFlag){
                                 //    letters = "whatsapp";

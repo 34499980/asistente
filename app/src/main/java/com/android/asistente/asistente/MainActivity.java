@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Timer timerObj ;
     TimerTask timerTaskObj;
     int countTimer;
+    public static Boolean bActive = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,11 +95,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.btnStartService:
                 speech.speek("Servicio Iniciado");
-                startService(new Intent(this, asistenteservice.class));
+                bActive = true;
+               // startService(new Intent(this, asistenteservice.class));
                 break;
             case R.id.btnStopService:
+                bActive = false;
                 speech.speek("Servicio detenido");
-                stopService(new Intent(this,asistenteservice.class));
+               // stopService(new Intent(this,asistenteservice.class));
                 break;
             case R.id.btnHablar:
 
