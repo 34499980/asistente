@@ -84,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btHablar.setOnClickListener(this);
         startTimer();
         speech.speek("");
-        btHablar.performClick();
+        //Fuerzo el click de hablar.
+        //btHablar.performClick();
     }
 
     @Override
