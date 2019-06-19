@@ -102,7 +102,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onError(int i) {
-                        sound.setMusicVolumen(70);
+                   //     sound.setMusicVolumen(70);
                         try{
 
                         }catch(Exception ex){
@@ -114,168 +114,29 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     @Override
                     public void onResults(Bundle data) {
 
-                        sound.setMusicVolumen(70);
-                        matches = data.getStringArrayList(
-                                SpeechRecognizer.RESULTS_RECOGNITION);
+                      //  sound.setMusicVolumen(70);
+                        matches = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                         listening=false;
                         if (matches != null) {
 
                             if (matches.get(0).toLowerCase().equals("hola")) {
-
-
-                                speech.speek("En que lo puedo ayudar");
-
-
-
+                                    speech.speek("En que lo puedo ayudar");
                             } else if(matches.get(0).toLowerCase().indexOf("cancelar acción") > -1){
                                 CancelAction();
                             }else{
-
+                                //Si no hablo, busca accion. Sino continua el proceso anterior.
                                 if(!bFlag) {
-                                    if (matches.get(0).toLowerCase().indexOf("volumen") > -1) {
-                                        letters = "volumen";
-                                    } else if (matches.get(0).toLowerCase().indexOf("qué hora es") > -1) {
-                                        letters = "tiempo";
-                                    } else if (matches.get(0).toLowerCase().contains("enviar whatsapp") || matches.get(0).toLowerCase().contains("enviar un whatsapp") ) {
-                                        letters = "whatsapp";
-                                    } else if (matches.get(0).toLowerCase().indexOf("llamar") > -1 || matches.get(0).toLowerCase().indexOf("mensaje") > -1) {
-                                        letters = "contacto";
-                                    } else if (matches.get(0).toLowerCase().indexOf("abrir") > -1) {
-                                        letters = "ExternalApp";
-                                    }
-                                }else if(!bSelectContac && bFlag){
+                                    //Procesa la accion de entrada.
+                                   Input();
+                                }
+                                /*else if(!bSelectContac && bFlag){
                                 //    letters = "whatsapp";
                                 }else{
                                  //   letters = "contacto";
-                                }
+                                }*/
+
                                 //Ejecuta los comandos
-                                switch (letters){
-                                    case "tiempo":
-                                        Calendar cal = Calendar.getInstance();
-                                        String Hour = String.valueOf(cal.get(Calendar.HOUR));
-                                        String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
-                                        speech.speek("Son las "+ Hour + " y "+ Minutes);
-                                        break;
-                                    case "ExternalApp":
-                                        appName =  externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
-                                        ResolveInfo app = externalApp.getAllAplication(appName);
-                                        externalApp.startApp(app);
-                                        break;
-                                    case "whatsapp":
-                                        if(!bFlag) {
-                                            if(appName.isEmpty()) {
-                                                appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
-                                            }
-                                            if(!appName.isEmpty()) {
-                                                listContacts = Contacts.getContactByName(appName);
-                                            }
-                                            if (listContacts.isEmpty()) {
-                                                if(countSearch < 3) {
-                                                    speech.speek("a quien desea enviar mensaje");
-                                                    countSearch++;
-                                                }else{
-                                                    speech.speek("No se pudo encontrar el contacto. Busquelo manualmente.");
-                                                    CancelAction();
-                                                }
-                                            }else if(listContacts.size() > 1) {
-
-                                                try {
-                                                   // bFlag = true;
-                                                   // bSelectContac = true;
-                                                    speech.speek("Seleccione uno de los contactos");
-                                                    if(!listContacts.isEmpty()) {
-                                                        Intent t = new Intent(MainActivity.getContext(), ListContacts.class);
-                                                        General.list = listContacts;
-                                                        MainActivity.getContext().startActivity(t);
-                                                    }
-                                                }catch(Exception ex){
-                                                    Log.appendLog("onResults + whatsapp " + ex.getMessage() );
-                                                    Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
-                                                }
-                                            }else{
-                                                appName = ((Phone)listContacts.get(0)).number;
-                                                bFlag = true;
-                                                speech.speek("que mensaje desea enviar");
-                                            }
-                                        }else{
-
-                                            if (message == null && !bConfirm) {
-                                                message = matches.get(0);
-                                                speech.speek("Desea enviar el mensaje");
-                                            }else{
-                                                if (matches.get(0).toLowerCase().equals("sí") || matches.get(0).toLowerCase().equals("enviar")){
-                                                    whatsapp.SendMessageTo(appName,message);
-                                                    message = "";
-                                                    appName = "";
-                                                    bFlag=false;
-                                                    bConfirm=false;
-                                                }
-                                            }
-
-                                        }
-
-                                        break;
-                                   /* case "galeria":
-                                        gallery.OpenGallery();
-                                        break;*/
-                                    case "contacto":
-                                        if(matches.get(0).toLowerCase().indexOf("contacto")> -1 ){
-                                            contacts.OpenContacts();
-                                        }else {
-                                            String contactName = contacts.procesarDatosEntrada(matches.get(0).toLowerCase());
-                                            listContacts =  contacts.getContactByName(contactName);
-                                            if (listContacts.size() == 1){
-                                                if(matches.get(0).toLowerCase().indexOf("llamar a")> -1){
-                                                    call.startCall(((Phone)listContacts.get(0)).number);
-                                                }else{
-                                                    //Mandar mensaje
-                                                }
-                                            }else{
-                                                try {
-                                                    bFlag = true;
-                                                    bSelectContac = true;
-                                                    speech.speek("Seleccione uno de los contactos");
-                                                    if(!listContacts.isEmpty()) {
-                                                        Intent t = new Intent(MainActivity.getContext(), ListContacts.class);
-                                                        General.list = listContacts;
-                                                        MainActivity.getContext().startActivity(t);
-                                                    }
-                                                }catch(Exception ex){
-                                                    Log.appendLog("onResults + contacto " + ex.getMessage() );
-                                                    Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-
-                                        }
-
-                                        break;
-                                    case "cámara":
-                                        Camera.OpenCammera();
-                                        break;
-                                    case "volumen":
-                                        int volume;
-                                        matches.set(0,matches.get(0).replace("%","").replace("porcentaje", ""));
-                                        if(matches.get(0).toLowerCase().indexOf("multimedia")>0) {
-                                            volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen multimedia")+22));
-
-                                            sound.setMusicVolumen(volume);
-                                        }else{
-                                            volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen")+11));
-
-                                            sound.setVolumen(volume);
-                                        }
-                                        speech.speek("El volumen se encuentra en "+ String.valueOf(volume)+ " porciento");
-                                        break;
-                                    default:
-                                        speech.speek("Lo siento, no tengo una respuesta");
-                                        break;
-                                }
-
-
-                                // StartvoiceListening();
-
-
-
+                                ExecuteCommand();
                             }
                             VoiceRecognition.matches = null;
 
@@ -306,6 +167,144 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
         }catch(Exception ex){
             Log.appendLog("StartvoiceListening "+ ex.getMessage());
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void ExecuteCommand(){
+        switch (letters){
+            case "tiempo":
+                Calendar cal = Calendar.getInstance();
+                String Hour = String.valueOf(cal.get(Calendar.HOUR));
+                String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
+                speech.speek("Son las "+ Hour + " y "+ Minutes);
+                break;
+            case "ExternalApp":
+                appName =  externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
+                ResolveInfo app = externalApp.getAllAplication(appName);
+                externalApp.startApp(app);
+                break;
+            case "whatsapp":
+                if(!bFlag) {
+                    if(appName.isEmpty()) {
+                        appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
+                    }
+                    if(!appName.isEmpty()) {
+                        listContacts = Contacts.getContactByName(appName);
+                    }
+                    if (listContacts.isEmpty()) {
+                        if(countSearch < 3) {
+                            speech.speek("a quien desea enviar mensaje");
+                            countSearch++;
+                        }else{
+                            speech.speek("No se pudo encontrar el contacto. Busquelo manualmente.");
+                            CancelAction();
+                        }
+                    }else if(listContacts.size() > 1) {
+
+                        try {
+                            // bFlag = true;
+                            // bSelectContac = true;
+                            speech.speek("Seleccione uno de los contactos");
+                            if(!listContacts.isEmpty()) {
+                                Intent t = new Intent(MainActivity.getContext(), ListContacts.class);
+                                General.list = listContacts;
+                                MainActivity.getContext().startActivity(t);
+                            }
+                        }catch(Exception ex){
+                            Log.appendLog("onResults + whatsapp " + ex.getMessage() );
+                            Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        appName = ((Phone)listContacts.get(0)).number;
+                        bFlag = true;
+                        speech.speek("que mensaje desea enviar");
+                    }
+                }else{
+
+                    if (message == null && !bConfirm) {
+                        message = matches.get(0);
+                        speech.speek("Desea enviar el mensaje");
+                    }else{
+                        if (matches.get(0).toLowerCase().equals("sí") || matches.get(0).toLowerCase().equals("enviar")){
+                            whatsapp.SendMessageTo(appName,message);
+                            message = "";
+                            appName = "";
+                            bFlag=false;
+                            bConfirm=false;
+                        }
+                    }
+
+                }
+
+                break;
+                                   /* case "galeria":
+                                        gallery.OpenGallery();
+                                        break;*/
+            case "contacto":
+                if(matches.get(0).toLowerCase().indexOf("contacto")> -1 ){
+                    contacts.OpenContacts();
+                }else {
+                    String contactName = contacts.procesarDatosEntrada(matches.get(0).toLowerCase());
+                    listContacts =  contacts.getContactByName(contactName);
+                    if (listContacts.size() == 1){
+                        if(matches.get(0).toLowerCase().indexOf("llamar a")> -1){
+                            call.startCall(((Phone)listContacts.get(0)).number);
+                        }else{
+                            //Mandar mensaje
+                        }
+                    }else{
+                        try {
+                            bFlag = true;
+                            bSelectContac = true;
+                            speech.speek("Seleccione uno de los contactos");
+                            if(!listContacts.isEmpty()) {
+                                Intent t = new Intent(MainActivity.getContext(), ListContacts.class);
+                                General.list = listContacts;
+                                MainActivity.getContext().startActivity(t);
+                            }
+                        }catch(Exception ex){
+                            Log.appendLog("onResults + contacto " + ex.getMessage() );
+                            Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
+
+                break;
+            case "cámara":
+                Camera.OpenCammera();
+                break;
+            case "volumen":
+                int volume;
+                matches.set(0,matches.get(0).replace("%","").replace("porcentaje", ""));
+                if(matches.get(0).toLowerCase().indexOf("multimedia")>0) {
+                    volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen multimedia")+22));
+
+                    sound.setMusicVolumen(volume);
+                }else{
+                    volume =Integer.parseInt(matches.get(0).substring(matches.get(0).toLowerCase().lastIndexOf("volumen")+11));
+
+                    sound.setVolumen(volume);
+                }
+                speech.speek("El volumen se encuentra en "+ String.valueOf(volume)+ " porciento");
+                break;
+            default:
+                speech.speek("Lo siento, no tengo una respuesta");
+                break;
+        }
+
+    }
+    private void Input(){
+        if (matches.get(0).toLowerCase().indexOf("volumen") > -1) {
+            letters = "volumen";
+        } else if (matches.get(0).toLowerCase().indexOf("qué hora es") > -1) {
+            letters = "tiempo";
+        } else if (matches.get(0).toLowerCase().contains("enviar whatsapp") || matches.get(0).toLowerCase().contains("enviar un whatsapp") ) {
+            letters = "whatsapp";
+        } else if (matches.get(0).toLowerCase().indexOf("llamar") > -1 || matches.get(0).toLowerCase().indexOf("mensaje") > -1) {
+            letters = "contacto";
+        } else if (matches.get(0).toLowerCase().indexOf("abrir") > -1) {
+            letters = "ExternalApp";
         }
     }
     private void CancelAction(){
