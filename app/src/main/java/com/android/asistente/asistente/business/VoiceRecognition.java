@@ -123,6 +123,12 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                     speech.speek("En que lo puedo ayudar");
                             } else if(matches.get(0).toLowerCase().indexOf("cancelar acción") > -1){
                                 CancelAction();
+                            }else if(matches.get(0).toLowerCase().indexOf("desactivar servicio") > -1) {
+                                MainActivity.bActive = false;
+                                if( MainActivity.btnStopService != null){
+                                    MainActivity.btnStopService.performClick();
+                                }
+
                             }else{
                                 //Si no hablo, busca accion. Sino continua el proceso anterior.
                                 if(!bFlag) {
@@ -177,11 +183,13 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 String Hour = String.valueOf(cal.get(Calendar.HOUR));
                 String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
                 speech.speek("Son las "+ Hour + " y "+ Minutes);
+                CancelAction();
                 break;
             case "ExternalApp":
                 appName =  externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
                 ResolveInfo app = externalApp.getAllAplication(appName);
                 externalApp.startApp(app);
+                CancelAction();
                 break;
             case "whatsapp":
                 if(!bFlag) {
@@ -231,6 +239,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             appName = "";
                             bFlag=false;
                             bConfirm=false;
+                            CancelAction();
                         }
                     }
 
@@ -249,6 +258,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     if (listContacts.size() == 1){
                         if(matches.get(0).toLowerCase().indexOf("llamar a")> -1){
                             call.startCall(((Phone)listContacts.get(0)).number);
+                            CancelAction();
                         }else{
                             //Mandar mensaje
                         }
@@ -264,6 +274,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             }
                         }catch(Exception ex){
                             Log.appendLog("onResults + contacto " + ex.getMessage() );
+                            CancelAction();
                             Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -273,6 +284,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 break;
             case "cámara":
                 Camera.OpenCammera();
+                CancelAction();
                 break;
             case "volumen":
                 int volume;
@@ -287,6 +299,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     sound.setVolumen(volume);
                 }
                 speech.speek("El volumen se encuentra en "+ String.valueOf(volume)+ " porciento");
+                CancelAction();
                 break;
             default:
                 speech.speek("Lo siento, no tengo una respuesta");

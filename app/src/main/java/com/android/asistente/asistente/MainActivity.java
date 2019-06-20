@@ -24,7 +24,7 @@ import java.util.TimerTask;
 import static android.app.PendingIntent.getActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnStartService, btnStopService;
+   public static Button btnStartService, btnStopService;
     Button btHablar;
     static Context context;
     Speech speech = new Speech();
