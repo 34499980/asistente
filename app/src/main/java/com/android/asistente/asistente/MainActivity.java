@@ -15,9 +15,11 @@ import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.business.Speech;
+import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
 import com.android.asistente.asistente.business.asistenteservice;
 
+import java.util.Dictionary;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TimerTask timerTaskObj;
     int countTimer;
     public static Boolean bActive = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
     public void CargarComponentes() {
+
         shape =  new GradientDrawable();
         shape.setCornerRadius( 90 );
 

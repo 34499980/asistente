@@ -16,13 +16,18 @@ import android.widget.Toast;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
+import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
+
+import java.util.Dictionary;
 
 public class ExampleAppWidgetProvider extends AppWidgetProvider {
     VoiceRecognition voice = new VoiceRecognition();
     static String CLICK_ACTION = "CLICKED";
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
 
         for (int appWidgetId : appWidgetIds ){
 
@@ -48,7 +53,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
                 }
             }catch(Exception ex){
                 Toast.makeText(context,ex.getMessage(),Toast.LENGTH_SHORT).show();
-                Log.appendLog(ex.getMessage());
+                Log.appendLog( ex.getMessage());
             }
 
         }

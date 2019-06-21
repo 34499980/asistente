@@ -22,6 +22,7 @@ import com.android.asistente.asistente.R;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,6 +55,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnPrueba = (Button) findViewById(R.id.btnHablar);
+
 
 
 
@@ -135,11 +137,6 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                     //Procesa la accion de entrada.
                                    Input();
                                 }
-                                /*else if(!bSelectContac && bFlag){
-                                //    letters = "whatsapp";
-                                }else{
-                                 //   letters = "contacto";
-                                }*/
 
                                 //Ejecuta los comandos
                                 ExecuteCommand();
@@ -171,7 +168,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
 
         }catch(Exception ex){
-            Log.appendLog("StartvoiceListening "+ ex.getMessage());
+            Log.appendLog(  ex.getMessage());
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -179,10 +176,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     private void ExecuteCommand(){
         switch (letters){
             case "tiempo":
-                Calendar cal = Calendar.getInstance();
-                String Hour = String.valueOf(cal.get(Calendar.HOUR));
-                String Minutes = String.valueOf(cal.get(Calendar.MINUTE));
-                speech.speek("Son las "+ Hour + " y "+ Minutes);
+                speech.speek(Time.getHoursAndMinutes());
                 CancelAction();
                 break;
             case "ExternalApp":
@@ -210,8 +204,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     }else if(listContacts.size() > 1) {
 
                         try {
-                            // bFlag = true;
-                            // bSelectContac = true;
+
                             speech.speek("Seleccione uno de los contactos");
                             if(!listContacts.isEmpty()) {
                                 Intent t = new Intent(MainActivity.getContext(), ListContacts.class);
@@ -219,7 +212,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 MainActivity.getContext().startActivity(t);
                             }
                         }catch(Exception ex){
-                            Log.appendLog("onResults + whatsapp " + ex.getMessage() );
+                            Log.appendLog( ex.getMessage() );
                             Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     }else{
@@ -246,9 +239,6 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 }
 
                 break;
-                                   /* case "galeria":
-                                        gallery.OpenGallery();
-                                        break;*/
             case "contacto":
                 if(matches.get(0).toLowerCase().indexOf("contacto")> -1 ){
                     contacts.OpenContacts();
@@ -273,7 +263,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 MainActivity.getContext().startActivity(t);
                             }
                         }catch(Exception ex){
-                            Log.appendLog("onResults + contacto " + ex.getMessage() );
+                            Log.appendLog( ex.getMessage() );
                             CancelAction();
                             Toast.makeText(MainActivity.getContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
                         }
@@ -339,7 +329,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     MainActivity.getContext().getPackageName());
 
         }catch(Exception ex){
-            Log.appendLog("InitSpeech "+ ex.getMessage());
+            Log.appendLog( ex.getMessage());
             throw ex;
         }
     }
