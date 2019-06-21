@@ -39,6 +39,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button  buttonWidget;
     View view;
     public static Boolean bActive = false;
+    static MainActivity instance = null;
+
+   /* private MainActivity(){};
+    public static MainActivity getInstance(){
+        if (instance == null){
+            instance = new MainActivity();
+        }
+        return instance;
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

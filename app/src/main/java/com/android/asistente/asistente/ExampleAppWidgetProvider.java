@@ -24,11 +24,13 @@ import java.util.Dictionary;
 public class ExampleAppWidgetProvider extends AppWidgetProvider {
     VoiceRecognition voice = new VoiceRecognition();
     static String CLICK_ACTION = "CLICKED";
+    MainActivity main;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         try {
-            new MainActivity().startTimer();
+           /* main = MainActivity.getInstance();
+            main.startTimer();*/
         }catch(Exception ex){
             Toast.makeText(context,ex.getMessage(),Toast.LENGTH_SHORT).show();
         }
