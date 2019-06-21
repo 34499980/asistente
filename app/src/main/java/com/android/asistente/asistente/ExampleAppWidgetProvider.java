@@ -27,8 +27,11 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
-
+        try {
+            new MainActivity().startTimer();
+        }catch(Exception ex){
+            Toast.makeText(context,ex.getMessage(),Toast.LENGTH_SHORT).show();
+        }
         for (int appWidgetId : appWidgetIds ){
 
             Intent intent = new Intent(context, ExampleAppWidgetProvider.class);
@@ -47,6 +50,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         if(intent.getAction().equals(CLICK_ACTION) && MainActivity.bActive){
             try {
                 if(!VoiceRecognition.listening) {
+
                     voice.InitSpeech();
                     voice.StartvoiceListening();
                     Toast.makeText(context, "Listening...", Toast.LENGTH_SHORT).show();

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Timer timerObj ;
     TimerTask timerTaskObj;
     int countTimer;
+    Button  buttonWidget;
+    View view;
     public static Boolean bActive = false;
 
     @Override
@@ -43,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         CargarComponentes();
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.example_widget, null);
+        buttonWidget = (Button)view.findViewById(R.id.btnHablarWidget);
 
 
     }
@@ -142,7 +148,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         shape.setColor(Color.parseColor("#81c784"));//Color verde
 
                     }
+
                     findViewById(R.id.btnHablar).setBackground(shape);
+                    view.findViewById(R.id.btnHablarWidget).setBackground(shape);
                 }
             };
             try {
