@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 
 import com.android.asistente.asistente.Helper.Log;
+import com.android.asistente.asistente.business.NotificationService;
 import com.android.asistente.asistente.business.Speech;
 import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
@@ -114,11 +115,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnStartService:
                 speech.speek("Servicio Iniciado");
                 bActive = true;
+                NotificationService.bNotify = true;
+                startService(new Intent(this, NotificationService.class));
                // startService(new Intent(this, asistenteservice.class));
                 break;
             case R.id.btnStopService:
                 bActive = false;
                 speech.speek("Servicio detenido");
+                NotificationService.bNotify=false;
+                stopService(new Intent(this,NotificationService.class));
                // stopService(new Intent(this,asistenteservice.class));
                 break;
             case R.id.btnHablar:
@@ -160,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if(countTimer==3){
                             countTimer=0;
                          voice.listening=false;
-                         buttonWidget.performClick();
+                         //buttonWidget.performClick();
                         }
                     }else{
 
