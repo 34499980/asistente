@@ -149,7 +149,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onPartialResults(Bundle bundle) {
-
+                        listening = false;
                     }
 
                     @Override
@@ -196,6 +196,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     if (listContacts.isEmpty()) {
                         if(countSearch < 3) {
                             speech.speek("a quien desea enviar mensaje");
+                            appName= "";
                             countSearch++;
                         }else{
                             speech.speek("No se pudo encontrar el contacto. Busquelo manualmente.");
@@ -316,6 +317,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
         bSelectContac= false;
         appName = "";
         letters = "";
+        countSearch = 0;
     }
     public  void InitSpeech() {
         try {

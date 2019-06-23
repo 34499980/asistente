@@ -16,7 +16,7 @@ public class Time {
         return  instance;
     }
 
-    public Dictionary<String,String> getDate(){
+    public static Dictionary<String,String> getDate(){
 
         Calendar cal = Calendar.getInstance();
         String Hour = String.valueOf(cal.get(Calendar.HOUR));
@@ -33,6 +33,7 @@ public class Time {
         return result;
     }
     public static String getHoursAndMinutes(){
+        getDate();
       return "Son las "+ result.get("hour") + " y "+ result.get("minutes");
     }
 }

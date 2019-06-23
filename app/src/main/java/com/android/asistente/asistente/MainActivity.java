@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Timer timerObj ;
     TimerTask timerTaskObj;
     int countTimer;
-    Button  buttonWidget;
+    public static Button  buttonWidget = null;
     View view;
     public static Boolean bActive = false;
     static MainActivity instance = null;
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         shape =  new GradientDrawable();
         shape.setCornerRadius( 90 );
-
+        speech.speek("Iniciando");
        shape.setColor(Color.parseColor("#81c784"));
 
 
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStopService.setOnClickListener(this);
         btHablar.setOnClickListener(this);
         startTimer();
-        speech.speek("");
+      //  speech.speek("");
         //Fuerzo el click de hablar.
         //btHablar.performClick();
     }
@@ -143,7 +143,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             timerObj = new Timer();
             timerTaskObj = new TimerTask() {
                 public void run() {
-                    if(voice.listening == true){
+                   /* if((voice.listening && voice.getMatches()!=null) || Speech.bSpeaking){
+                        shape.setColor(Color.parseColor("#ef5350"));//Color rojo
+                    }else{
+                        shape.setColor(Color.parseColor("#81c784"));//Color verde
+                        voice.listening=false;
+                       // buttonWidget.performClick();
+
+                    }*/
+
+                    if(voice.listening || Speech.bSpeaking){
                         shape.setColor(Color.parseColor("#ef5350"));//Color rojo
                         if(voice.getMatches()==null) {
                             countTimer++;
@@ -151,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if(countTimer==3){
                             countTimer=0;
                          voice.listening=false;
+                         buttonWidget.performClick();
                         }
                     }else{
 
@@ -159,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                     findViewById(R.id.btnHablar).setBackground(shape);
-                    view.findViewById(R.id.btnHablarWidget).setBackground(shape);
+
                 }
             };
             try {
