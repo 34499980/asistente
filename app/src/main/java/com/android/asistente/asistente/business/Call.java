@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
 
 public class Call extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class Call extends AppCompatActivity {
                 MainActivity.getContext().startActivity(callIntent);
             }
         }catch(Exception ex){
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
             Toast.makeText(this, "No se pudo realizar la llamada", Toast.LENGTH_SHORT).show();
         }
     }

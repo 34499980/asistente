@@ -6,6 +6,8 @@ import android.app.Notification;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.RemoteViews;
 
+import com.android.asistente.asistente.Helper.Log;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +61,7 @@ public static boolean bNotify;
                 System.out.println("text is: " + text.get(16908358));
             }
         } catch (Exception e) {
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
             e.printStackTrace();
         }
     }

@@ -3,6 +3,7 @@ package com.android.asistente.asistente.business;
 import android.content.Context;
 import android.media.AudioManager;
 
+import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
 
 public class Sound {
@@ -16,6 +17,7 @@ int val;
             AudioManager audioManager = (AudioManager) MainActivity.getContext().getSystemService(Context.AUDIO_SERVICE);
             audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, val, 0);
         }catch (Exception ex){
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
             throw ex;
         }
     }
@@ -25,6 +27,7 @@ int val;
             AudioManager audioManager = (AudioManager) MainActivity.getContext().getSystemService(Context.AUDIO_SERVICE);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, val, 0);
         }catch (Exception ex){
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
             throw ex;
         }
     }

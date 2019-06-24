@@ -24,7 +24,8 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(Intent intent)
+    {
         return null;
     }
     @Override
@@ -34,12 +35,13 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
 
     @Override
     public int onStartCommand(Intent intente, int flag,int idProcess){
+        super.onStartCommand(intente, flag, idProcess);
         MainActivity.bActive = true;
 
         try {
 
         }catch(Exception ex){
-            Log.appendLog( ex.getMessage());
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
@@ -53,8 +55,15 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     }
     @Override
     public void onDestroy(){
-
-        Toast.makeText(this, "Servicio detenido", Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(this, "Servicio detenido", Toast.LENGTH_SHORT).show();
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction("restartservice");
+            broadcastIntent.setClass(this, Restarter.class);
+            this.sendBroadcast(broadcastIntent);
+        }catch(Exception ex){
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+        }
 
     }
 

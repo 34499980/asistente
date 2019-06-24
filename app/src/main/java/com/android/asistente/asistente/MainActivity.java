@@ -1,5 +1,6 @@
 package com.android.asistente.asistente;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -55,10 +56,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
-        CargarComponentes();
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.example_widget, null);
-        buttonWidget = (Button)view.findViewById(R.id.btnHablarWidget);
+        try {
+            CargarComponentes();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.example_widget, null);
+            buttonWidget = (Button) view.findViewById(R.id.btnHablarWidget);
+        }catch(Exception ex){
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+        }
 
 
     }
@@ -85,24 +90,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
     public void CargarComponentes() {
-
-        shape =  new GradientDrawable();
-        shape.setCornerRadius( 90 );
-        speech.speek("Iniciando");
-       shape.setColor(Color.parseColor("#81c784"));
-
-
+        try {
+            shape = new GradientDrawable();
+            shape.setCornerRadius(90);
+            speech.speek("Iniciando");
+            shape.setColor(Color.parseColor("#81c784"));
 
 
-        findViewById(R.id.btnHablar).setBackground(shape);
+            findViewById(R.id.btnHablar).setBackground(shape);
 
-        btnStartService = (Button)findViewById(R.id.btnStartService);
-        btnStopService = (Button)findViewById(R.id.btnStopService);
-        btHablar = (Button)findViewById(R.id.btnHablar);
-        btnStartService.setOnClickListener(this);
-        btnStopService.setOnClickListener(this);
-        btHablar.setOnClickListener(this);
-        startTimer();
+            btnStartService = (Button) findViewById(R.id.btnStartService);
+            btnStopService = (Button) findViewById(R.id.btnStopService);
+            btHablar = (Button) findViewById(R.id.btnHablar);
+            btnStartService.setOnClickListener(this);
+            btnStopService.setOnClickListener(this);
+            btHablar.setOnClickListener(this);
+            startTimer();
+        }catch(Exception ex){
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+        }
       //  speech.speek("");
         //Fuerzo el click de hablar.
         //btHablar.performClick();
@@ -117,14 +123,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bActive = true;
                 NotificationService.bNotify = true;
                 startService(new Intent(this, NotificationService.class));
-               // startService(new Intent(this, asistenteservice.class));
+                startService(new Intent(this, asistenteservice.class));
                 break;
             case R.id.btnStopService:
                 bActive = false;
                 speech.speek("Servicio detenido");
                 NotificationService.bNotify=false;
                 stopService(new Intent(this,NotificationService.class));
-               // stopService(new Intent(this,asistenteservice.class));
+                stopService(new Intent(this,asistenteservice.class));
                 break;
             case R.id.btnHablar:
 
@@ -134,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         }catch(Exception ex){
-
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
             Toast.makeText(getBaseContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
         }
 
@@ -180,18 +186,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try {
                 timerObj.schedule(timerTaskObj, 0, 1000);
             }catch(Exception ex){
+                Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
                 throw ex;
             }
 
 
         }catch(Exception ex){
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
             throw ex;
         }
 
     }
-    public void prueba(){
-        voice.InitSpeech();
-        voice.StartvoiceListening();
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        try {
+            ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+            for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+                if (serviceClass.getName().equals(service.service.getClassName())) {
+
+                    return true;
+                }
+            }
+
+            return false;
+
+        } catch (Exception ex) {
+            Log.appendLog(getClass().getName() + "->" + getClass().getEnclosingMethod().getName());
+            throw ex;
+        }
     }
 
 }

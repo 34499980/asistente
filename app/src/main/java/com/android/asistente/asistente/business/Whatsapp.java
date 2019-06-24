@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
 
 public class Whatsapp extends AppCompatActivity{
@@ -28,15 +29,22 @@ public class Whatsapp extends AppCompatActivity{
 
         }catch(Exception ex){
             Toast.makeText(this, "No se pudo enviar el whatsapp", Toast.LENGTH_SHORT).show();
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
         }
     }
     public String ProcesarDatosEntrada(String value){
-        String result="";
-        if(value.toLowerCase().contains("whatsapp a")){
-            result = value.substring(value.toLowerCase().indexOf("whatsapp a")+11);
-        }else{
-            result = value;
+        String result = "";
+        try {
+
+            if (value.toLowerCase().contains("whatsapp a")) {
+                result = value.substring(value.toLowerCase().indexOf("whatsapp a") + 11);
+            } else {
+                result = value;
+            }
+            return result;
+        }catch(Exception ex){
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            return result;
         }
-        return result;
     }
 }
