@@ -36,6 +36,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     @Override
     public int onStartCommand(Intent intente, int flag,int idProcess){
         super.onStartCommand(intente, flag, idProcess);
+       // Log.appendLog("asistenteSrvice"+"->"+"onStartComand");
         MainActivity.bActive = true;
 
         try {
@@ -57,10 +58,10 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     public void onDestroy(){
         try {
             Toast.makeText(this, "Servicio detenido", Toast.LENGTH_SHORT).show();
-            Intent broadcastIntent = new Intent();
+          /*  Intent broadcastIntent = new Intent();
             broadcastIntent.setAction("restartservice");
             broadcastIntent.setClass(this, Restarter.class);
-            this.sendBroadcast(broadcastIntent);
+            this.sendBroadcast(broadcastIntent);*/
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
         }
