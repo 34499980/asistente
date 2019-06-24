@@ -12,6 +12,8 @@ import com.android.asistente.asistente.MainActivity;
 public class Whatsapp extends AppCompatActivity{
     public void SendMessageTo(String contact, String message){
         try{
+            contact = contact.trim();
+            contact =contact.substring(0,2).equals("549") ? contact.substring(3,contact.length()): contact;
             String url = "https://api.whatsapp.com/send?phone=+549" + ""+contact+"&text="+message;
             PackageManager pm = MainActivity.getContext().getPackageManager();
             pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
