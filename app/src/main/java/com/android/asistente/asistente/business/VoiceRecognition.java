@@ -182,7 +182,17 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             if (letters != null) {
                 switch (letters) {
                     case "tiempo":
-                        speech.speek(Time.getHoursAndMinutes());
+                        Time time = Time.getInstance();
+                        if(matches.get(0).toLowerCase().indexOf("hora") > -1) {
+                            speech.speek(Time.getHoursAndMinutes());
+                        }else if (matches.get(0).toLowerCase().indexOf("temperatura") > -1){
+                            time.getTemperatureNow();
+                            int loops= 0;
+                            while(Time.temperature == -999 && loops < 100){
+
+                            }
+                            speech.speek("Hay "+ String.valueOf(Time.temperature) + " grados");
+                        }
                         CancelAction();
                         break;
                     case "ExternalApp":
@@ -313,7 +323,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
         try {
             if (matches.get(0).toLowerCase().indexOf("volumen") > -1) {
                 letters = "volumen";
-            } else if (matches.get(0).toLowerCase().indexOf("qué hora es") > -1) {
+            } else if (matches.get(0).toLowerCase().indexOf("qué hora es") > -1 ||  matches.get(0).toLowerCase().indexOf("temperatura") > -1){
                 letters = "tiempo";
             } else if (matches.get(0).toLowerCase().contains("enviar whatsapp") || matches.get(0).toLowerCase().contains("enviar un whatsapp")) {
                 letters = "whatsapp";

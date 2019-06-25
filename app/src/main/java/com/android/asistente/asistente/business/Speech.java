@@ -12,7 +12,8 @@ import java.util.Locale;
 public class Speech extends Activity{
     private TextToSpeech tts;
     public static boolean bSpeaking;
-    public void speech(){
+
+    private void speech(){
         try {
              tts = new TextToSpeech(MainActivity.getContext(), new TextToSpeech.OnInitListener() {
                 @Override
