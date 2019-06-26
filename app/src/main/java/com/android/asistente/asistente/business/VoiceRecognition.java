@@ -182,16 +182,12 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             if (letters != null) {
                 switch (letters) {
                     case "tiempo":
-                        Time time = Time.getInstance();
+
                         if(matches.get(0).toLowerCase().indexOf("hora") > -1) {
                             speech.speek(Time.getHoursAndMinutes());
                         }else if (matches.get(0).toLowerCase().indexOf("temperatura") > -1){
-                            time.getTemperatureNow();
-                            int loops= 0;
-                            while(Time.temperature == -999 && loops < 100){
 
-                            }
-                            speech.speek("Hay "+ String.valueOf(Time.temperature) + " grados");
+                            speech.speek("Hay "+ String.valueOf(Time.temperature) + " grados y el cielo se encuentra " + Time.sky);
                         }
                         CancelAction();
                         break;

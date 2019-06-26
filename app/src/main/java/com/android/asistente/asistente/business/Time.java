@@ -27,6 +27,7 @@ public class Time {
     private static Time instance = null;
     private static String OPEN_WEATHER_MAP_API = "cbfdb21fa1793c10b14b6b6d00fbef03";
     public static int temperature = -999;
+    public static String sky;
     private Time(){};
 
     static Dictionary result = new Hashtable();
@@ -138,8 +139,13 @@ public class Time {
                     DateFormat df = DateFormat.getDateTimeInstance();
 
                     // cityField.setText(json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country"));
-                    //detailsField.setText(details.getString("description").toUpperCase(Locale.US));
-                    temperature = Integer.parseInt(String.format("%.2f", main.getDouble("temp")));
+                    switch (details.getString("description").toLowerCase()){
+                        case "clear sky":
+                            sky = "despejado";
+                            break;
+                    }
+                    temperature = Integer.parseInt( main.getString("temp").substring(0,main.getString("temp").indexOf(".")));
+
                     // humidity_field.setText("Humidity: " + main.getString("humidity") + "%");
                     // pressure_field.setText("Pressure: " + main.getString("pressure") + " hPa");
                     // updatedField.setText(df.format(new Date(json.getLong("dt") * 1000)));
