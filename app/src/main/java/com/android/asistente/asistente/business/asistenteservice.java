@@ -1,6 +1,7 @@
 package com.android.asistente.asistente.business;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
@@ -19,8 +20,10 @@ import java.util.TimerTask;
 public class asistenteservice extends Service implements TextToSpeech.OnInitListener {
     Timer timerObj=null;
      TimerTask timerTaskObj=null;
-    VoiceRecognition  voice  = new VoiceRecognition();
+    static VoiceRecognition  voice  = new VoiceRecognition();
     static ArrayList<String> matches;
+    static Context context;
+
 
     @Nullable
     @Override
@@ -38,6 +41,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         super.onStartCommand(intente, flag, idProcess);
        // Log.appendLog("asistenteSrvice"+"->"+"onStartComand");
         MainActivity.bActive = true;
+        context = getApplicationContext();
 
         try {
 
@@ -115,5 +119,12 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         }
 
         }
+    public static  Context getContext(){
+         return context;
+        }
+    public static void startVoice(){
+        voice.InitSpeech();
+        voice.StartvoiceListening();
+    }
 
 }

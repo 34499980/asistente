@@ -18,6 +18,7 @@ import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
 import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
+import com.android.asistente.asistente.business.asistenteservice;
 
 import java.util.Dictionary;
 
@@ -52,10 +53,11 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         if(intent.getAction().equals(CLICK_ACTION) && MainActivity.bActive){
             try {
                 if(!VoiceRecognition.listening) {
+                    asistenteservice.startVoice();
 
-                    voice.InitSpeech();
+                   /* voice.InitSpeech();
                     voice.StartvoiceListening();
-                    Toast.makeText(context, "Listening...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Listening...", Toast.LENGTH_SHORT).show();*/
                 }
             }catch(Exception ex){
                 Toast.makeText(context,ex.getMessage(),Toast.LENGTH_SHORT).show();
