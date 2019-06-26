@@ -63,8 +63,12 @@ public class Time {
     }
 
     public  void getTemperatureNow(){
-        DownloadWeather weather = new DownloadWeather();
-        weather.execute("QUILMES");
+        try {
+            DownloadWeather weather = new DownloadWeather();
+            weather.execute("QUILMES");
+        }catch(Exception ex){
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+        }
     }
     private static  String excuteGet(String targetURL) {
         URL url;
@@ -95,6 +99,7 @@ public class Time {
             rd.close();
             return response.toString();
         } catch (Exception e) {
+            Log.appendLog(Time.class.getName()+"->"+ Time.class.getEnclosingMethod().getName());
             return null;
         } finally {
             if(connection != null) {
