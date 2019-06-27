@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.JobIntentService;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
@@ -17,7 +19,7 @@ import java.util.Dictionary;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class asistenteservice extends Service implements TextToSpeech.OnInitListener {
+public class asistenteservice extends JobIntentService implements TextToSpeech.OnInitListener {
     Timer timerObj=null;
      TimerTask timerTaskObj=null;
     static VoiceRecognition  voice  = new VoiceRecognition();
@@ -72,6 +74,14 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
         }
 
+    }
+
+    @Override
+    protected void onHandleWork(@NonNull Intent intent) {
+        MainActivity.bActive = true;
+        context = getApplicationContext();
+        Time time = Time.getInstance();
+        time.getTemperatureNow();
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.android.asistente.asistente;
 
 import android.app.ActivityManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -123,7 +126,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bActive = true;
                 NotificationService.bNotify = true;
                 startService(new Intent(this, NotificationService.class));
-                startService(new Intent(this, asistenteservice.class));
+               // startService(new Intent(this, asistenteservice.class));
+                JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                ComponentName componentName = new ComponentName(MainActivity.this,asistenteservice.class);
+                JobInfo.Builder jobInfo = new JobInfo.Builder(101, componentName).setPeriodic(2000);
+                jobScheduler.schedule(jobInfo.build());
                 break;
             case R.id.btnStopService:
                 bActive = false;
