@@ -14,7 +14,7 @@ int val;
     public void setVolumen(int Volumen){
         try {
             val=(Volumen * 15) / 100;
-            AudioManager audioManager = (AudioManager) MainActivity.getContext().getSystemService(Context.AUDIO_SERVICE);
+            AudioManager audioManager = (AudioManager) asistenteservice.getContext().getSystemService(Context.AUDIO_SERVICE);
             audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, val, 0);
         }catch (Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
@@ -24,7 +24,7 @@ int val;
     public void setMusicVolumen(int Volumen){
         try {
             val=(Volumen * 15) / 100;
-            AudioManager audioManager = (AudioManager) MainActivity.getContext().getSystemService(Context.AUDIO_SERVICE);
+            AudioManager audioManager = (AudioManager) asistenteservice.getContext().getSystemService(Context.AUDIO_SERVICE);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, val, 0);
         }catch (Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());

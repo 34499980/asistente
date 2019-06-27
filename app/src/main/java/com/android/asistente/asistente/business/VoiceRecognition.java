@@ -66,6 +66,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     }
 
     public void StartvoiceListening(){
+       // Log.appendLog("StartvoiceListening inicio");
         listening = true;
       //  sound.setMusicVolumen(0);
 
@@ -119,7 +120,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onResults(Bundle data) {
-
+                        Log.appendLog("onResults inicio");
                       //  sound.setMusicVolumen(70);
                         matches = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                         listening=false;
@@ -148,6 +149,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             VoiceRecognition.matches = null;
 
                         }
+                        Log.appendLog("onResults Fin");
                         StartvoiceListening();
                     }
 
@@ -169,7 +171,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
             listening = true;
 
-
+         //   Log.appendLog("StartvoiceListening Fin");
 
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
@@ -220,13 +222,13 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                                     speech.speek("Seleccione uno de los contactos");
                                     if (!listContacts.isEmpty()) {
-                                        Intent t = new Intent(MainActivity.getContext(), ListContacts.class);
+                                        Intent t = new Intent(asistenteservice.getContext(), ListContacts.class);
                                         General.list = listContacts;
-                                        MainActivity.getContext().startActivity(t);
+                                        asistenteservice.getContext().startActivity(t);
                                     }
                                 } catch (Exception ex) {
                                     Log.appendLog(ex.getMessage());
-                                    Toast.makeText(MainActivity.getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(asistenteservice.getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 appName = ((Phone) listContacts.get(0)).number;
@@ -271,14 +273,14 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                     bSelectContac = true;
                                     speech.speek("Seleccione uno de los contactos");
                                     if (!listContacts.isEmpty()) {
-                                        Intent t = new Intent(MainActivity.getContext(), ListContacts.class);
+                                        Intent t = new Intent(asistenteservice.getContext(), ListContacts.class);
                                         General.list = listContacts;
-                                        MainActivity.getContext().startActivity(t);
+                                        asistenteservice.getContext().startActivity(t);
                                     }
                                 } catch (Exception ex) {
                                     Log.appendLog(ex.getMessage());
                                     CancelAction();
-                                    Toast.makeText(MainActivity.getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(asistenteservice.getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -342,14 +344,15 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     }
     public  void InitSpeech() {
         try {
-
+        //    Log.appendLog("InitSpeech inicio");
             if(voice == null) {
-                voice = SpeechRecognizer.createSpeechRecognizer(MainActivity.getContext());
+                voice = SpeechRecognizer.createSpeechRecognizer(asistenteservice.getContext());
             }
             intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
             intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                    MainActivity.getContext().getPackageName());
+                    asistenteservice.getContext().getPackageName());
+       //     Log.appendLog("InitSpeech Fin");
 
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());

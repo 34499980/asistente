@@ -19,12 +19,13 @@ import java.util.Dictionary;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class asistenteservice extends JobIntentService implements TextToSpeech.OnInitListener {
+public class asistenteservice extends Service implements TextToSpeech.OnInitListener {
     Timer timerObj=null;
      TimerTask timerTaskObj=null;
     static VoiceRecognition  voice  = new VoiceRecognition();
     static ArrayList<String> matches;
     static Context context;
+
 
 
     @Nullable
@@ -35,7 +36,7 @@ public class asistenteservice extends JobIntentService implements TextToSpeech.O
     }
     @Override
     public void onCreate(){
-
+        super.onCreate();
     }
 
     @Override
@@ -66,23 +67,23 @@ public class asistenteservice extends JobIntentService implements TextToSpeech.O
     public void onDestroy(){
         try {
            // Toast.makeText(this, "Servicio detenido", Toast.LENGTH_SHORT).show();
-           /* Intent broadcastIntent = new Intent();
+            Intent broadcastIntent = new Intent();
             broadcastIntent.setAction("restartservice");
             broadcastIntent.setClass(this, Restarter.class);
-            this.sendBroadcast(broadcastIntent);*/
+            this.sendBroadcast(broadcastIntent);
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
         }
 
     }
 
-    @Override
+  /*  @Override
     protected void onHandleWork(@NonNull Intent intent) {
         MainActivity.bActive = true;
         context = getApplicationContext();
         Time time = Time.getInstance();
         time.getTemperatureNow();
-    }
+    }*/
 
     @Override
     public void onInit(int i) {
@@ -135,8 +136,10 @@ public class asistenteservice extends JobIntentService implements TextToSpeech.O
          return context;
         }
     public static void startVoice(){
+      //  Log.appendLog("startVoice inicio");
         voice.InitSpeech();
         voice.StartvoiceListening();
+      //  Log.appendLog("startVoice fin");
     }
 
 }

@@ -11,7 +11,7 @@ public class Camera{
     public static void OpenCammera() {
         try {
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-            startActivity(MainActivity.getContext(), intent, null);
+            startActivity(asistenteservice.getContext(), intent, null);
         }catch(Exception ex){
             Log.appendLog(Camera.class.getName()+"->"+ Camera.class.getEnclosingMethod().getName());
             throw ex;

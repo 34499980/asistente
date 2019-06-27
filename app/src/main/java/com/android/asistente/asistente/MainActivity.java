@@ -94,9 +94,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void CargarComponentes() {
         try {
+           // new asistenteservice();
+            //startService(new Intent(this, asistenteservice.class));
             shape = new GradientDrawable();
             shape.setCornerRadius(90);
-            speech.speek("Iniciando");
+           // speech.speek("Iniciando");
             shape.setColor(Color.parseColor("#81c784"));
 
 
@@ -122,15 +124,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
         switch (view.getId()){
             case R.id.btnStartService:
-                speech.speek("Servicio Iniciado");
+
                 bActive = true;
                 NotificationService.bNotify = true;
                 startService(new Intent(this, NotificationService.class));
-               // startService(new Intent(this, asistenteservice.class));
-                JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                startService(new Intent(this, asistenteservice.class));
+                speech.speek("Servicio Iniciado");
+               /* JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
                 ComponentName componentName = new ComponentName(MainActivity.this,asistenteservice.class);
                 JobInfo.Builder jobInfo = new JobInfo.Builder(101, componentName).setPeriodic(2000);
-                jobScheduler.schedule(jobInfo.build());
+                jobScheduler.schedule(jobInfo.build());*/
                 break;
             case R.id.btnStopService:
                 bActive = false;

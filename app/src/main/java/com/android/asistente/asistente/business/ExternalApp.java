@@ -16,7 +16,7 @@ public class ExternalApp extends AppCompatActivity {
             ResolveInfo app = null;
             Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            List<ResolveInfo> pkgAppsList = MainActivity.getContext().getPackageManager().queryIntentActivities(mainIntent, 0);
+            List<ResolveInfo> pkgAppsList = asistenteservice.getContext().getPackageManager().queryIntentActivities(mainIntent, 0);
             for (ResolveInfo item : pkgAppsList) {
                 if (item.activityInfo.packageName.toLowerCase().contains(appName.trim())) {
                     app = item;
@@ -53,8 +53,8 @@ public class ExternalApp extends AppCompatActivity {
     public void startApp(ResolveInfo app){
         try {
             if(app != null) {
-                Intent launchIntent = MainActivity.getContext().getPackageManager().getLaunchIntentForPackage(app.activityInfo.packageName);
-                MainActivity.getContext().startActivity(launchIntent);
+                Intent launchIntent = asistenteservice.getContext().getPackageManager().getLaunchIntentForPackage(app.activityInfo.packageName);
+                asistenteservice.getContext().startActivity(launchIntent);
             }
         }catch(Exception ex){
             Toast.makeText(this, "No se pudo abrir la app", Toast.LENGTH_SHORT).show();

@@ -14,7 +14,7 @@ public class Call extends AppCompatActivity {
             if(number!="") {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 callIntent.setData(Uri.parse("tel: +549" + number));
-                MainActivity.getContext().startActivity(callIntent);
+                asistenteservice.getContext().startActivity(callIntent);
             }
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());

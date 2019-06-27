@@ -15,13 +15,13 @@ public class Whatsapp extends AppCompatActivity{
             contact = contact.trim();
             contact =contact.substring(0,5).equals("+54 9") ? contact.substring(5,contact.length()): contact;
             String url = "https://api.whatsapp.com/send?phone=+549" + ""+contact+"&text="+message;
-            PackageManager pm = MainActivity.getContext().getPackageManager();
+            PackageManager pm = asistenteservice.getContext().getPackageManager();
             pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
             Intent i = new Intent(Intent.ACTION_VIEW);
             i .setType("text/plain");
             i.putExtra(Intent.EXTRA_TEXT, message);
             i.setData(Uri.parse(url));
-            MainActivity.getContext().startActivity(i);
+            asistenteservice.getContext().startActivity(i);
            /* Uri uri = Uri.parse("smsto:" + contact);
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
             sendIntent.putExtra(Intent.EXTRA_TEXT, message);

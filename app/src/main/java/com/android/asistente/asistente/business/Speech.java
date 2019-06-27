@@ -15,7 +15,8 @@ public class Speech extends Activity{
 
     private void speech(){
         try {
-             tts = new TextToSpeech(MainActivity.getContext(), new TextToSpeech.OnInitListener() {
+
+             tts = new TextToSpeech( MainActivity.getContext(), new TextToSpeech.OnInitListener() {
                 @Override
                 public void onInit(int status) {
                     if (status != TextToSpeech.SUCCESS) {
@@ -31,6 +32,7 @@ public class Speech extends Activity{
         }
     }
 public void speek(String text){
+    Log.appendLog("speek inicio->"+text);
         try {
             if (tts == null) {
                 speech();
@@ -39,6 +41,7 @@ public void speek(String text){
             while (tts.isSpeaking()) {
                 bSpeaking = true;
             }
+            Log.appendLog("onResults Fin");
             bSpeaking = false;
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());

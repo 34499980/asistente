@@ -25,7 +25,7 @@ public class Contacts extends AppCompatActivity {
             String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                     ContactsContract.CommonDataKinds.Phone.NUMBER};
 
-            Cursor people = MainActivity.getContext().getContentResolver().query(uri, projection, null, null, null);
+            Cursor people = asistenteservice.getContext().getContentResolver().query(uri, projection, null, null, null);
             //Prueba contactos
             //ContentResolver cr = MainActivity.getContext().getContentResolver();
             //Cursor people = cr.query(ContactsContract.Contacts.CONTENT_URI, null,
