@@ -187,7 +187,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             speech.speek(Time.getHoursAndMinutes());
                         }else if (matches.get(0).toLowerCase().indexOf("temperatura") > -1){
 
-                            speech.speek("Hay "+ String.valueOf(Time.temperature) + " grados y el cielo se encuentra " + Time.sky);
+                            speech.speek("Hay "+ String.valueOf(Time.temperature) + " grados " + Time.sky);
                         }
                         CancelAction();
                         break;

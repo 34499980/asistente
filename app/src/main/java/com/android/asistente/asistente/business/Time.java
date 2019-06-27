@@ -66,7 +66,7 @@ public class Time {
     public  void getTemperatureNow(){
         try {
             DownloadWeather weather = new DownloadWeather();
-            weather.execute("QUILMES");
+            weather.execute("Buenos Aires,AR");
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
         }
@@ -141,7 +141,31 @@ public class Time {
                     // cityField.setText(json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country"));
                     switch (details.getString("description").toLowerCase()){
                         case "clear sky":
-                            sky = "despejado";
+                            sky = "y el cielo se encuentra despejado";
+                            break;
+                        case "few clouds":
+                            sky = "y el cielo se encuentra nublado";
+                            break;
+                        case "scattered clouds":
+                            sky = "y el cielo se encuentra algo nublado";
+                            break;
+                        case "broken clouds":
+                            sky = "y el cielo se encuentra algo nublado";
+                            break;
+                        case "shower rain":
+                            sky = "y esta lloviendo";
+                            break;
+                        case "rain":
+                            sky = "y esta lloviendo";
+                            break;
+                        case "thunderstorm":
+                            sky = "y hay tormenta electrica";
+                            break;
+                        case "snow":
+                            sky = "y esta nevando";
+                            break;
+                        case "mist":
+                            sky = "y hay niebla";
                             break;
                     }
                     temperature = Integer.parseInt( main.getString("temp").substring(0,main.getString("temp").indexOf(".")));
