@@ -15,6 +15,9 @@ public class Speech extends Activity{
 
     private void speech(){
         try {
+            if (MainActivity.getContext() == null){
+                new MainActivity();
+            }
 
              tts = new TextToSpeech( MainActivity.getContext(), new TextToSpeech.OnInitListener() {
                 @Override
