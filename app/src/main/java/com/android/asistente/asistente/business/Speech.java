@@ -11,15 +11,18 @@ import java.util.Locale;
 
 public class Speech extends Activity{
     private TextToSpeech tts;
+    MainActivity main = null;
     public static boolean bSpeaking;
 
     private void speech(){
         try {
-            if (MainActivity.getContext() == null){
-                new MainActivity();
+            if (main == null){
+
+               main = new MainActivity();
+                Log.appendLog("Crea Main");
             }
 
-             tts = new TextToSpeech( MainActivity.getContext(), new TextToSpeech.OnInitListener() {
+             tts = new TextToSpeech( main.getNotStaticContext(), new TextToSpeech.OnInitListener() {
                 @Override
                 public void onInit(int status) {
                     if (status != TextToSpeech.SUCCESS) {
@@ -30,7 +33,7 @@ public class Speech extends Activity{
            // speek("Servicio iniciado");
 
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName()+"->"+ex.getMessage());
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }

@@ -155,6 +155,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+    public  Context getNotStaticContext(){
+        return this;
+    }
     public static Context getContext(){
         return context;
     }
