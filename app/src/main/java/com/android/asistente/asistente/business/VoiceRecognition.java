@@ -41,7 +41,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     public static boolean  bFlag= false;
     boolean bConfirm = false;
     public static boolean bSelectContac = false;
-    final Speech speech = new Speech();
+    //final Speech speech = new Speech();
     Sound sound = new Sound();
     public static String appName = "";
     String message;
@@ -120,14 +120,14 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onResults(Bundle data) {
-                        Log.appendLog("onResults inicio");
+                    //    Log.appendLog("onResults inicio");
                       //  sound.setMusicVolumen(70);
                         matches = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                         listening=false;
                         if (matches != null) {
 
                             if (matches.get(0).toLowerCase().equals("hola")) {
-                                    speech.speek("En que lo puedo ayudar");
+                                    TTSService.speak("En que lo puedo ayudar");
                             } else if(matches.get(0).toLowerCase().indexOf("cancelar acción") > -1){
                                 CancelAction();
                             }else if(matches.get(0).toLowerCase().indexOf("desactivar servicio") > -1) {
@@ -149,7 +149,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             VoiceRecognition.matches = null;
 
                         }
-                        Log.appendLog("onResults Fin");
+                      //  Log.appendLog("onResults Fin");
                         StartvoiceListening();
                     }
 
@@ -186,10 +186,10 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     case "tiempo":
 
                         if(matches.get(0).toLowerCase().indexOf("hora") > -1) {
-                            speech.speek(Time.getHoursAndMinutes());
+                            TTSService.speak(Time.getHoursAndMinutes());
                         }else if (matches.get(0).toLowerCase().indexOf("temperatura") > -1){
 
-                            speech.speek("Hay "+ String.valueOf(Time.temperature) + " grados " + Time.sky);
+                            TTSService.speak("Hay "+ String.valueOf(Time.temperature) + " grados " + Time.sky);
                         }
                         CancelAction();
                         break;
@@ -209,18 +209,18 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             }
                             if (listContacts.isEmpty()) {
                                 if (countSearch < 3) {
-                                    speech.speek("a quien desea enviar mensaje");
+                                    TTSService.speak("a quien desea enviar mensaje");
                                     appName = "";
                                     countSearch++;
                                 } else {
-                                    speech.speek("No se pudo encontrar el contacto. Busquelo manualmente.");
+                                    TTSService.speak("No se pudo encontrar el contacto. Busquelo manualmente.");
                                     CancelAction();
                                 }
                             } else if (listContacts.size() > 1) {
 
                                 try {
 
-                                    speech.speek("Seleccione uno de los contactos");
+                                    TTSService.speak("Seleccione uno de los contactos");
                                     if (!listContacts.isEmpty()) {
                                         Intent t = new Intent(asistenteservice.getContext(), ListContacts.class);
                                         General.list = listContacts;
@@ -233,13 +233,13 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             } else {
                                 appName = ((Phone) listContacts.get(0)).number;
                                 bFlag = true;
-                                speech.speek("que mensaje desea enviar");
+                                TTSService.speak("que mensaje desea enviar");
                             }
                         } else {
 
                             if (message == null && !bConfirm) {
                                 message = matches.get(0);
-                                speech.speek("Desea enviar el mensaje");
+                                TTSService.speak("Desea enviar el mensaje");
                             } else {
                                 if (matches.get(0).toLowerCase().equals("sí") || matches.get(0).toLowerCase().equals("enviar")) {
                                     whatsapp.SendMessageTo(appName, message);
@@ -271,7 +271,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 try {
                                     bFlag = true;
                                     bSelectContac = true;
-                                    speech.speek("Seleccione uno de los contactos");
+                                    TTSService.speak("Seleccione uno de los contactos");
                                     if (!listContacts.isEmpty()) {
                                         Intent t = new Intent(asistenteservice.getContext(), ListContacts.class);
                                         General.list = listContacts;
@@ -303,15 +303,15 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                             sound.setVolumen(volume);
                         }
-                        speech.speek("El volumen se encuentra en " + String.valueOf(volume) + " porciento");
+                        TTSService.speak("El volumen se encuentra en " + String.valueOf(volume) + " porciento");
                         CancelAction();
                         break;
                     default:
-                        speech.speek("Lo siento, no tengo una respuesta");
+                        TTSService.speak("Lo siento, no tengo una respuesta");
                         break;
                 }
             } else {
-                speech.speek("Lo siento, no tengo una respuesta");
+                TTSService.speak("Lo siento, no tengo una respuesta");
             }
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());

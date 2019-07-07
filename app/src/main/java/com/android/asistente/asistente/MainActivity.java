@@ -20,7 +20,8 @@ import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.business.NotificationService;
-import com.android.asistente.asistente.business.Speech;
+//import com.android.asistente.asistente.business;
+import com.android.asistente.asistente.business.TTSService;
 import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
 import com.android.asistente.asistente.business.asistenteservice;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
    public static Button btnStartService, btnStopService;
     Button btHablar;
     static Context context;
-    Speech speech = new Speech();
+    //TTSService speech = TTSService.getInstance();
     GradientDrawable shape;
     VoiceRecognition voice = new VoiceRecognition();
     Timer timerObj ;
@@ -129,7 +130,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 NotificationService.bNotify = true;
                 startService(new Intent(this, NotificationService.class));
                 startService(new Intent(this, asistenteservice.class));
-                speech.speek("Servicio Iniciado");
+                startService(new Intent(this, TTSService.class));
+
+                TTSService.speak("Servicio Iniciado");
                /* JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
                 ComponentName componentName = new ComponentName(MainActivity.this,asistenteservice.class);
                 JobInfo.Builder jobInfo = new JobInfo.Builder(101, componentName).setPeriodic(2000);
@@ -137,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnStopService:
                 bActive = false;
-                speech.speek("Servicio detenido");
+                TTSService.speak("Servicio detenido");
                 NotificationService.bNotify=false;
                 stopService(new Intent(this,NotificationService.class));
                 stopService(new Intent(this,asistenteservice.class));
@@ -176,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }*/
 
-                    if(voice.listening || Speech.bSpeaking){
+                    if(voice.listening ||  TTSService.bSpeaking){
                         shape.setColor(Color.parseColor("#ef5350"));//Color rojo
                         if(voice.getMatches()==null) {
                             countTimer++;
@@ -184,10 +187,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if(countTimer==3){
                             countTimer=0;
                          voice.listening=false;
-                         //buttonWidget.performClick();
+
                         }
                     }else{
+                        try {
+                         //   buttonWidget.performClick();
+                        }catch(Exception ex){
 
+                        }
                         shape.setColor(Color.parseColor("#81c784"));//Color verde
 
                     }
