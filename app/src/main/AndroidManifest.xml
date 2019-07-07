@@ -28,6 +28,15 @@
                 <action android:name="restartservice" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".business.RestarterTTS"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="restartservice" />
+            </intent-filter>
+        </receiver>
+
 
         <service
             android:enabled="true"
