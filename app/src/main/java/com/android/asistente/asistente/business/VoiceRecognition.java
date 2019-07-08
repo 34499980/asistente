@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Entities.Phone;
+import com.android.asistente.asistente.Entities.Weather;
 import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.ListContacts;
@@ -184,12 +185,17 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             if (letters != null) {
                 switch (letters) {
                     case "tiempo":
+                        Weather weather = Weather.getInstance();
 
                         if(matches.get(0).toLowerCase().indexOf("hora") > -1) {
                             TTSService.speak(Time.getHoursAndMinutes());
                         }else if (matches.get(0).toLowerCase().indexOf("temperatura") > -1){
 
-                            TTSService.speak("Hay "+ String.valueOf(Time.temperature) + " grados " + Time.sky);
+                            TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados " +weather.sky);
+                        }else  if (matches.get(0).toLowerCase().indexOf("clima") > -1){
+                            TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados. Se espera "+
+                                    weather.min+ " de minima y "+ weather.max + "de maximo. Con una humedad de "+
+                                    weather.humidity +" porciento "  +weather.sky);
                         }
                         CancelAction();
                         break;

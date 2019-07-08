@@ -5,6 +5,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.asistente.asistente.Entities.Weather;
 import com.android.asistente.asistente.Helper.Log;
 
 import org.json.JSONException;
@@ -29,12 +30,14 @@ public class Time {
     public static int temperature = -999;
     public static String sky;
     private Time(){};
+    private static Weather weather;
 
     static Dictionary result = new Hashtable();
     public static Time getInstance(){
         if (instance == null){
             instance = new Time();
         }
+        weather = Weather.getInstance();
         return  instance;
     }
 
@@ -141,35 +144,38 @@ public class Time {
                     // cityField.setText(json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country"));
                     switch (details.getString("description").toLowerCase()){
                         case "clear sky":
-                            sky = "y el cielo se encuentra despejado";
+                            weather.sky = "y el cielo se encuentra despejado";
                             break;
                         case "few clouds":
-                            sky = "y el cielo se encuentra nublado";
+                            weather.sky = "y el cielo se encuentra nublado";
                             break;
                         case "scattered clouds":
-                            sky = "y el cielo se encuentra algo nublado";
+                            weather.sky = "y el cielo se encuentra algo nublado";
                             break;
                         case "broken clouds":
-                            sky = "y el cielo se encuentra algo nublado";
+                            weather.sky = "y el cielo se encuentra algo nublado";
                             break;
                         case "shower rain":
-                            sky = "y esta lloviendo";
+                            weather.sky = "y esta lloviendo";
                             break;
                         case "rain":
-                            sky = "y esta lloviendo";
+                            weather.sky = "y esta lloviendo";
                             break;
                         case "thunderstorm":
-                            sky = "y hay tormenta electrica";
+                            weather.sky = "y hay tormenta electrica";
                             break;
                         case "snow":
-                            sky = "y esta nevando";
+                            weather.sky = "y esta nevando";
                             break;
                         case "mist":
-                            sky = "y hay niebla";
+                            weather.sky = "y hay niebla";
                             break;
                     }
-                    temperature = Integer.parseInt( main.getString("temp").substring(0,main.getString("temp").indexOf(".")));
-
+                    weather.temperature = Integer.parseInt( main.getString("temp").substring(0,main.getString("temp").indexOf(".")));
+                    weather.min = details.getString("temp_min").toLowerCase();
+                    weather.max = details.getString("temp_max").toLowerCase();
+                    weather.pressure = details.getString("pressure").toLowerCase();
+                    weather.humidity = details.getString("humidity").toLowerCase();
                     // humidity_field.setText("Humidity: " + main.getString("humidity") + "%");
                     // pressure_field.setText("Pressure: " + main.getString("pressure") + " hPa");
                     // updatedField.setText(df.format(new Date(json.getLong("dt") * 1000)));
