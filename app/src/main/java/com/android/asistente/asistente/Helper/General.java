@@ -1,6 +1,7 @@
 package com.android.asistente.asistente.Helper;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -42,5 +43,14 @@ public class General extends Activity {
    limpio = Normalizer.normalize(limpio, Normalizer.Form.NFC).replace('k','c');
   }
   return limpio;
+ }
+ private boolean isMyServiceRunning(Class<?> serviceClass) {
+  ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+  for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+   if (serviceClass.getName().equals(service.service.getClassName())) {
+    return true;
+   }
+  }
+  return false;
  }
 }

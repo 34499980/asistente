@@ -194,7 +194,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados " +weather.sky);
                         }else  if (matches.get(0).toLowerCase().indexOf("clima") > -1){
                             TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados. Se espera "+
-                                    weather.min+ " de minima y "+ weather.max + "de maximo. Con una humedad de "+
+                                   weather.min+ " de mínima y "+ weather.max + "de máximo, con una humedad de "+
                                     weather.humidity +" porciento "  +weather.sky);
                         }
                         CancelAction();
@@ -327,7 +327,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
         try {
             if (matches.get(0).toLowerCase().indexOf("volumen") > -1) {
                 letters = "volumen";
-            } else if (matches.get(0).toLowerCase().indexOf("qué hora es") > -1 ||  matches.get(0).toLowerCase().indexOf("temperatura") > -1){
+            } else if (matches.get(0).toLowerCase().indexOf("qué hora es") > -1 ||  matches.get(0).toLowerCase().indexOf("temperatura") > -1||  matches.get(0).toLowerCase().indexOf("clima") > -1){
                 letters = "tiempo";
             } else if (matches.get(0).toLowerCase().contains("enviar whatsapp") || matches.get(0).toLowerCase().contains("enviar un whatsapp")) {
                 letters = "whatsapp";

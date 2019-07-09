@@ -6,8 +6,8 @@ public class Weather {
     public static String sky;
     public static String pressure;
     public static String humidity;
-    public static String min;
-    public static String max;
+    public static int min;
+    public static int max;
 
     private Weather(){
 

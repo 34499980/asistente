@@ -172,10 +172,12 @@ public class Time {
                             break;
                     }
                     weather.temperature = Integer.parseInt( main.getString("temp").substring(0,main.getString("temp").indexOf(".")));
-                    weather.min = details.getString("temp_min").toLowerCase();
-                    weather.max = details.getString("temp_max").toLowerCase();
-                    weather.pressure = details.getString("pressure").toLowerCase();
-                    weather.humidity = details.getString("humidity").toLowerCase();
+                    weather.min = Math.round(main.getLong("temp_min"));//.substring(0,main.getString("temp_min").indexOf(".")));
+
+                    weather.max = Math.round( main.getLong("temp_max"));//.substring(0,main.getString("temp_max").indexOf(".")));
+
+                    weather.pressure = main.getString("pressure").toLowerCase();
+                    weather.humidity = main.getString("humidity").toLowerCase();
                     // humidity_field.setText("Humidity: " + main.getString("humidity") + "%");
                     // pressure_field.setText("Pressure: " + main.getString("pressure") + " hPa");
                     // updatedField.setText(df.format(new Date(json.getLong("dt") * 1000)));
