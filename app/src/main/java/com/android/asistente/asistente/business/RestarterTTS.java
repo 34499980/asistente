@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 
 import com.android.asistente.asistente.Helper.Log;
+import com.android.asistente.asistente.MainActivity;
 
 public class RestarterTTS extends BroadcastReceiver {
     @Override
@@ -17,6 +18,7 @@ public class RestarterTTS extends BroadcastReceiver {
                 context.startForegroundService(new Intent(context, TTSService.class));
             } else {
                 context.startService(new Intent(context, TTSService.class));
+                MainActivity.bActive = true;
             }
           //  Toast.makeText(context, "Service restarted", Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {

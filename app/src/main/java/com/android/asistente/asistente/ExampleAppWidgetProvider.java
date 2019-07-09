@@ -52,7 +52,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        if(intent.getAction().equals(CLICK_ACTION)){
+        if(intent.getAction().equals(CLICK_ACTION) && MainActivity.bActive){
             try {
                /* General general = new General();
                 if(!general.isMyServiceRunning(asistenteservice.class)){
