@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.widget.Toast;
@@ -44,13 +45,22 @@ public class General extends Activity {
   }
   return limpio;
  }
- private boolean isMyServiceRunning(Class<?> serviceClass) {
-  ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-  for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-   if (serviceClass.getName().equals(service.service.getClassName())) {
-    return true;
-   }
-  }
-  return false;
+ public  boolean isMyServiceRunning(Class<?> serviceClass) {
+     try {
+         //ConnectivityManager manager = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+             if (serviceClass.getName().equals(service.service.getClassName())) {
+                 return true;
+             }
+         }
+         return false;
+     }catch(Exception ex){
+         Log.appendLog(ex.getMessage());
+         throw ex;
+     }
+ }
+ public void startService(Class<?> serviceClass){
+  startService(new Intent(this, serviceClass));
  }
 }

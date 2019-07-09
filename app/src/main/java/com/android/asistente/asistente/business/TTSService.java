@@ -172,7 +172,7 @@ public class TTSService extends Service {
         while (mTts.isSpeaking()) {
             bSpeaking = true;
         }
-        Log.appendLog("onResults Fin");
+       // Log.appendLog("onResults Fin");
         bSpeaking = false;
     }
 }

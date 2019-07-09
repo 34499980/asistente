@@ -13,9 +13,11 @@ import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
+import com.android.asistente.asistente.business.TTSService;
 import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
 import com.android.asistente.asistente.business.asistenteservice;
@@ -50,8 +52,16 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        if(intent.getAction().equals(CLICK_ACTION) && MainActivity.bActive){
+        if(intent.getAction().equals(CLICK_ACTION)){
             try {
+               /* General general = new General();
+                if(!general.isMyServiceRunning(asistenteservice.class)){
+                    general.startService(asistenteservice.class);
+
+                }*/
+              /*  if(!general.isMyServiceRunning(TTSService.class)){
+                    general.startService(TTSService.class);
+                }*/
                 if(!VoiceRecognition.listening) {
                     asistenteservice.startVoice();
 
