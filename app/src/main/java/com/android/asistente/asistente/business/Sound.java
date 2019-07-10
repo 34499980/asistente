@@ -4,7 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 
 import com.android.asistente.asistente.Helper.Log;
-import com.android.asistente.asistente.MainActivity;
+import com.android.asistente.asistente.Services.asistenteservice;
 
 public class Sound {
 int val;

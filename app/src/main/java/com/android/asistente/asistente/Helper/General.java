@@ -61,6 +61,7 @@ public class General extends Activity {
      }
  }
  public void startService(Class<?> serviceClass){
-  startService(new Intent(this, serviceClass));
+
+     startService(new Intent(this, serviceClass));
  }
 }

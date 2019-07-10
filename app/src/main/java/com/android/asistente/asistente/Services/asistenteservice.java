@@ -1,4 +1,4 @@
-package com.android.asistente.asistente.business;
+package com.android.asistente.asistente.Services;
 
 import android.app.Service;
 import android.content.Context;
@@ -6,25 +6,25 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.JobIntentService;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
+import com.android.asistente.asistente.business.Time;
+import com.android.asistente.asistente.business.VoiceRecognition;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class asistenteservice extends Service implements TextToSpeech.OnInitListener {
     Timer timerObj=null;
      TimerTask timerTaskObj=null;
-    static VoiceRecognition  voice  = new VoiceRecognition();
+    static VoiceRecognition voice  = new VoiceRecognition();
     static ArrayList<String> matches;
     static Context context;
+    public static boolean bActive;
 
 
 
@@ -43,7 +43,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     public int onStartCommand(Intent intente, int flag,int idProcess){
         super.onStartCommand(intente, flag, idProcess);
        // Log.appendLog("asistenteSrvice"+"->"+"onStartComand");
-        MainActivity.bActive = true;
+        bActive = true;
         context = getApplicationContext();
         Time time = Time.getInstance();
         time.getTemperatureNow();

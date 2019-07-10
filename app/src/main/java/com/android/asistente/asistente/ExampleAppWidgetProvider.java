@@ -5,24 +5,14 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
-import com.android.asistente.asistente.MainActivity;
-import com.android.asistente.asistente.R;
-import com.android.asistente.asistente.business.TTSService;
-import com.android.asistente.asistente.business.Time;
+import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.business.VoiceRecognition;
-import com.android.asistente.asistente.business.asistenteservice;
-
-import java.util.Dictionary;
+import com.android.asistente.asistente.Services.asistenteservice;
 
 public class ExampleAppWidgetProvider extends AppWidgetProvider {
     VoiceRecognition voice = new VoiceRecognition();
@@ -52,16 +42,17 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        if(intent.getAction().equals(CLICK_ACTION) && MainActivity.bActive){
+        if(intent.getAction().equals(CLICK_ACTION)){
             try {
-               /* General general = new General();
-                if(!general.isMyServiceRunning(asistenteservice.class)){
+                //Me fijo si estan activos los servicios
+                General general = new General();
+                if(!asistenteservice.bActive){
                     general.startService(asistenteservice.class);
 
-                }*/
-              /*  if(!general.isMyServiceRunning(TTSService.class)){
+                }
+                if(!TTSService.bActive){
                     general.startService(TTSService.class);
-                }*/
+                }
                 if(!VoiceRecognition.listening) {
                     asistenteservice.startVoice();
 

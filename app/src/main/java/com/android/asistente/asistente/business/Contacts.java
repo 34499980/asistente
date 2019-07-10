@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.android.asistente.asistente.Entities.Phone;
 import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
-import com.android.asistente.asistente.MainActivity;
+import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.util.ArrayList;
 

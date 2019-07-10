@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
-import com.android.asistente.asistente.MainActivity;
+import com.android.asistente.asistente.Services.asistenteservice;
 
 public class Whatsapp extends AppCompatActivity{
     public void SendMessageTo(String contact, String message){

@@ -1,4 +1,4 @@
-package com.android.asistente.asistente.business;
+package com.android.asistente.asistente.Services;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
@@ -15,6 +15,7 @@ import java.util.Map;
 
 public class NotificationService extends AccessibilityService {
 public static boolean bNotify;
+    public static boolean bActive;
 
 
     @Override

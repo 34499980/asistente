@@ -1,13 +1,10 @@
-package com.android.asistente.asistente.business;
+package com.android.asistente.asistente.Services;
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
@@ -75,6 +72,7 @@ public class TTSService extends Service {
     public static boolean bSpeaking;
     public static Context context;
     static TTSService instance = null;
+    public static boolean bActive;
 
 
     public static TTSService getInstance(){
@@ -104,7 +102,7 @@ public class TTSService extends Service {
                 }
             });
         }
-
+        bActive = true;
         super.onCreate();
     }
 

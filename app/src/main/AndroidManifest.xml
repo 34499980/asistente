@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
-            android:name=".business.Restarter"
+            android:name=".Services.Restarter"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -29,7 +29,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".business.RestarterTTS"
+            android:name=".Services.RestarterTTS"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -41,7 +41,7 @@
         <service
             android:enabled="true"
 
-            android:name=".business.asistenteservice"
+            android:name=".Services.asistenteservice"
             android:permission="android.permission.BIND_JOB_SERVICE"
            >
             <intent-filter>
@@ -75,7 +75,7 @@
             android:theme="@style/Theme.UserDialog"
             ></activity>
         <service
-            android:name=".business.NotificationService"
+            android:name=".Services.NotificationService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
@@ -88,7 +88,7 @@
         <service
             android:enabled="true"
 
-            android:name=".business.TTSService"
+            android:name=".Services.TTSService"
             android:permission="android.permission.BIND_JOB_SERVICE"
             >
             <intent-filter>

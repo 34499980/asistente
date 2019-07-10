@@ -1,9 +1,6 @@
 package com.android.asistente.asistente;
 
 import android.app.ActivityManager;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,14 +16,12 @@ import android.widget.Toast;
 
 
 import com.android.asistente.asistente.Helper.Log;
-import com.android.asistente.asistente.business.NotificationService;
+import com.android.asistente.asistente.Services.NotificationService;
 //import com.android.asistente.asistente.business;
-import com.android.asistente.asistente.business.TTSService;
-import com.android.asistente.asistente.business.Time;
+import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.business.VoiceRecognition;
-import com.android.asistente.asistente.business.asistenteservice;
+import com.android.asistente.asistente.Services.asistenteservice;
 
-import java.util.Dictionary;
 import java.util.Timer;
 import java.util.TimerTask;
 
