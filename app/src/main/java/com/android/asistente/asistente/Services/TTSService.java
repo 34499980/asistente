@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
@@ -172,5 +173,19 @@ public class TTSService extends Service {
         }
        // Log.appendLog("onResults Fin");
         bSpeaking = false;
+    }
+
+    public void allVoices(){
+        try{
+           // WritableArray voicesList = Arguments.createArray();
+            Voice[] array = mTts.getVoices().toArray(new Voice[mTts.getVoices().size()]);
+            for(Voice voice: array) {
+               // WritableMap newVoice = returnMapForVoice(voice);
+                //voicesList.pushMap(newVoice);
+               Voice algo = voice;
+            }
+        }catch(Exception ex){
+            Log.appendLog(ex.getMessage());
+        }
     }
 }
