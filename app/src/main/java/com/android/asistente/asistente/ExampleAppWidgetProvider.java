@@ -45,14 +45,14 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         if(intent.getAction().equals(CLICK_ACTION)){
             try {
                 //Me fijo si estan activos los servicios
-                General general = new General();
+               /* General general = new General();
                 if(!asistenteservice.bActive){
                     general.startService(asistenteservice.class);
 
                 }
                 if(!TTSService.bActive){
                     general.startService(TTSService.class);
-                }
+                }*/
                 if(!VoiceRecognition.listening) {
                     asistenteservice.startVoice();
 
