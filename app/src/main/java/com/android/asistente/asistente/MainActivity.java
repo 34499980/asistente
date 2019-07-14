@@ -1,6 +1,9 @@
 package com.android.asistente.asistente;
 
 import android.app.ActivityManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,7 +21,9 @@ import android.widget.Toast;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.NotificationService;
 //import com.android.asistente.asistente.business;
+import com.android.asistente.asistente.Services.TTSJobService;
 import com.android.asistente.asistente.Services.TTSService;
+import com.android.asistente.asistente.Services.asistenteJobService;
 import com.android.asistente.asistente.business.VoiceRecognition;
 import com.android.asistente.asistente.Services.asistenteservice;
 
@@ -124,10 +129,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bActive = true;
                 NotificationService.bNotify = true;
                 startService(new Intent(this, NotificationService.class));
-                startService(new Intent(this, asistenteservice.class));
-                startService(new Intent(this, TTSService.class));
+                ComponentName componentName =  new ComponentName(this,asistenteJobService.class);
+                JobInfo info = new JobInfo.Builder(123,componentName)
+                        .setPeriodic(1000)
+                        .setPersisted(true)
+                        .build();
+                JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                jobScheduler.schedule(info);
 
-                TTSService.speak("Servicio Iniciado");
+                ComponentName componentName2 =  new ComponentName(this,asistenteJobService.class);
+                JobInfo info2 = new JobInfo.Builder(123,componentName2)
+                        .setPeriodic(1000)
+                        .setPersisted(true)
+                        .build();
+                JobScheduler jobScheduler2 = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                jobScheduler2.schedule(info2);
+
+
+
+
+
+              //  startService(new Intent(this, asistenteservice.class));
+              //  startService(new Intent(this, TTSService.class));
+
+                TTSJobService.speak("Servicio Iniciado");
                /* JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
                 ComponentName componentName = new ComponentName(MainActivity.this,asistenteservice.class);
                 JobInfo.Builder jobInfo = new JobInfo.Builder(101, componentName).setPeriodic(2000);

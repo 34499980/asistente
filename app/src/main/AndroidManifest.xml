@@ -4,6 +4,7 @@
     package="com.android.asistente.asistente">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -96,7 +97,10 @@
                 <action android:name="com.myname.gridservice.IRemoteInterface" />
             </intent-filter>
         </service>
+    <service android:name=".Services.asistenteJobService"
+        android:permission="android.permission.BIND_JOB_SERVICE">
 
+    </service>
     </application>
 
 </manifest>

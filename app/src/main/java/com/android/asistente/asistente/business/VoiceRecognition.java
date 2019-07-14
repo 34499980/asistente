@@ -20,6 +20,7 @@ import com.android.asistente.asistente.ListContacts;
 import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
 import com.android.asistente.asistente.Services.TTSService;
+import com.android.asistente.asistente.Services.asistenteJobService;
 import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.io.Serializable;
@@ -352,12 +353,12 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
         try {
         //    Log.appendLog("InitSpeech inicio");
             if(voice == null) {
-                voice = SpeechRecognizer.createSpeechRecognizer(asistenteservice.getContext());
+                voice = SpeechRecognizer.createSpeechRecognizer(asistenteJobService.getContext());
             }
             intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
             intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                    asistenteservice.getContext().getPackageName());
+                    asistenteJobService.getContext().getPackageName());
        //     Log.appendLog("InitSpeech Fin");
 
         }catch(Exception ex){
