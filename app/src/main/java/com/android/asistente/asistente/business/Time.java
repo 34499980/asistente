@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,7 +50,7 @@ public class Time {
         String Day = String.valueOf(cal.get(Calendar.DAY_OF_WEEK));
         String Month = String.valueOf(cal.get(Calendar.MONTH)+1);
         String Year = String.valueOf(cal.get(Calendar.YEAR));
-        result.put("date",Day+"/"+Month+"/"+ Year);
+        result.put("date",new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
         result.put("day",Day);
         result.put("month",Month);
         result.put("year",Year);
