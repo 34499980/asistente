@@ -351,14 +351,16 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     }
     public  void InitSpeech() {
         try {
-        //    Log.appendLog("InitSpeech inicio");
+            asistenteservice asis=null;
+           Log.appendLog("InitSpeech inicio");
             if(voice == null) {
-                voice = SpeechRecognizer.createSpeechRecognizer(asistenteJobService.getContext());
+                asis =  new asistenteservice();
+                voice = SpeechRecognizer.createSpeechRecognizer(asis.getContext());
             }
             intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
             intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                    asistenteJobService.getContext().getPackageName());
+                    asis.getContext().getPackageName());
        //     Log.appendLog("InitSpeech Fin");
 
         }catch(Exception ex){

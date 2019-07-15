@@ -47,6 +47,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         context = getApplicationContext();
         Time time = Time.getInstance();
         time.getTemperatureNow();
+        startService(new Intent(this, TTSService.class));
 
         try {
 

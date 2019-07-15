@@ -156,9 +156,9 @@ public class TTSService extends Service {
         }
     }*/
     public static void speak(String str) {
-
+        Log.appendLog(str);
         if(mTts == null){
-            mTts = new TextToSpeech( MainActivity.getContext(), new TextToSpeech.OnInitListener() {
+            mTts = new TextToSpeech( TTSService.context, new TextToSpeech.OnInitListener() {
                 @Override
                 public void onInit(int status) {
                     if (status != TextToSpeech.SUCCESS) {

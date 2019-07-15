@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 bActive = true;
                 NotificationService.bNotify = true;
-                startService(new Intent(this, NotificationService.class));
+                /*startService(new Intent(this, NotificationService.class));
                 ComponentName componentName =  new ComponentName(this,asistenteJobService.class);
                 JobInfo info = new JobInfo.Builder(123,componentName)
                         .setPeriodic(1000)
@@ -143,14 +143,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setPersisted(true)
                         .build();
                 JobScheduler jobScheduler2 = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-                jobScheduler2.schedule(info2);
+                jobScheduler2.schedule(info2);*/
 
 
 
 
 
-              //  startService(new Intent(this, asistenteservice.class));
-              //  startService(new Intent(this, TTSService.class));
+                startService(new Intent(this, asistenteservice.class));
+               // startService(new Intent(this, TTSService.class));
 
                 TTSJobService.speak("Servicio Iniciado");
                /* JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
