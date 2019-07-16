@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 
 import com.android.asistente.asistente.Entities.Phone;
+import com.android.asistente.asistente.MainActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,7 +62,11 @@ public class General extends Activity {
      }
  }
  public void startService(Class<?> serviceClass){
-
-     startService(new Intent(this, serviceClass));
+    try {
+        new MainActivity();
+        MainActivity.getContext().startService(new Intent(MainActivity.getContext(), serviceClass));
+    }catch(Exception ex){
+        Log.appendLog(ex.getMessage());
+    }
  }
 }
