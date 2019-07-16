@@ -51,6 +51,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     View mView;
     public static String letters=null;
     public static boolean listening;
+    asistenteservice asis=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -351,9 +352,10 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     }
     public  void InitSpeech() {
         try {
-            asistenteservice asis=null;
+
            Log.appendLog("InitSpeech inicio");
             if(voice == null) {
+                startService(new Intent(this, asistenteservice.class));
                 asis =  new asistenteservice();
                 voice = SpeechRecognizer.createSpeechRecognizer(asis.getContext());
             }
@@ -364,7 +366,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
        //     Log.appendLog("InitSpeech Fin");
 
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog(ex.getMessage());
             throw ex;
         }
     }
