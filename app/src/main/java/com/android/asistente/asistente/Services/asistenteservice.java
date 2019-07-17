@@ -1,12 +1,17 @@
 package com.android.asistente.asistente.Services;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
@@ -36,7 +41,26 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     }
     @Override
     public void onCreate(){
+
         super.onCreate();
+        try {
+            if (Build.VERSION.SDK_INT >= 26) {
+                String CHANNEL_ID = "my_channel_01";
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                        "Channel human readable title",
+                        NotificationManager.IMPORTANCE_DEFAULT);
+
+                ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+
+                Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setContentTitle("")
+                        .setContentText("").build();
+
+                startForeground(1, notification);
+            }
+        }catch(Exception ex){
+            Log.appendLog(ex.getMessage());
+        }
     }
 
     @Override
@@ -47,6 +71,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         context = getApplicationContext();
         Time time = Time.getInstance();
         time.getTemperatureNow();
+        startForeground(idProcess,null);
         startService(new Intent(this, TTSService.class));
 
         try {
