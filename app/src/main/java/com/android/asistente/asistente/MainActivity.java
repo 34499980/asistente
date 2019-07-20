@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
+                asistenteservice.bActive= true;
                 ContextCompat.startForegroundService(this,new Intent(this, asistenteservice.class));
                // startService(new Intent(this, TTSService.class));
 
@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bActive = false;
                 TTSService.speak("Servicio detenido");
                 NotificationService.bNotify=false;
+                asistenteservice.bActive = false;
                 stopService(new Intent(this,NotificationService.class));
                 stopService(new Intent(this,asistenteservice.class));
                 break;

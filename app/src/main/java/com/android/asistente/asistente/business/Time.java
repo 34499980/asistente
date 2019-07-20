@@ -171,6 +171,9 @@ public class Time {
                         case "mist":
                             weather.sky = "y hay niebla";
                             break;
+                        default:
+                            weather.sky="";
+                            break;
                     }
                     weather.temperature = Integer.parseInt( main.getString("temp").substring(0,main.getString("temp").indexOf(".")));
                     weather.min = Math.round(main.getLong("temp_min"));//.substring(0,main.getString("temp_min").indexOf(".")));

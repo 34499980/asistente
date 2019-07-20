@@ -135,6 +135,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 CancelAction();
                             }else if(matches.get(0).toLowerCase().indexOf("desactivar servicio") > -1) {
                                 MainActivity.bActive = false;
+                                asistenteservice.bActive = false;
                                 if( MainActivity.btnStopService != null){
                                     MainActivity.btnStopService.performClick();
                                 }
@@ -153,7 +154,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                         }
                       //  Log.appendLog("onResults Fin");
-                        StartvoiceListening();
+                        if(asistenteservice.bActive) {
+                            StartvoiceListening();
+                        }
                     }
 
                     @Override

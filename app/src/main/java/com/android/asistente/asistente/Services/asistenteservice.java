@@ -71,7 +71,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         context = getApplicationContext();
         Time time = Time.getInstance();
         time.getTemperatureNow();
-        startForeground(idProcess,null);
+       // startForeground(idProcess,null);
         startService(new Intent(this, TTSService.class));
 
         try {
@@ -92,11 +92,13 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     @Override
     public void onDestroy(){
         try {
-           // Toast.makeText(this, "Servicio detenido", Toast.LENGTH_SHORT).show();
-            Intent broadcastIntent = new Intent();
-            broadcastIntent.setAction("restartservice");
-            broadcastIntent.setClass(this, Restarter.class);
-            this.sendBroadcast(broadcastIntent);
+            if(asistenteservice.bActive) {
+                // Toast.makeText(this, "Servicio detenido", Toast.LENGTH_SHORT).show();
+                Intent broadcastIntent = new Intent();
+                broadcastIntent.setAction("restartservice");
+                broadcastIntent.setClass(this, Restarter.class);
+                this.sendBroadcast(broadcastIntent);
+            }
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
         }
@@ -162,10 +164,12 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
          return context;
         }
     public static void startVoice(){
-      //  Log.appendLog("startVoice inicio");
-        voice.InitSpeech();
-        voice.StartvoiceListening();
-      //  Log.appendLog("startVoice fin");
+      //
+        if(asistenteservice.bActive) {
+            voice.InitSpeech();
+            voice.StartvoiceListening();
+            //  Log.appendLog("startVoice fin");
+        }
     }
 
 }
