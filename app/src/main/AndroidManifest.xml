@@ -75,7 +75,7 @@
         <activity android:name=".ListContacts"
             android:theme="@style/Theme.UserDialog"
             ></activity>
-        <service
+       <!-- <service
             android:name=".Services.NotificationService"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
             <intent-filter>
@@ -87,7 +87,7 @@
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibilityservice" />
-        </service>
+        </service>-->
         <service
             android:enabled="true"
 

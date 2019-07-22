@@ -20,8 +20,8 @@ public class asistenteJobService extends JobService {
                 voice = new VoiceRecognition();
                 bActive = true;
                 context = getApplicationContext();
-                Time time = Time.getInstance();
-                time.getTemperatureNow();
+              //  Time time = Time.getInstance();
+               // time.getTemperatureNow();
             }
         }).start();
         return false;

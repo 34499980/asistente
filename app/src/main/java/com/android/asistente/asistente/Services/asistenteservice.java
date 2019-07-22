@@ -57,6 +57,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
                         .setContentText("").build();
 
                 startForeground(1, notification);
+
             }
         }catch(Exception ex){
             Log.appendLog(ex.getMessage());
@@ -69,11 +70,12 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
        // Log.appendLog("asistenteSrvice"+"->"+"onStartComand");
         bActive = true;
         context = getApplicationContext();
+        startService(new Intent(this, TTSService.class));
       //  Time time = Time.getInstance();
        // time.getTemperatureNow();
        // startForeground(idProcess,null);
-        startService(new Intent(this, TTSService.class));
-        startService(new Intent(this, NotificationService.class));
+
+       // startService(new Intent(this, NotificationService.class));
 
         try {
 

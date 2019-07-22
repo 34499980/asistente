@@ -52,6 +52,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     public static String letters=null;
     public static boolean listening;
     asistenteservice asis=null;
+    private Boolean continuos = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +155,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                         }
                       //  Log.appendLog("onResults Fin");
-                        if(asistenteservice.bActive) {
+                        if(asistenteservice.bActive && continuos) {
                             StartvoiceListening();
                         }
                     }
@@ -173,7 +174,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
             voice.setRecognitionListener(rec);
 
-                voice.startListening(intent);
+                    voice.startListening(intent);
 
             listening = true;
 
@@ -219,6 +220,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         CancelAction();
                         break;
                     case "whatsapp":
+                        continuos = true;
                         if (!bFlag) {
                             if (appName.isEmpty()) {
                                 appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
@@ -290,6 +292,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 try {
                                     bFlag = true;
                                     bSelectContac = true;
+                                    continuos = true;
                                     TTSService.speak("Seleccione uno de los contactos");
                                     if (!listContacts.isEmpty()) {
                                         Intent t = new Intent(asistenteservice.getContext(), ListContacts.class);
@@ -360,6 +363,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
         appName = "";
         letters = "";
         countSearch = 0;
+        continuos = false;
     }
     public  void InitSpeech() {
         try {

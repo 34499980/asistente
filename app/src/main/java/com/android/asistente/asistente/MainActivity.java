@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 asistenteservice.bActive= true;
                 ContextCompat.startForegroundService(this,new Intent(this, asistenteservice.class));
 
-                 BroadcastReceiver onNotice= new BroadcastReceiver() {
+                /* BroadcastReceiver onNotice= new BroadcastReceiver() {
 
                     @Override
                     public void onReceive(Context context, Intent intent) {
@@ -157,14 +157,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         textview.setTextColor(Color.parseColor("#0B0719"));
                         textview.setText(Html.fromHtml(pack +"<br><b>" + title + " : </b>" + text));
                         tr.addView(textview);
-                        tab.addView(tr);*/
+                        tab.addView(tr);
 
 
 
 
                     }
-                };
-                TTSService.speak("Servicio Iniciado");
+                };*/
+               // TTSService.speak("Servicio Iniciado");
 
                 break;
             case R.id.btnStopService:
