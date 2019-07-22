@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.android.asistente.asistente.Entities.Weather;
 import com.android.asistente.asistente.Helper.Log;
+import com.android.asistente.asistente.Services.TTSService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +33,7 @@ public class Time {
     public static String sky;
     private Time(){};
     private static Weather weather;
+    String _input = null;
 
     static Dictionary result = new Hashtable();
     public static Time getInstance(){
@@ -67,8 +69,9 @@ public class Time {
       return "Son las "+ result.get("hour") + " y "+ result.get("minutes");
     }
 
-    public  void getTemperatureNow(){
+    public  void getTemperatureNow(String input){
         try {
+            _input = input;
             DownloadWeather weather = new DownloadWeather();
             weather.execute("Buenos Aires,AR");
         }catch(Exception ex){
@@ -190,6 +193,13 @@ public class Time {
                     //   json.getJSONObject("sys").getLong("sunset") * 1000)));
 
                     //  loader.setVisibility(View.GONE);
+                    if(_input.equals("temperatura")){
+                        TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados " +weather.sky);
+                    }else{
+                        TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados. Se espera "+
+                                weather.min+ " de mínima y "+ weather.max + "de máximo, con una humedad de "+
+                                weather.humidity +" porciento "  +weather.sky);
+                    }
 
                 }
             } catch (JSONException e) {

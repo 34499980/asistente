@@ -190,17 +190,25 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             if (letters != null) {
                 switch (letters) {
                     case "tiempo":
-                        Weather weather = Weather.getInstance();
+                        try {
+                            if (matches.get(0).toLowerCase().indexOf("hora") > -1) {
+                                TTSService.speak(Time.getHoursAndMinutes());
+                            } else if (matches.get(0).toLowerCase().indexOf("temperatura") > -1) {
 
-                        if(matches.get(0).toLowerCase().indexOf("hora") > -1) {
-                            TTSService.speak(Time.getHoursAndMinutes());
-                        }else if (matches.get(0).toLowerCase().indexOf("temperatura") > -1){
+                                Time time = Time.getInstance();
+                                time.getTemperatureNow("temperatura");
 
-                            TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados " +weather.sky);
-                        }else  if (matches.get(0).toLowerCase().indexOf("clima") > -1){
-                            TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados. Se espera "+
+                                //  TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados " +weather.sky);
+                            } else if (matches.get(0).toLowerCase().indexOf("clima") > -1) {
+                                Time time = Time.getInstance();
+                                time.getTemperatureNow("clima");
+                           /* TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados. Se espera "+
                                    weather.min+ " de mínima y "+ weather.max + "de máximo, con una humedad de "+
-                                    weather.humidity +" porciento "  +weather.sky);
+                                    weather.humidity +" porciento "  +weather.sky);*/
+                            }
+                        }catch(Exception ex){
+                            Log.appendLog(ex.getMessage());
+                            Toast.makeText(this,"No se pudo obtener el clima",Toast.LENGTH_LONG).show();
                         }
                         CancelAction();
                         break;
