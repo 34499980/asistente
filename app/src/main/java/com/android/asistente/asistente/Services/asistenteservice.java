@@ -69,10 +69,11 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
        // Log.appendLog("asistenteSrvice"+"->"+"onStartComand");
         bActive = true;
         context = getApplicationContext();
-        Time time = Time.getInstance();
-        time.getTemperatureNow();
+      //  Time time = Time.getInstance();
+       // time.getTemperatureNow();
        // startForeground(idProcess,null);
         startService(new Intent(this, TTSService.class));
+        startService(new Intent(this, NotificationService.class));
 
         try {
 

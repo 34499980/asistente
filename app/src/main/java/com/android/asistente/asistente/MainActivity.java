@@ -3,6 +3,7 @@ package com.android.asistente.asistente;
 import android.app.ActivityManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,11 +12,14 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -128,41 +132,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnStartService:
 
                 bActive = true;
-                NotificationService.bNotify = true;
-                /*startService(new Intent(this, NotificationService.class));
-                ComponentName componentName =  new ComponentName(this,asistenteJobService.class);
-                JobInfo info = new JobInfo.Builder(123,componentName)
-                        .setPeriodic(1000)
-                        .setPersisted(true)
-                        .build();
-                JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-                jobScheduler.schedule(info);
-
-                ComponentName componentName2 =  new ComponentName(this,asistenteJobService.class);
-                JobInfo info2 = new JobInfo.Builder(123,componentName2)
-                        .setPeriodic(1000)
-                        .setPersisted(true)
-                        .build();
-                JobScheduler jobScheduler2 = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-                jobScheduler2.schedule(info2);*/
 
 
 
 
                 asistenteservice.bActive= true;
                 ContextCompat.startForegroundService(this,new Intent(this, asistenteservice.class));
-               // startService(new Intent(this, TTSService.class));
 
-                TTSJobService.speak("Servicio Iniciado");
-               /* JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-                ComponentName componentName = new ComponentName(MainActivity.this,asistenteservice.class);
-                JobInfo.Builder jobInfo = new JobInfo.Builder(101, componentName).setPeriodic(2000);
-                jobScheduler.schedule(jobInfo.build());*/
+                 BroadcastReceiver onNotice= new BroadcastReceiver() {
+
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        String pack = intent.getStringExtra("package");
+                        String title = intent.getStringExtra("title");
+                        String text = intent.getStringExtra("text");
+
+
+
+                      /*  TableRow tr = new TableRow(getApplicationContext());
+                        tr.setLayoutParams(new TableRow.LayoutParams( TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                        TextView textview = new TextView(getApplicationContext());
+                        textview.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT,1.0f));
+                        textview.setTextSize(20);
+                        textview.setTextColor(Color.parseColor("#0B0719"));
+                        textview.setText(Html.fromHtml(pack +"<br><b>" + title + " : </b>" + text));
+                        tr.addView(textview);
+                        tab.addView(tr);*/
+
+
+
+
+                    }
+                };
+                TTSService.speak("Servicio Iniciado");
+
                 break;
             case R.id.btnStopService:
                 bActive = false;
                 TTSService.speak("Servicio detenido");
-                NotificationService.bNotify=false;
+               // NotificationService.bNotify=false;
                 asistenteservice.bActive = false;
                 stopService(new Intent(this,NotificationService.class));
                 stopService(new Intent(this,asistenteservice.class));
