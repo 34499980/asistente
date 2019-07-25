@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class Time {
     private static Time instance = null;
-    private static String OPEN_WEATHER_MAP_API = "cbfdb21fa1793c10b14b6b6d00fbef03";
+    private static String OPEN_WEATHER_MAP_API = "4deb0b5d37a470b706c934ee7471c7a8";
     public static int temperature = -999;
     public static String sky;
     private Time(){};
