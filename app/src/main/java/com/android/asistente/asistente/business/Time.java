@@ -177,6 +177,9 @@ public class Time {
                         case "mist":
                             weather.sky = "y hay niebla";
                             break;
+                        case "light intensity drizzle":
+                            weather.sky = "y hay llovizna";
+                            break;
 
                         default:
                             weather.sky="";
