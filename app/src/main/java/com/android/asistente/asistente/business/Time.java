@@ -171,9 +171,13 @@ public class Time {
                         case "snow":
                             weather.sky = "y esta nevando";
                             break;
+                        case "moderate rain":
+                            weather.sky = "y hay llovizna";
+                            break;
                         case "mist":
                             weather.sky = "y hay niebla";
                             break;
+
                         default:
                             weather.sky="";
                             break;
