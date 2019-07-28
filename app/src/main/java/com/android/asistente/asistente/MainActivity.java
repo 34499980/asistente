@@ -1,6 +1,7 @@
 package com.android.asistente.asistente;
 
 import android.app.ActivityManager;
+import android.app.NotificationManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -139,6 +141,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 asistenteservice.bActive= true;
                 ContextCompat.startForegroundService(this,new Intent(this, asistenteservice.class));
 
+                Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                startActivity(intent);
+                NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this);
+                ncomp.setContentTitle("My Notification");
+                ncomp.setContentText("Notification Listener Service Example");
+                ncomp.setTicker("Notification Listener Service Example");
+                ncomp.setSmallIcon(R.drawable.ic_launcher_background);
+                ncomp.setAutoCancel(true);
+                nManager.notify((int)System.currentTimeMillis(),ncomp.build());
                 /* BroadcastReceiver onNotice= new BroadcastReceiver() {
 
                     @Override
@@ -188,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
     public  Context getNotStaticContext(){
         return this;
     }
