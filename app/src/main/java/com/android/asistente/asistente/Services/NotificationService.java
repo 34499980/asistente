@@ -36,29 +36,31 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
+        try {
+            String pack = sbn.getPackageName().toLowerCase();
+            Bundle extras = sbn.getNotification().extras;
+            String title = extras.getString("android.title");
+            String text = extras.getCharSequence("android.text").toString();
 
-        String pack = sbn.getPackageName();
-        Bundle extras = sbn.getNotification().extras;
-        String title = extras.getString("android.title");
-        String text = extras.getCharSequence("android.text").toString();
-
-        if(flag) {
-            if (!title.contains("consumiendo batería")) {
-                if(asistenteservice.bActive) {
-                    TTSService.speak("Mensje de " + title);
+            if (flag) {
+                if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram")) {
+                    if (asistenteservice.bActive) {
+                        TTSService.speak("Mensje de " + title);
+                    }
+                    // Log.appendLog(title + ": " + text);
+                    flag = false;
                 }
-               // Log.appendLog(title + ": " + text);
-                flag=false;
+            } else {
+                flag = true;
             }
-        }else{
-            flag=true;
+            //  Log.i(TAG,"**********  onNotificationPosted");
+            // Log.i(TAG,"ID :" + sbn.getId() + "t" + sbn.getNotification().tickerText + "t" + sbn.getPackageName());
+            Intent i = new Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
+            i.putExtra("notification_event", "onNotificationPosted :" + sbn.getPackageName() + "n");
+            sendBroadcast(i);
+        }catch(Exception ex){
+            Log.appendLog("NotificationService" +ex.getMessage());
         }
-      //  Log.i(TAG,"**********  onNotificationPosted");
-       // Log.i(TAG,"ID :" + sbn.getId() + "t" + sbn.getNotification().tickerText + "t" + sbn.getPackageName());
-        Intent i = new  Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-        i.putExtra("notification_event","onNotificationPosted :" + sbn.getPackageName() + "n");
-        sendBroadcast(i);
-
     }
 
     @Override
