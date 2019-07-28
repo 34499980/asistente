@@ -36,18 +36,11 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        boolean speak = true;
+
         String pack = sbn.getPackageName();
         Bundle extras = sbn.getNotification().extras;
         String title = extras.getString("android.title");
         String text = extras.getCharSequence("android.text").toString();
-        for (int item: listId) {
-            if(item == sbn.getId()){
-                speak = false;
-                break;
-            }
-        }
-        listId.add(sbn.getId());
 
         if(flag) {
             if (!title.contains("consumiendo batería")) {

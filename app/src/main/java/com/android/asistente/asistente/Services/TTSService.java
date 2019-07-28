@@ -156,7 +156,7 @@ public class TTSService extends Service {
         }
     }*/
     public static void speak(String str) {
-        Log.appendLog(str);
+       // Log.appendLog(str);
         if(mTts == null){
             mTts = new TextToSpeech( TTSService.context, new TextToSpeech.OnInitListener() {
                 @Override
