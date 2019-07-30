@@ -12,10 +12,12 @@ import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
+import com.android.asistente.asistente.R;
 import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
 
@@ -57,6 +59,19 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
                         .setContentText("").build();
 
                 startForeground(1, notification);
+                asistenteservice.bActive= true;
+                ContextCompat.startForegroundService(this,new Intent(this, asistenteservice.class));
+
+                Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                //// startActivity(intent);
+                NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                NotificationCompat.Builder ncomp = new NotificationCompat.Builder(MainActivity.getContext());
+                ncomp.setContentTitle("My Notification");
+                ncomp.setContentText("Notification Listener Service Example");
+                ncomp.setTicker("Notification Listener Service Example");
+                ncomp.setSmallIcon(R.drawable.ic_launcher_background);
+                ncomp.setAutoCancel(true);
+                nManager.notify((int)System.currentTimeMillis(),ncomp.build());
 
             }
         }catch(Exception ex){

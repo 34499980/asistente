@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ContextCompat.startForegroundService(this,new Intent(this, asistenteservice.class));
 
                 Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-                startActivity(intent);
+               //// startActivity(intent);
                 NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this);
                 ncomp.setContentTitle("My Notification");

@@ -37,14 +37,17 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         try {
-            String pack = sbn.getPackageName().toLowerCase();
+            String text;
+            String pack = sbn.getPackageName()!= null ? sbn.getPackageName().toLowerCase():null;
             Bundle extras = sbn.getNotification().extras;
-            String title = extras.getString("android.title");
-            String text = extras.getCharSequence("android.text").toString();
-
+            String title = extras.getString("android.title")!= null? extras.getString("android.title").toLowerCase(): null;
+            CharSequence textSequence = extras.getCharSequence("android.text");
+            if (textSequence != null){
+                text = textSequence.toString();
+            }
             if (flag) {
                 if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram")) {
-                    if (asistenteservice.bActive) {
+                    if (asistenteservice.bActive && !title.equals("whatsapp") && !title.equals("facebook") && !title.equals("instagram")) {
                         TTSService.speak("Mensje de " + title);
                     }
                     // Log.appendLog(title + ": " + text);
