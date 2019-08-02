@@ -37,30 +37,41 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         try {
-            String text;
-            String pack = sbn.getPackageName()!= null ? sbn.getPackageName().toLowerCase():null;
-            Bundle extras = sbn.getNotification().extras;
-            String title = extras.getString("android.title")!= null? extras.getString("android.title").toLowerCase(): null;
-            CharSequence textSequence = extras.getCharSequence("android.text");
-            if (textSequence != null){
-                text = textSequence.toString();
-            }
-            if (flag) {
-                if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram")|| pack.contains("com.google.android.gm")) {
-                    if (asistenteservice.bActive && !title.equals("whatsapp")) {
-                        TTSService.speak("Mensje de " + title);
-                    }
-                    // Log.appendLog(title + ": " + text);
-                    flag = false;
+            if(bActivate) {
+                String text;
+                String pack = sbn.getPackageName() != null ? sbn.getPackageName().toLowerCase() : null;
+                Bundle extras = sbn.getNotification().extras;
+                String title = extras.getString("android.title") != null ? extras.getString("android.title").toLowerCase() : null;
+                CharSequence textSequence = extras.getCharSequence("android.text");
+                if (textSequence != null) {
+                    text = textSequence.toString();
                 }
-            } else {
-                flag = true;
+                if (flag) {
+                    if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram") || pack.contains("com.google.android.gm")) {
+                        if (asistenteservice.bActive && !title.equals("whatsapp")) {
+                            switch (pack) {
+                                case "com.google.android.gm":
+                                    TTSService.speak("Ha recibido un mail.");
+                                    break;
+                                default:
+                                    TTSService.speak("Mensje de " + title);
+                                    break;
+
+                            }
+
+                        }
+                        // Log.appendLog(title + ": " + text);
+                        flag = false;
+                    }
+                } else {
+                    flag = true;
+                }
+                //  Log.i(TAG,"**********  onNotificationPosted");
+                // Log.i(TAG,"ID :" + sbn.getId() + "t" + sbn.getNotification().tickerText + "t" + sbn.getPackageName());
+                Intent i = new Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
+                i.putExtra("notification_event", "onNotificationPosted :" + sbn.getPackageName() + "n");
+                sendBroadcast(i);
             }
-            //  Log.i(TAG,"**********  onNotificationPosted");
-            // Log.i(TAG,"ID :" + sbn.getId() + "t" + sbn.getNotification().tickerText + "t" + sbn.getPackageName());
-            Intent i = new Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-            i.putExtra("notification_event", "onNotificationPosted :" + sbn.getPackageName() + "n");
-            sendBroadcast(i);
         }catch(Exception ex){
             Log.appendLog("NotificationService" +ex.getMessage());
         }
