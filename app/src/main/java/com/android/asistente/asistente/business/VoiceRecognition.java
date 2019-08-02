@@ -19,6 +19,7 @@ import com.android.asistente.asistente.ListContacts;
 
 import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
+import com.android.asistente.asistente.Services.NotificationService;
 import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.Services.asistenteJobService;
 import com.android.asistente.asistente.Services.asistenteservice;
@@ -219,6 +220,13 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         externalApp.startApp(app);
                         CancelAction();
                         break;
+                    case "NotificationService":
+                       if(matches.get(0).toLowerCase().indexOf("activar") > -1){
+                           NotificationService.ActivateService();
+                       }else if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
+                           NotificationService.DesactivateService();
+                       }
+                        break;
                     case "whatsapp":
                         continuos = true;
                         if (!bFlag) {
@@ -351,6 +359,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "contacto";
             } else if (matches.get(0).toLowerCase().indexOf("abrir") > -1) {
                 letters = "ExternalApp";
+            }else if (matches.get(0).toLowerCase().indexOf("notificaciones") > -1){
+                letters = "NotificationService";
             }
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());

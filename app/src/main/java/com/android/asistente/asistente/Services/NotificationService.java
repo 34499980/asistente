@@ -18,7 +18,7 @@ public class NotificationService extends NotificationListenerService {
     private boolean flag=true;
     private String TAG = this.getClass().getSimpleName();
     private NLServiceReceiver nlservicereciver;
-    private ArrayList<Integer> listId= new ArrayList<Integer>();
+    public static boolean bActivate=true;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,8 +46,8 @@ public class NotificationService extends NotificationListenerService {
                 text = textSequence.toString();
             }
             if (flag) {
-                if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram")) {
-                    if (asistenteservice.bActive && !title.equals("whatsapp") && !title.equals("facebook") && !title.equals("instagram")) {
+                if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram")|| pack.contains("com.google.android.gm")) {
+                    if (asistenteservice.bActive && !title.equals("whatsapp")) {
                         TTSService.speak("Mensje de " + title);
                     }
                     // Log.appendLog(title + ": " + text);
@@ -110,6 +110,20 @@ public class NotificationService extends NotificationListenerService {
             Log.appendLog(temp);
 
             // txtView.setText(temp);
+        }
+    }
+    public static void ActivateService(){
+        if(!bActivate){
+            bActivate = true;
+        }else {
+            TTSService.speak("El servicio ya se encuentra activado.");
+        }
+    }
+    public static  void DesactivateService(){
+        if(bActivate) {
+            bActivate = false;
+        }else {
+            TTSService.speak("El servicio ya se encuentra desactivado.");
         }
     }
 }
