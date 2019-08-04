@@ -221,10 +221,10 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         CancelAction();
                         break;
                     case "NotificationService":
-                       if(matches.get(0).toLowerCase().indexOf("activar") > -1){
-                           NotificationService.ActivateService();
-                       }else if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
+                       if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
                            NotificationService.DesactivateService();
+                       }else if(matches.get(0).toLowerCase().indexOf("activar") > -1){
+                           NotificationService.ActivateService();
                        }
                         break;
                     case "whatsapp":

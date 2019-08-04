@@ -73,7 +73,7 @@ public class NotificationService extends NotificationListenerService {
                 sendBroadcast(i);
             }
         }catch(Exception ex){
-            Log.appendLog("NotificationService" +ex.getMessage());
+          //  Log.appendLog("NotificationService" +ex.getMessage());
         }
     }
 
@@ -126,6 +126,7 @@ public class NotificationService extends NotificationListenerService {
     public static void ActivateService(){
         if(!bActivate){
             bActivate = true;
+            TTSService.speak("Servicio de notificaciones activadas.");
         }else {
             TTSService.speak("El servicio ya se encuentra activado.");
         }
@@ -133,6 +134,7 @@ public class NotificationService extends NotificationListenerService {
     public static  void DesactivateService(){
         if(bActivate) {
             bActivate = false;
+            TTSService.speak("Servicio de notificaciones desactivada.");
         }else {
             TTSService.speak("El servicio ya se encuentra desactivado.");
         }
