@@ -26,7 +26,6 @@ public class Battery extends BroadcastReceiver {
         int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
                 status == BatteryManager.BATTERY_STATUS_FULL;
-
         int chargePlug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
         boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
         boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
@@ -40,6 +39,10 @@ public class Battery extends BroadcastReceiver {
                     TTSService.speak("Iniciando carga");
                 }
             }
+        }else {
+            String result = check();
+            if(!result.equals(""))
+            TTSService.speak(result);
         }
     }
     public float getLevel(){
@@ -51,7 +54,7 @@ public class Battery extends BroadcastReceiver {
             result="Iniciando ahorro de bateria";
             warning = true;
         }else if (batteryPct == 100){
-            TTSService.speak("El dispositivo llego a la carga máxima");
+            result = "El dispositivo llego a la carga máxima";
         }
         return result;
     }
