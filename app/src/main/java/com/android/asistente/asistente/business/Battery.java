@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 
+import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.Services.asistenteservice;
 
@@ -30,7 +31,7 @@ public class Battery extends BroadcastReceiver {
         boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
         boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
 
-
+        Log.appendLog("Battery "+ String.valueOf(isCharging) +" usb: "+String.valueOf(usbCharge));
         if(isCharging){
             if(check().equals("")) {
                 if (usbCharge) {
@@ -45,14 +46,14 @@ public class Battery extends BroadcastReceiver {
             TTSService.speak(result);
         }
     }
-    public float getLevel(){
+    public int getLevel(){
          level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-         scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+        // scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
 
-         batteryPct = level / scale;
+        // batteryPct = level / scale;
 
-        return batteryPct;
+        return level;
     }
     public String check(){
         String result="";
