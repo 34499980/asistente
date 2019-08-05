@@ -424,4 +424,5 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     public ArrayList<String> getMatches() {
         return matches;
     }
+
 }
