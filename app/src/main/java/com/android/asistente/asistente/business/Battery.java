@@ -46,6 +46,12 @@ public class Battery extends BroadcastReceiver {
         }
     }
     public float getLevel(){
+         level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+         scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+
+         batteryPct = level / scale;
+
         return batteryPct;
     }
     public String check(){
