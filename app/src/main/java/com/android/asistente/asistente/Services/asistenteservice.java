@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.IBinder;
 
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
+import com.android.asistente.asistente.business.Battery;
 import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
 
@@ -86,6 +88,10 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         bActive = true;
         context = getApplicationContext();
         startService(new Intent(this, TTSService.class));
+       // IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+       // Battery battery = new Battery();
+       // Intent batteryStatus = registerReceiver(battery, ifilter);
+
       //  Time time = Time.getInstance();
        // time.getTemperatureNow();
        // startForeground(idProcess,null);

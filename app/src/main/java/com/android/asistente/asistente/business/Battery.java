@@ -19,6 +19,7 @@ public class Battery extends BroadcastReceiver {
     int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
     int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
     boolean warning = false;
+    static Context context;
 
     int batteryPct = level / scale;
 
@@ -31,20 +32,47 @@ public class Battery extends BroadcastReceiver {
         boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
         boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
 
-        Log.appendLog("Battery "+ String.valueOf(isCharging) +" usb: "+String.valueOf(usbCharge));
-        if(isCharging){
-            if(check().equals("")) {
-                if (usbCharge) {
-                    TTSService.speak("Iniciando carga por usb.");
-                } else {
-                    TTSService.speak("Iniciando carga");
+      //  Log.appendLog("Battery "+ String.valueOf(isCharging) +" usb: "+String.valueOf(usbCharge));
+        if(!warning) {
+            switch (status) {
+                case BatteryManager.BATTERY_STATUS_FULL:
+                    TTSService.speak("El dispositivo llego a la carga maxima.");
+                    warning = true;
+                    break;
+                case BatteryManager.BATTERY_STATUS_CHARGING:
+                    warning = true;
+                    if (usbCharge) {
+                        TTSService.speak("Iniciando carga por usb.");
+
+                    } else {
+                        TTSService.speak("Iniciando carga");
+                    }
+                    break;
+                case BatteryManager.BATTERY_STATUS_DISCHARGING:
+                    if (level == 15) {
+                        warning = true;
+                        TTSService.speak("Iniciando ahorro de bateria");
+                    }
+                    break;
+            }
+        }
+      /*  if(isCharging){
+            if(!warning){
+                if(check().equals("")) {
+                    if (usbCharge) {
+                        TTSService.speak("Iniciando carga por usb.");
+                    } else {
+                        TTSService.speak("Iniciando carga");
+                     }
+                     warning = true;
                 }
             }
         }else {
+
             String result = check();
             if(!result.equals(""))
             TTSService.speak(result);
-        }
+        }*/
     }
     public int getLevel(){
          level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
@@ -65,4 +93,5 @@ public class Battery extends BroadcastReceiver {
         }
         return result;
     }
+
 }
