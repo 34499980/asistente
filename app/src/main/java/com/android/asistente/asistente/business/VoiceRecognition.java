@@ -366,7 +366,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "ExternalApp";
             }else if (matches.get(0).toLowerCase().indexOf("notificaciones") > -1){
                 letters = "NotificationService";
-            }else if(matches.get(0).toLowerCase().indexOf("bateria") > -1){
+            }else if(matches.get(0).toLowerCase().indexOf("batería") > -1){
                 letters = "Battery";
 
             }
