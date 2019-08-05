@@ -336,6 +336,11 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         TTSService.speak("El volumen se encuentra en " + String.valueOf(volume) + " porciento");
                         CancelAction();
                         break;
+                    case "Battery":
+                        Battery battery = new Battery();
+                        TTSService.speak("El nivel de bateria es "+ String.valueOf(battery.getLevel())+" porciento");
+                        CancelAction();
+                        break;
                     default:
                         TTSService.speak("Lo siento, no tengo una respuesta");
                         break;
@@ -361,6 +366,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "ExternalApp";
             }else if (matches.get(0).toLowerCase().indexOf("notificaciones") > -1){
                 letters = "NotificationService";
+            }else if(matches.get(0).toLowerCase().indexOf("bateria") > -1){
+                letters = "Battery";
+
             }
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
