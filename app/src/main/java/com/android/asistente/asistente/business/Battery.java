@@ -39,7 +39,7 @@ public class Battery extends BroadcastReceiver {
                     TTSService.speak("El dispositivo llego a la carga maxima.");
                     warning = true;
                     break;
-                case BatteryManager.BATTERY_STATUS_CHARGING:
+                case BatteryManager. BATTERY_STATUS_CHARGING:
                     warning = true;
                     if (usbCharge) {
                         TTSService.speak("Iniciando carga por usb.");
@@ -48,10 +48,12 @@ public class Battery extends BroadcastReceiver {
                         TTSService.speak("Iniciando carga");
                     }
                     break;
-                case BatteryManager.BATTERY_STATUS_DISCHARGING:
+               default:
                     if (level == 15) {
                         warning = true;
                         TTSService.speak("Iniciando ahorro de bateria");
+                    }else if(!usbCharge && !acCharge){
+                        warning = false;
                     }
                     break;
             }
