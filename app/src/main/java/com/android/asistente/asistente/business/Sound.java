@@ -31,4 +31,9 @@ int val;
             throw ex;
         }
     }
+    public static  int getVolume(){
+        AudioManager audio = (AudioManager) asistenteservice.getContext().getSystemService(Context.AUDIO_SERVICE);
+        int currentVolume = audio.getStreamVolume(AudioManager.STREAM_RING);
+        return currentVolume;
+    }
 }

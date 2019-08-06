@@ -4,12 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.android.asistente.asistente.Helper.Log;
+import com.android.asistente.asistente.business.Sound;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,7 @@ public class NotificationService extends NotificationListenerService {
     private String TAG = this.getClass().getSimpleName();
     private NLServiceReceiver nlservicereciver;
     public static boolean bActivate=true;
+    AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,7 +49,7 @@ public class NotificationService extends NotificationListenerService {
                 if (textSequence != null) {
                     text = textSequence.toString();
                 }
-                if (flag) {
+                if (flag && (audioManager.isWiredHeadsetOn() || Sound.getVolume() > 0)) {
                     if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram") || pack.contains("com.google.android.gm")) {
                         if (asistenteservice.bActive && !title.equals("whatsapp")) {
                             switch (pack) {
