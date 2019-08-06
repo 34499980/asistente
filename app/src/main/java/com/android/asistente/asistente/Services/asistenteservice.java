@@ -88,15 +88,15 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         bActive = true;
         context = getApplicationContext();
         startService(new Intent(this, TTSService.class));
-        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        Battery battery = new Battery();
-        Intent batteryStatus = registerReceiver(battery, ifilter);
+      //  IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+       // Battery battery = new Battery();
+       // Intent batteryStatus = registerReceiver(battery, ifilter);
 
       //  Time time = Time.getInstance();
        // time.getTemperatureNow();
        // startForeground(idProcess,null);
 
-       // startService(new Intent(this, NotificationService.class));
+        startService(new Intent(this, NotificationService.class));
 
         try {
 

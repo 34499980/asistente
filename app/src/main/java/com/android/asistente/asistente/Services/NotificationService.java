@@ -21,7 +21,7 @@ public class NotificationService extends NotificationListenerService {
     private String TAG = this.getClass().getSimpleName();
     private NLServiceReceiver nlservicereciver;
     public static boolean bActivate=true;
-    AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -49,7 +49,8 @@ public class NotificationService extends NotificationListenerService {
                 if (textSequence != null) {
                     text = textSequence.toString();
                 }
-                if (flag && (audioManager.isWiredHeadsetOn() || Sound.getVolume() > 0)) {
+                AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                if (flag){
                     if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram") || pack.contains("com.google.android.gm")) {
                         if (asistenteservice.bActive && !title.equals("whatsapp")) {
                             switch (pack) {
