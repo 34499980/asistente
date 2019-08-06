@@ -1,5 +1,8 @@
 package com.android.asistente.asistente.business;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
@@ -26,6 +29,7 @@ import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -341,6 +345,20 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         TTSService.speak("El nivel de bateria es "+ String.valueOf(battery.getLevel())+" porciento");
                         CancelAction();
                         break;
+                    case "Alarm":
+                        Calendar cal = Calendar.getInstance();
+                        cal.add(Calendar.SECOND, 5);
+
+                        //Create a new PendingIntent and add it to the AlarmManager
+                        Intent intent = new Intent(this, Alarm.class);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                                12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        AlarmManager am =
+                                (AlarmManager)getSystemService(Activity.ALARM_SERVICE);
+                        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                                pendingIntent);
+                        CancelAction();
+                        break;
                     default:
                         TTSService.speak("Lo siento, no tengo una respuesta");
                         break;
@@ -369,6 +387,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             }else if(matches.get(0).toLowerCase().indexOf("batería") > -1){
                 letters = "Battery";
 
+            }else if(matches.get(0).toLowerCase().indexOf("alarma") > -1){
+                letters = "Alarm";
             }
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
