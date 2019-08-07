@@ -53,7 +53,7 @@ public class NotificationService extends NotificationListenerService {
                     text = textSequence.toString();
                 }
 
-                if (flag && (General.isHeadSetConnect() || Sound.getVolume() > 0)){
+                if (flag){
                     if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram") || pack.contains("com.google.android.gm")) {
                         if (asistenteservice.bActive && !title.equals("whatsapp")) {
                             switch (pack) {
@@ -61,7 +61,9 @@ public class NotificationService extends NotificationListenerService {
                                     TTSService.speak("Ha recibido un mail.");
                                     break;
                                 default:
-                                    TTSService.speak("Mensje de " + title);
+                                    if(General.isHeadSetConnect() || Sound.getVolume() > 0) {
+                                        TTSService.speak("Mensje de " + title);
+                                    }
                                     Whatsapp.putMessages(title,text);
                                     break;
 
@@ -80,6 +82,7 @@ public class NotificationService extends NotificationListenerService {
                 i.putExtra("notification_event", "onNotificationPosted :" + sbn.getPackageName() + "n");
                 sendBroadcast(i);
             }
+
         }catch(Exception ex){
           //  Log.appendLog("NotificationService" +ex.getMessage());
         }

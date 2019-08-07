@@ -233,13 +233,17 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                        }
                         break;
                     case "whatsapp":
-                        if(matches.get(0).toLowerCase().indexOf("leer w") > -1){
+                        if(matches.get(0).toLowerCase().indexOf("leer") > -1){
 
                             if(matches.get(0).toLowerCase().indexOf("todos") > -1){
-                                Whatsapp.getAllMessage();
+                                if(General.isHeadSetConnect() || Sound.getVolume() > 0) {
+                                    Whatsapp.getAllMessage();
+                                }
                             }else{
-                             appName =  whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
-                             TTSService.speak(whatsapp.getMessageByUser(appName));
+                                if(General.isHeadSetConnect() || Sound.getVolume() > 0) {
+                                    appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
+                                    TTSService.speak(whatsapp.getMessageByUser(appName));
+                                }
                             }
                             CancelAction();
                         }else{

@@ -104,6 +104,12 @@
 
             </intent-filter>
         </receiver>
+        <receiver android:name=".business.Sound">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON"></action>
+
+            </intent-filter>
+        </receiver>
         <!--<receiver android:name=".business.Battery">
             <intent-filter>
                 <action android:name="android.intent.action.BATTERY_LOW"/>

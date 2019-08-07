@@ -49,7 +49,7 @@ public class Whatsapp extends AppCompatActivity{
                 result = value;
             }
             if(value.indexOf("leer whatsapp de ")> -1){
-                result = value.substring(value.indexOf("leer whatsapp de "));
+                result = value.substring(17,value.length());
             }
             return result;
         }catch(Exception ex){
@@ -84,6 +84,9 @@ public class Whatsapp extends AppCompatActivity{
         for (Map.Entry<String, String> entry : messages.entrySet()){
             TTSService.speak("Mensaje de "+ entry.getKey());
             TTSService.speak(entry.getValue());
+        }
+        if(messages.size() == 0){
+            TTSService.speak("No tiene mensajes para leer.");
         }
         messages.clear();
     }
