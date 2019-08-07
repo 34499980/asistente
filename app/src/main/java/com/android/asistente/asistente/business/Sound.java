@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 
 import com.android.asistente.asistente.Helper.Log;
@@ -46,10 +47,24 @@ int val;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())){
-            KeyEvent keyEvent = (KeyEvent) intent.getExtras().get(Intent.EXTRA_KEY_EVENT);
-            asistenteservice.startVoice();
+        String intentAction = intent.getAction();
+        if (!Intent.ACTION_MEDIA_BUTTON.equals(intentAction)) {
+            return;
         }
+        KeyEvent event = (KeyEvent) intent
+                .getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+        if (event == null) {
+            return;
+        }
+        int action = event.getAction();
 
+        switch (event.getKeyCode()) {
+            case KeyEvent.KEYCODE_HEADSETHOOK:
+                if (action == KeyEvent.ACTION_UP)
+                    if (SystemClock.uptimeMillis() - event.getDownTime() > 2000)
+                       asistenteservice.startVoice();
+                break;
+        }
+        abortBroadcast();
     }
 }
