@@ -14,6 +14,7 @@ import android.support.v7.widget.ThemedSpinnerAdapter;
 import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.business.Sound;
+import com.android.asistente.asistente.business.Whatsapp;
 
 import java.util.ArrayList;
 
@@ -43,7 +44,7 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         try {
             if(bActivate) {
-                String text;
+                String text="";
                 String pack = sbn.getPackageName() != null ? sbn.getPackageName().toLowerCase() : null;
                 Bundle extras = sbn.getNotification().extras;
                 String title = extras.getString("android.title") != null ? extras.getString("android.title").toLowerCase() : null;
@@ -61,6 +62,7 @@ public class NotificationService extends NotificationListenerService {
                                     break;
                                 default:
                                     TTSService.speak("Mensje de " + title);
+                                    Whatsapp.putMessages(title,text);
                                     break;
 
                             }

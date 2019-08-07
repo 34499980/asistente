@@ -59,6 +59,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     asistenteservice asis=null;
     private Boolean continuos = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -232,6 +233,16 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                        }
                         break;
                     case "whatsapp":
+                        if(matches.get(0).toLowerCase().indexOf("leer w") > -1){
+
+                            if(matches.get(0).toLowerCase().indexOf("todos") > -1){
+                                Whatsapp.getAllMessage();
+                            }else{
+                             appName =  whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
+                             TTSService.speak(whatsapp.getMessageByUser(appName));
+                            }
+                            CancelAction();
+                        }else{
                         continuos = true;
                         if (!bFlag) {
                             if (appName.isEmpty()) {
@@ -283,7 +294,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                     CancelAction();
                                 }
                             }
-
+                        }
                         }
 
                         break;
@@ -376,7 +387,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "volumen";
             } else if (matches.get(0).toLowerCase().indexOf("qué hora es") > -1 ||  matches.get(0).toLowerCase().indexOf("temperatura") > -1||  matches.get(0).toLowerCase().indexOf("clima") > -1){
                 letters = "tiempo";
-            } else if (matches.get(0).toLowerCase().contains("enviar whatsapp") || matches.get(0).toLowerCase().contains("enviar un whatsapp")) {
+            } else if (matches.get(0).toLowerCase().contains("whatsapp")/* || matches.get(0).toLowerCase().contains("enviar un whatsapp")*/) {
                 letters = "whatsapp";
             } else if (matches.get(0).toLowerCase().indexOf("llamar") > -1 || matches.get(0).toLowerCase().indexOf("mensaje") > -1) {
                 letters = "contacto";

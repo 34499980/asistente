@@ -7,9 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
+import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.Services.asistenteservice;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Whatsapp extends AppCompatActivity{
+    static Map<String, String> messages = new HashMap<String, String>();
     public void SendMessageTo(String contact, String message){
         try{
             contact = contact.trim();
@@ -43,10 +48,43 @@ public class Whatsapp extends AppCompatActivity{
             } else {
                 result = value;
             }
+            if(value.indexOf("leer whatsapp de ")> -1){
+                result = value.substring(value.indexOf("leer whatsapp de "));
+            }
             return result;
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
             return result;
         }
+    }
+    public static void putMessages(String user, String text){
+        if(messages.size() == 0){
+            messages.put(user,text+".");
+        }else if(messages.size() == 10){
+            if(messages.containsKey(user)){
+                messages.put(user,  messages.get(user)+text+".");
+            }else{
+                messages.put(user,text+".");
+            }
+
+        }else{
+            messages.clear();
+            messages.put(user,text+".");
+        }
+    }
+    public String getMessageByUser(String user){
+        if(messages.containsKey(user)){
+            return messages.get(user);
+        }
+        return "No tiene mensajes de ese usuario.";
+    }
+    public static void getAllMessage(){
+        String key;
+        String text;
+        for (Map.Entry<String, String> entry : messages.entrySet()){
+            TTSService.speak("Mensaje de "+ entry.getKey());
+            TTSService.speak(entry.getValue());
+        }
+        messages.clear();
     }
 }
