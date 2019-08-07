@@ -1,12 +1,15 @@
 package com.android.asistente.asistente.business;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
+import android.view.KeyEvent;
 
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.asistenteservice;
 
-public class Sound {
+public class Sound extends BroadcastReceiver {
 int val;
 
     //Using volume control UI visibility
@@ -32,8 +35,21 @@ int val;
         }
     }
     public static  int getVolume(){
-        AudioManager audio = (AudioManager) asistenteservice.getContext().getSystemService(Context.AUDIO_SERVICE);
-        int currentVolume = audio.getStreamVolume(AudioManager.STREAM_RING);
-        return currentVolume;
+        try {
+            AudioManager audio = (AudioManager) asistenteservice.getContext().getSystemService(Context.AUDIO_SERVICE);
+            int currentVolume = audio.getStreamVolume(AudioManager.STREAM_SYSTEM);
+            return currentVolume;
+        }catch(Exception ex){
+            return -1;
+        }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())){
+            KeyEvent keyEvent = (KeyEvent) intent.getExtras().get(Intent.EXTRA_KEY_EVENT);
+            asistenteservice.startVoice();
+        }
+
     }
 }

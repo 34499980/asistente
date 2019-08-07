@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.android.asistente.asistente.Entities.Phone;
 import com.android.asistente.asistente.MainActivity;
+import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,5 +70,14 @@ public class General extends Activity {
     }catch(Exception ex){
         Log.appendLog(ex.getMessage());
     }
+ }
+ public static boolean isHeadSetConnect(){
+     try {
+         AudioManager audioManager = (AudioManager) asistenteservice.getContext().getSystemService(Context.AUDIO_SERVICE);
+         return audioManager.isWiredHeadsetOn();
+     }catch(Exception ex){
+         Log.appendLog("isHeadSetConnect: "+ex.getMessage());
+         return false;
+     }
  }
 }

@@ -20,6 +20,7 @@ import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
 import com.android.asistente.asistente.business.Battery;
+import com.android.asistente.asistente.business.Sound;
 import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
 
@@ -88,9 +89,10 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         bActive = true;
         context = getApplicationContext();
         startService(new Intent(this, TTSService.class));
-      //  IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-       // Battery battery = new Battery();
-       // Intent batteryStatus = registerReceiver(battery, ifilter);
+        //Agrego accion de boton de headset
+        IntentFilter ifilterHeadSet = new IntentFilter(Intent.ACTION_MEDIA_BUTTON);
+        Sound sound = new Sound();
+        registerReceiver(sound, ifilterHeadSet);
 
       //  Time time = Time.getInstance();
        // time.getTemperatureNow();

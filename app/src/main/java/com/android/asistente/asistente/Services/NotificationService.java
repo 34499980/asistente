@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.ThemedSpinnerAdapter;
 
+import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.business.Sound;
 
@@ -49,8 +51,8 @@ public class NotificationService extends NotificationListenerService {
                 if (textSequence != null) {
                     text = textSequence.toString();
                 }
-                AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-                if (flag){
+
+                if (flag && (General.isHeadSetConnect() || Sound.getVolume() > 0)){
                     if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram") || pack.contains("com.google.android.gm")) {
                         if (asistenteservice.bActive && !title.equals("whatsapp")) {
                             switch (pack) {
