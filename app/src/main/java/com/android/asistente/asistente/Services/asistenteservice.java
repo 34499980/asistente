@@ -90,9 +90,9 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         context = getApplicationContext();
         startService(new Intent(this, TTSService.class));
         //Agrego accion de boton de headset
-        IntentFilter ifilterHeadSet = new IntentFilter(Intent.ACTION_MEDIA_BUTTON);
+       /* IntentFilter ifilterHeadSet = new IntentFilter(Intent.ACTION_MEDIA_BUTTON);
         Sound sound = new Sound();
-        registerReceiver(sound, ifilterHeadSet);
+        registerReceiver(sound, ifilterHeadSet);*/
 
       //  Time time = Time.getInstance();
        // time.getTemperatureNow();
