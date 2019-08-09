@@ -60,7 +60,7 @@ public class Whatsapp extends AppCompatActivity{
     public static void putMessages(String user, String text){
         if(messages.size() == 0){
             messages.put(user,text+".");
-        }else if(messages.size() == 10){
+        }else if(messages.size() != 10){
             if(messages.containsKey(user)){
                 messages.put(user,  messages.get(user)+text+".");
             }else{
