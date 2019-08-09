@@ -374,6 +374,13 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 pendingIntent);
                         CancelAction();
                         break;
+                    case "Wifi":
+                        if(matches.get(0).toLowerCase().indexOf("activar") > -1){
+                            General.enabledDesabledWifi(true);
+                        }else if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
+                            General.enabledDesabledWifi(false);
+                        }
+                        break;
                     default:
                         TTSService.speak("Lo siento, no tengo una respuesta");
                         break;
@@ -404,6 +411,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
             }else if(matches.get(0).toLowerCase().indexOf("alarma") > -1){
                 letters = "Alarm";
+            }else if(matches.get(0).toLowerCase().indexOf("wifi") > -1){
+                letters = "Wifi";
             }
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());

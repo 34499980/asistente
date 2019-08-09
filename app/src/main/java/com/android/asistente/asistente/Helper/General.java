@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.widget.Toast;
 
@@ -79,5 +80,9 @@ public class General extends Activity {
          Log.appendLog("isHeadSetConnect: "+ex.getMessage());
          return false;
      }
+ }
+ public static void enabledDesabledWifi(boolean status){
+     WifiManager wifiManager = (WifiManager)asistenteservice.getContext().getSystemService(Context.WIFI_SERVICE);
+     wifiManager.setWifiEnabled(status);
  }
 }
