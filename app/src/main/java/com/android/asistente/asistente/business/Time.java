@@ -183,7 +183,9 @@ public class Time {
                         case "drizzle":
                             weather.sky = "y hay llovizna";
                             break;
-
+                        case "light rain":
+                            weather.sky = "y hay llovizna";
+                            break;
                         default:
                             weather.sky="";
                             break;

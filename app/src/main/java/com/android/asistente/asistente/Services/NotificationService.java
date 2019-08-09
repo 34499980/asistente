@@ -64,7 +64,9 @@ public class NotificationService extends NotificationListenerService {
                                     if(General.isHeadSetConnect() || Sound.getVolume() > 0) {
                                         TTSService.speak("Mensje de " + title);
                                     }
-                                    Whatsapp.putMessages(title,text);
+                                    if(pack.contains("whatsapp")) {
+                                        Whatsapp.putMessages(title, text);
+                                    }
                                     break;
 
                             }
