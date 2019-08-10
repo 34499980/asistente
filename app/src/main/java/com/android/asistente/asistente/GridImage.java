@@ -2,10 +2,7 @@ package com.android.asistente.asistente;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
-import com.android.asistente.asistente.MainActivity;
-import com.android.asistente.asistente.R;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class GridImage extends AppCompatActivity {
 

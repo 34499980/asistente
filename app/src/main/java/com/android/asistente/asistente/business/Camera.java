@@ -5,7 +5,7 @@ import android.content.Intent;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.asistenteservice;
 
-import static android.support.v4.content.ContextCompat.startActivity;
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class Camera{
     public static void OpenCammera() {

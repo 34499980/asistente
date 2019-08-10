@@ -9,13 +9,12 @@ import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Entities.Phone;
-import com.android.asistente.asistente.Entities.Weather;
 import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.ListContacts;
@@ -24,7 +23,6 @@ import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
 import com.android.asistente.asistente.Services.NotificationService;
 import com.android.asistente.asistente.Services.TTSService;
-import com.android.asistente.asistente.Services.asistenteJobService;
 import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.io.Serializable;
@@ -375,10 +373,13 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         CancelAction();
                         break;
                     case "Wifi":
-                        if(matches.get(0).toLowerCase().indexOf("activar") > -1){
-                            General.enabledDesabledWifi(true);
-                        }else if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
+                        if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
                             General.enabledDesabledWifi(false);
+                            TTSService.speak("wifi desactivado");
+                        }else if(matches.get(0).toLowerCase().indexOf("activar") > -1){
+
+                            General.enabledDesabledWifi(true);
+                            TTSService.speak("wifi activado");
                         }
                         break;
                     default:
@@ -411,7 +412,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
             }else if(matches.get(0).toLowerCase().indexOf("alarma") > -1){
                 letters = "Alarm";
-            }else if(matches.get(0).toLowerCase().indexOf("wifi") > -1){
+            }else if(matches.get(0).toLowerCase().indexOf("wi-fi") > -1 || matches.get(0).toLowerCase().indexOf("wi fi") > -1){
                 letters = "Wifi";
             }
         }catch(Exception ex){

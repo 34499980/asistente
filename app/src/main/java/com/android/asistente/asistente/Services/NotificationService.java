@@ -4,19 +4,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.ThemedSpinnerAdapter;
+
+import androidx.appcompat.widget.ThemedSpinnerAdapter;
 
 import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.business.Sound;
 import com.android.asistente.asistente.business.Whatsapp;
-
-import java.util.ArrayList;
 
 
 public class NotificationService extends NotificationListenerService {

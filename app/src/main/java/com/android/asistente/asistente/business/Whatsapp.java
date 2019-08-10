@@ -3,7 +3,7 @@ package com.android.asistente.asistente.business;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
@@ -60,7 +60,7 @@ public class Whatsapp extends AppCompatActivity{
     public static void putMessages(String user, String text){
         if(messages.size() == 0){
             messages.put(user,text+".");
-        }else if(messages.size() != 10){
+        }else if(messages.size() != 3){
             if(messages.containsKey(user)){
                 messages.put(user,  messages.get(user)+text+".");
             }else{
