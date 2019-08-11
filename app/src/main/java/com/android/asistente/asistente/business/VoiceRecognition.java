@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -20,6 +21,7 @@ import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.ListContacts;
 
 import com.android.asistente.asistente.MainActivity;
+import com.android.asistente.asistente.Maps;
 import com.android.asistente.asistente.R;
 import com.android.asistente.asistente.Services.NotificationService;
 import com.android.asistente.asistente.Services.TTSService;
@@ -382,6 +384,16 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             TTSService.speak("wifi activado");
                         }
                         break;
+                    case "GPS":
+                        GPS locationListener = new GPS();
+
+                     String destino =  GPS.ProcesarDatosEntrada(matches.get(0).toLowerCase());
+                     GPS.getLatLongByAddress(destino);
+                     GPS.getActualLatLong();
+                      intent = new Intent(asistenteservice.getContext(), Maps.class);
+                      asistenteservice.getContext().startActivity(intent);
+
+                        break;
                     default:
                         TTSService.speak("Lo siento, no tengo una respuesta");
                         break;
@@ -414,6 +426,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "Alarm";
             }else if(matches.get(0).toLowerCase().indexOf("wi-fi") > -1 || matches.get(0).toLowerCase().indexOf("wi fi") > -1){
                 letters = "Wifi";
+            }else if(matches.get(0).toLowerCase().indexOf("llegar") > -1 || matches.get(0).toLowerCase().indexOf("ir") > -1) {
+                letters = "GPS";
             }
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());

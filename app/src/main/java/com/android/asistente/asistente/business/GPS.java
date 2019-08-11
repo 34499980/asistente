@@ -1,72 +1,146 @@
 package com.android.asistente.asistente.business;
 
-public class GPS {
-   /* private Context context;
-    private SettingsClient mSettingsClient;
-    private LocationSettingsRequest mLocationSettingsRequest;
-    private LocationManager locationManager;
-    private LocationRequest locationRequest;
-    public GPS(Context context) {
-        this.context = context;
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        mSettingsClient = LocationServices.getSettingsClient(context);
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(10 * 1000);
-        locationRequest.setFastestInterval(2 * 1000);
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest);
-        mLocationSettingsRequest = builder.build();
-//**************************
-        builder.setAlwaysShow(true); //this is the key ingredient
-        //**************************
-    }
-    // method for turn on GPS
-    public void turnGPSOn(final onGpsListener onGpsListener) {
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            if (onGpsListener != null) {
-                onGpsListener.gpsStatus(true);
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.provider.Settings;
+
+import com.android.asistente.asistente.Helper.Log;
+import com.android.asistente.asistente.Services.asistenteservice;
+
+import java.util.List;
+import java.util.Locale;
+
+import static android.content.Context.LOCATION_SERVICE;
+import static androidx.core.content.ContextCompat.checkSelfPermission;
+import static androidx.core.content.ContextCompat.startActivities;
+
+public class GPS implements LocationListener {
+    static LocationManager locationManager;
+    static LocationListener locationListener;
+    public static double _latOrigen = 0;
+    public static double _longOrigen = 0;
+    public static double _latDestino = 0;
+    public static double _longDestino = 0;
+    public static String destino;
+
+    public static void getActualLatLong() {
+        locationManager = (LocationManager) asistenteservice.getContext().getSystemService(LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                _latOrigen = location.getLatitude();
+                _longOrigen = location.getLongitude();
+
+
             }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                asistenteservice.getContext().startActivity(intent);
+            }
+        };
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    Activity#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for Activity#requestPermissions for more details.
+            return;
         } else {
-            mSettingsClient
-                    .checkLocationSettings(mLocationSettingsRequest)
-                    .addOnSuccessListener((Activity) context, new OnSuccessListener<LocationSettingsResponse>() {
-                        @SuppressLint("MissingPermission")
-                        @Override
-                        public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-//  GPS is already enable, callback GPS status through listener
-                            if (onGpsListener != null) {
-                                onGpsListener.gpsStatus(true);
-                            }
-                        }
-                    })
-                    .addOnFailureListener((Activity) context, new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            int statusCode = ((ApiException) e).getStatusCode();
-                            switch (statusCode) {
-                                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                                    try {
-                                        // Show the dialog by calling startResolutionForResult(), and check the
-                                        // result in onActivityResult().
-                                        ResolvableApiException rae = (ResolvableApiException) e;
-                                        rae.startResolutionForResult((Activity) context, AppConstants.GPS_REQUEST);
-                                    } catch (IntentSender.SendIntentException sie) {
-                                        Log.i(TAG, "PendingIntent unable to execute request.");
-                                    }
-                                    break;
-                                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                                    String errorMessage = "Location settings are inadequate, and cannot be " +
-                                            "fixed here. Fix in Settings.";
-                                    Log.e(TAG, errorMessage);
-                                    Toast.makeText((Activity) context, errorMessage, Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+            locationManager.requestLocationUpdates("gps", 1000, 1, locationListener);
         }
     }
-    public interface onGpsListener {
-        void gpsStatus(boolean isGPSEnable);
+
+    public static void getLatLongByAddress(String address) {
+        try {
+            Location _location;
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    Activity#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            } else {
+
+                Geocoder geoDestino = new Geocoder(asistenteservice.getContext());
+                List<Address> locationsDestino = geoDestino.getFromLocationName(address, 1);
+               // _location = locationManager.getLastKnownLocation(address);
+                _latDestino = locationsDestino.get(0).getLatitude();
+                _longDestino = locationsDestino.get(0).getLongitude();
+
+
+
+            }
+        }catch(Exception ex){
+            Log.appendLog("GPS: "+ex.getMessage());
+        }
     }
-    */
+
+    private static int checkSelfPermission(String accessFineLocation) {
+        return 0;
+    }
+
+    public void getAddres(){
+
+    }
+    public static String ProcesarDatosEntrada(String value){
+        String result = "";
+        try {
+
+            if (value.toLowerCase().contains("llegar a")) {
+                result = value.substring(value.toLowerCase().indexOf("llegar a") + 9);
+            } else if((value.toLowerCase().contains("ir a"))){
+                result = value.substring(value.toLowerCase().indexOf("ir a") + 4);
+            }
+           destino = result;
+            return result;
+        }catch(Exception ex){
+            Log.appendLog("GPS: "+ex.getMessage());
+            return result;
+        }
+    }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 }
