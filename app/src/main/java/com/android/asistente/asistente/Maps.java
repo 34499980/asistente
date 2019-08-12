@@ -49,7 +49,9 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLong));
     }
     public void addMarkers(){
+        LatLng latLong = new LatLng(GPS._latOrigen, GPS._longOrigen);
+        LatLng latLong2 = new LatLng(GPS._latDestino, GPS._longDestino);
         mMap.addMarker(new MarkerOptions().position(new LatLng(GPS._latDestino,GPS._longDestino)).title(GPS.destino));
-        mMap.addPolyline(new PolylineOptions().add().width(5).color(Color.GREEN));
+        mMap.addPolyline(new PolylineOptions().add(latLong,latLong2).width(5).color(Color.RED));
     }
 }
