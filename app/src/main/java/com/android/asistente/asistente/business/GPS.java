@@ -1,6 +1,8 @@
 package com.android.asistente.asistente.business;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -21,16 +23,16 @@ import static android.content.Context.LOCATION_SERVICE;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 import static androidx.core.content.ContextCompat.startActivities;
 
-public class GPS implements LocationListener {
-    static LocationManager locationManager;
-    static LocationListener locationListener;
+public class GPS extends Activity implements LocationListener {
+    LocationManager locationManager;
+    LocationListener locationListener;
     public static double _latOrigen = 0;
     public static double _longOrigen = 0;
     public static double _latDestino = 0;
     public static double _longDestino = 0;
     public static String destino;
 
-    public static void getActualLatLong() {
+    public  void getActualLatLong() {
         locationManager = (LocationManager) asistenteservice.getContext().getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -67,11 +69,11 @@ public class GPS implements LocationListener {
             // for Activity#requestPermissions for more details.
             return;
         } else {
-            locationManager.requestLocationUpdates("gps", 1000, 1, locationListener);
+            locationManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 1000, 1, locationListener);
         }
     }
 
-    public static void getLatLongByAddress(String address) {
+    public  void getLatLongByAddress(String address) {
         try {
             Location _location;
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -90,6 +92,16 @@ public class GPS implements LocationListener {
                // _location = locationManager.getLastKnownLocation(address);
                 _latDestino = locationsDestino.get(0).getLatitude();
                 _longDestino = locationsDestino.get(0).getLongitude();
+                locationManager=(LocationManager) asistenteservice.getContext().getSystemService(LOCATION_SERVICE);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,5000,0, this);
+                Location locationGPS = (Location) locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                Geocoder geoOrigen = new Geocoder(asistenteservice.getContext(),Locale.getDefault());
+               // List<Address> locationsOrigen = geoOrigen.get
+                // _location = locationManager.getLastKnownLocation(address);
+                if(locationGPS != null) {
+                    _latOrigen = locationGPS.getLatitude();
+                    _longOrigen = locationGPS.getLongitude();
+                }
 
 
 
@@ -99,7 +111,8 @@ public class GPS implements LocationListener {
         }
     }
 
-    private static int checkSelfPermission(String accessFineLocation) {
+    @SuppressLint("WrongConstant")
+    public int checkSelfPermission(String accessFineLocation) {
         return 0;
     }
 
@@ -142,5 +155,14 @@ public class GPS implements LocationListener {
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+    public void enabledDesabledGps(boolean status){
+        try {
+            Intent intent = new Intent("android.location.GPS_ENABLED_CHANGE");
+            intent.putExtra("enabled", status);
+            asistenteservice.getContext().sendBroadcast(intent);
+        }catch(Exception ex){
+            Log.appendLog("Helper.GPS:" +ex.getMessage());
+        }
     }
 }

@@ -71,4 +71,5 @@ public class General extends Activity {
      WifiManager wifiManager = (WifiManager)asistenteservice.getContext().getSystemService(Context.WIFI_SERVICE);
      wifiManager.setWifiEnabled(status);
  }
+
 }
