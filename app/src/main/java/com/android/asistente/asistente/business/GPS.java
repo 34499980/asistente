@@ -31,6 +31,7 @@ public class GPS extends Activity implements LocationListener {
     public static double _latDestino = 0;
     public static double _longDestino = 0;
     public static String destino;
+    public static String origen = "origen";
 
     public  void getActualLatLong() {
         locationManager = (LocationManager) asistenteservice.getContext().getSystemService(LOCATION_SERVICE);
@@ -75,6 +76,7 @@ public class GPS extends Activity implements LocationListener {
 
     public  void getLatLongByAddress(String address) {
         try {
+            if(address.indexOf(";") <= -1){
             Location _location;
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -89,22 +91,34 @@ public class GPS extends Activity implements LocationListener {
 
                 Geocoder geoDestino = new Geocoder(asistenteservice.getContext());
                 List<Address> locationsDestino = geoDestino.getFromLocationName(address, 1);
-               // _location = locationManager.getLastKnownLocation(address);
+                // _location = locationManager.getLastKnownLocation(address);
                 _latDestino = locationsDestino.get(0).getLatitude();
                 _longDestino = locationsDestino.get(0).getLongitude();
-                locationManager=(LocationManager) asistenteservice.getContext().getSystemService(LOCATION_SERVICE);
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,5000,0, this);
+                locationManager = (LocationManager) asistenteservice.getContext().getSystemService(LOCATION_SERVICE);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, this);
                 Location locationGPS = (Location) locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                Geocoder geoOrigen = new Geocoder(asistenteservice.getContext(),Locale.getDefault());
-               // List<Address> locationsOrigen = geoOrigen.get
+                //Geocoder geoOrigen = new Geocoder(asistenteservice.getContext(),Locale.getDefault());
+                // List<Address> locationsOrigen = geoOrigen.get
                 // _location = locationManager.getLastKnownLocation(address);
-                if(locationGPS != null) {
+                if (locationGPS != null) {
                     _latOrigen = locationGPS.getLatitude();
                     _longOrigen = locationGPS.getLongitude();
                 }
 
 
-
+            }
+            }else{
+                origen = address.substring(0,address.indexOf(";"));
+                destino = address.substring(address.indexOf(";")+1);
+                Geocoder geo = new Geocoder(asistenteservice.getContext());
+                List<Address> locations = geo.getFromLocationName(destino, 1);
+                // _location = locationManager.getLastKnownLocation(address);
+                _latDestino = locations.get(0).getLatitude();
+                _longDestino = locations.get(0).getLongitude();
+                List<Address> locationOrigen = geo.getFromLocationName(origen, 1);
+                // _location = locationManager.getLastKnownLocation(address);
+                _latOrigen = locationOrigen.get(0).getLatitude();
+                _longOrigen = locationOrigen.get(0).getLongitude();
             }
         }catch(Exception ex){
             Log.appendLog("GPS: "+ex.getMessage());
@@ -127,6 +141,11 @@ public class GPS extends Activity implements LocationListener {
                 result = value.substring(value.toLowerCase().indexOf("llegar a") + 9);
             } else if((value.toLowerCase().contains("ir a"))){
                 result = value.substring(value.toLowerCase().indexOf("ir a") + 4);
+            } else if((value.toLowerCase().contains("ir de"))){
+                int indexOrigen = value.toLowerCase().indexOf("ir de")+6;
+                int indexDestino= value.toLowerCase().indexOf("hasta")+5;
+               result = value.substring(indexOrigen,indexDestino-5)+";"+value.substring(indexDestino,value.length());
+
             }
            destino = result;
             return result;

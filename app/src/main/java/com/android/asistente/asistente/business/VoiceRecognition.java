@@ -385,13 +385,18 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         }
                         break;
                     case "GPS":
-
                         GPS gps = new GPS();
-                        gps.getActualLatLong();
-                       // gps.enabledDesabledGps(true);
-                        String destino =  gps.ProcesarDatosEntrada(matches.get(0).toLowerCase());
+                        String destino = gps.ProcesarDatosEntrada(matches.get(0).toLowerCase());
                         gps.getLatLongByAddress(destino);
+                      //  if((matches.get(0).toLowerCase().indexOf("ir de") > -1) && (matches.get(0).toLowerCase().indexOf("hasta") > -1)) {
 
+
+                            // gps.enabledDesabledGps(true);
+
+
+                    //   }else {
+                            gps.getActualLatLong();
+                     //   }
                       intent = new Intent(asistenteservice.getContext(), Maps.class);
                       asistenteservice.getContext().startActivity(intent);
 
