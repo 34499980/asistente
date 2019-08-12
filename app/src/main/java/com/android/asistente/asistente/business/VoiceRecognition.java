@@ -387,10 +387,11 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     case "GPS":
 
                         GPS gps = new GPS();
+                        gps.getActualLatLong();
                        // gps.enabledDesabledGps(true);
                         String destino =  gps.ProcesarDatosEntrada(matches.get(0).toLowerCase());
                         gps.getLatLongByAddress(destino);
-                        gps.getActualLatLong();
+
                       intent = new Intent(asistenteservice.getContext(), Maps.class);
                       asistenteservice.getContext().startActivity(intent);
 

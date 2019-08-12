@@ -108,8 +108,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnStopService = (Button) findViewById(R.id.btnStopService);
             btHablar = (Button) findViewById(R.id.btnHablar);
             btnStartService.setOnClickListener(this);
+
             btnStopService.setOnClickListener(this);
             btHablar.setOnClickListener(this);
+            btnStartService.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                    startActivity(intent);
+                    return false;
+                }
+            });
             startTimer();
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
@@ -133,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 asistenteservice.bActive= true;
                 ContextCompat.startForegroundService(this,new Intent(this, asistenteservice.class));
 
-                Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+               // Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                //// startActivity(intent);
                 NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this);
