@@ -37,6 +37,7 @@ public class Alarm  extends BroadcastReceiver {
    public static int time;
    public static String titulo;
    static String temporizador;
+  static boolean bHour = false;
     public static void startAlertAtParticularTime() {
 
         // alarm first vibrate at 14 hrs and 40 min and repeat itself at ONE_HOUR interval
@@ -68,17 +69,25 @@ public class Alarm  extends BroadcastReceiver {
             alarmManager = (AlarmManager) asistenteservice.getContext().getSystemService(ALARM_SERVICE);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + (time * 1000), 10000
                     , pendingIntent);
-
-            Toast.makeText(asistenteservice.getContext(), "Alarm will set in " + time + " " +temporizador,
-                    Toast.LENGTH_LONG).show();
+            if(!bHour) {
+                Toast.makeText(asistenteservice.getContext(), "Alarm will set in " + time + " " + temporizador,
+                        Toast.LENGTH_LONG).show();
+            }
 
 
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if(!bHour){
+            TTSService.speak("Recordatorio de "+titulo);
+        }else{
+            LocalDateTime now = LocalDateTime.now();
+            int hour = now.getHour();
+            int minute = now.getMinute();
+            TTSService.speak("Son las "+ String.valueOf(hour) +" y "+ String.valueOf(minute));
+        }
 
-       TTSService.speak("Recordatorio de "+titulo);
         alarmManager.cancel(pendingIntent);
     }
     public static void ProcesarDatosEntrada(String value) {
@@ -86,6 +95,7 @@ public class Alarm  extends BroadcastReceiver {
         try {
 
             if (value.toLowerCase().contains("recordarme en")) {
+                bHour = false;
                 if(value.toLowerCase().indexOf("recordarme en una") > -1){
                     time = (1 * 60)*60;
                     temporizador = "horas";
@@ -103,6 +113,7 @@ public class Alarm  extends BroadcastReceiver {
                 }
                 titulo = value.substring(value.toLowerCase().indexOf("que tengo que") + 14);
             }else if(value.toLowerCase().contains("cuando sean las")){
+                bHour = true;
                 LocalDateTime now = LocalDateTime.now();
                 int hour = now.getHour();
                 int minute = now.getMinute();
