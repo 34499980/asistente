@@ -419,7 +419,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             }else if(matches.get(0).toLowerCase().indexOf("batería") > -1){
                 letters = "Battery";
 
-            }else if((matches.get(0).toLowerCase().indexOf("alarma") > -1)||(matches.get(0).toLowerCase().indexOf("recordarme") > -1)){
+            }else if((matches.get(0).toLowerCase().indexOf("avísame cuando sean") > -1)||(matches.get(0).toLowerCase().indexOf("alarma") > -1)||(matches.get(0).toLowerCase().indexOf("recordarme") > -1)){
                 letters = "Alarm";
             }else if(matches.get(0).toLowerCase().indexOf("wi-fi") > -1 || matches.get(0).toLowerCase().indexOf("wi fi") > -1){
                 letters = "Wifi";

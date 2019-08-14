@@ -22,6 +22,7 @@ import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -96,11 +97,18 @@ public class Alarm  extends BroadcastReceiver {
                      time = Integer.parseInt(value.substring(value.toLowerCase().indexOf("recordarme en") + 13, value.toLowerCase().indexOf("minuto")).trim()) * 60;
                      temporizador = "minutos";
                  }else{
-                     time = (Integer.parseInt(value.substring(value.toLowerCase().indexOf("recordarme en") + 13, value.toLowerCase().indexOf("minuto")).trim()) * 60) *60;
+                     time = (Integer.parseInt(value.substring(value.toLowerCase().indexOf("recordarme en") + 13, value.toLowerCase().indexOf("hora")).trim()) * 60) *60;
                       temporizador = "horas";
                  }
                 }
                 titulo = value.substring(value.toLowerCase().indexOf("que tengo que") + 14);
+            }else if(value.toLowerCase().contains("cuando sean las")){
+                LocalDateTime now = LocalDateTime.now();
+                int hour = now.getHour();
+                int minute = now.getMinute();
+                int actualTime = Integer.parseInt(String.valueOf(hour)+String.valueOf(minute));
+                time = Integer.parseInt(value.substring(value.indexOf("cuando sean las")+16).replace(":","").trim());
+                time = ((time - actualTime) * 60)*60;
             }
 
 
