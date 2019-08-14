@@ -3,6 +3,7 @@ package com.android.asistente.asistente.business;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -10,70 +11,92 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.R;
 import com.android.asistente.asistente.Services.TTSService;
+import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.io.IOException;
 import java.util.Calendar;
 
-public class Alarm  extends Activity {
+import static android.content.Context.ALARM_SERVICE;
+
+public class Alarm  extends BroadcastReceiver {
     private MediaPlayer mMediaPlayer;
     private String timeAlarm;
     private String task;
+    static AlarmManager alarmManager;
+   static  PendingIntent pendingIntent;
+   static  Intent intent;
+   public static int time;
+   public static String titulo;
+    public static void startAlertAtParticularTime() {
+
+        // alarm first vibrate at 14 hrs and 40 min and repeat itself at ONE_HOUR interval
+
+        intent = new Intent(asistenteservice.getContext(), Alarm.class);
+         pendingIntent = PendingIntent.getBroadcast(
+               asistenteservice.getContext(), 280192, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 14);
+        calendar.set(Calendar.MINUTE, 40);
+
+        alarmManager= (AlarmManager) asistenteservice.getContext().getSystemService(ALARM_SERVICE);
+
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_HOUR, pendingIntent);
+
+        Toast.makeText(asistenteservice.getContext(), "Alarm will vibrate at time specified",
+                Toast.LENGTH_SHORT).show();
+
+    }
+
+    public static void startAlert() {
+
+            intent = new Intent(asistenteservice.getContext(), Alarm.class);
+            pendingIntent = PendingIntent.getBroadcast(
+                    asistenteservice.getContext(), 280192, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            alarmManager = (AlarmManager) asistenteservice.getContext().getSystemService(ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + (time * 1000), 10000
+                    , pendingIntent);
+
+            Toast.makeText(asistenteservice.getContext(), "Alarm will set in " + time + " seconds",
+                    Toast.LENGTH_LONG).show();
+
+
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //setContentView(R.layout.alarm);
+    public void onReceive(Context context, Intent intent) {
 
-        //Button stopAlarm = (Button) findViewById(R.id.stopAlarm);
-       /* stopAlarm.setOnTouchListener(new OnTouchListener() {
-            public boolean onTouch(View arg0, MotionEvent arg1) {
-                mMediaPlayer.stop();
-                finish();
-                return false;
-            }
-        });*/
-
-        playSound(this, getAlarmUri());
+       TTSService.speak("Recordatorio de "+titulo);
+        alarmManager.cancel(pendingIntent);
     }
+    public static void ProcesarDatosEntrada(String value) {
 
-    private void playSound(Context context, Uri alert) {
-        mMediaPlayer = new MediaPlayer();
         try {
-          /*  mMediaPlayer.setDataSource(context, alert);
-            final AudioManager audioManager = (AudioManager) context
-                    .getSystemService(Context.AUDIO_SERVICE);
-            if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
-                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-                mMediaPlayer.prepare();
-                mMediaPlayer.start();
-            }*/
-            TTSService.speak("Son las "+timeAlarm+". Tiene que "+task);
-        } catch (Exception e) {
-            System.out.println("OOPS");
+
+            if (value.toLowerCase().contains("recordarme en")) {
+                if(value.toLowerCase().indexOf("recordarme en un") > -1){
+                    time = 1;
+                }else{
+                time = Integer.parseInt(value.substring(value.toLowerCase().indexOf("recordarme en") + 13, value.toLowerCase().indexOf("minuto")).trim()) * 60;
+                }
+                titulo = value.substring(value.toLowerCase().indexOf("que tengo que") + 14);
+            }
+
+
+        } catch (Exception ex) {
+            Log.appendLog("Alarm: " + ex.getMessage());
+
         }
     }
 
-    //Get an alarm sound. Try for an alarm. If none set, try notification,
-    //Otherwise, ringtone.
-    private Uri getAlarmUri() {
-        Uri alert = RingtoneManager
-                .getDefaultUri(RingtoneManager.TYPE_ALARM);
-        if (alert == null) {
-            alert = RingtoneManager
-                    .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            if (alert == null) {
-                alert = RingtoneManager
-                        .getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-            }
-        }
-        return alert;
-    }
 }

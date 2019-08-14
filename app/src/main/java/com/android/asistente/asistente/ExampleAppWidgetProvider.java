@@ -44,21 +44,10 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         super.onReceive(context, intent);
         if(intent.getAction().equals(CLICK_ACTION)){
             try {
-                //Me fijo si estan activos los servicios
-               /* General general = new General();
-                if(!asistenteservice.bActive){
-                    general.startService(asistenteservice.class);
 
-                }
-                if(!TTSService.bActive){
-                    general.startService(TTSService.class);
-                }*/
                 if(!VoiceRecognition.listening) {
                     asistenteservice.startVoice();
 
-                   /* voice.InitSpeech();
-                    voice.StartvoiceListening();
-                    Toast.makeText(context, "Listening...", Toast.LENGTH_SHORT).show();*/
                 }
             }catch(Exception ex){
                 Toast.makeText(context,ex.getMessage(),Toast.LENGTH_SHORT).show();

@@ -361,18 +361,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         CancelAction();
                         break;
                     case "Alarm":
-                        Calendar cal = Calendar.getInstance();
-                        cal.add(Calendar.SECOND, 5);
-
-                        //Create a new PendingIntent and add it to the AlarmManager
-                        Intent intent = new Intent(this, Alarm.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                                12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        AlarmManager am =
-                                (AlarmManager)getSystemService(Activity.ALARM_SERVICE);
-                        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                                pendingIntent);
-                        CancelAction();
+                       Alarm.ProcesarDatosEntrada(matches.get(0));
+                       Alarm.startAlert();
                         break;
                     case "Wifi":
                         if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
@@ -429,7 +419,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             }else if(matches.get(0).toLowerCase().indexOf("batería") > -1){
                 letters = "Battery";
 
-            }else if(matches.get(0).toLowerCase().indexOf("alarma") > -1){
+            }else if((matches.get(0).toLowerCase().indexOf("alarma") > -1)||(matches.get(0).toLowerCase().indexOf("recordarme") > -1)){
                 letters = "Alarm";
             }else if(matches.get(0).toLowerCase().indexOf("wi-fi") > -1 || matches.get(0).toLowerCase().indexOf("wi fi") > -1){
                 letters = "Wifi";
