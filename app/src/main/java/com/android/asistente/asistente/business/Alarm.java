@@ -35,6 +35,7 @@ public class Alarm  extends BroadcastReceiver {
    static  Intent intent;
    public static int time;
    public static String titulo;
+   static String temporizador;
     public static void startAlertAtParticularTime() {
 
         // alarm first vibrate at 14 hrs and 40 min and repeat itself at ONE_HOUR interval
@@ -67,7 +68,7 @@ public class Alarm  extends BroadcastReceiver {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + (time * 1000), 10000
                     , pendingIntent);
 
-            Toast.makeText(asistenteservice.getContext(), "Alarm will set in " + time + " seconds",
+            Toast.makeText(asistenteservice.getContext(), "Alarm will set in " + time + " " +temporizador,
                     Toast.LENGTH_LONG).show();
 
 
@@ -84,10 +85,20 @@ public class Alarm  extends BroadcastReceiver {
         try {
 
             if (value.toLowerCase().contains("recordarme en")) {
-                if(value.toLowerCase().indexOf("recordarme en un") > -1){
-                    time = 1;
+                if(value.toLowerCase().indexOf("recordarme en una") > -1){
+                    time = (1 * 60)*60;
+                    temporizador = "horas";
+                }else if(value.toLowerCase().indexOf("recordarme en un") > -1) {
+                    time = 1*60;
+                    temporizador = "minutos";
                 }else{
-                time = Integer.parseInt(value.substring(value.toLowerCase().indexOf("recordarme en") + 13, value.toLowerCase().indexOf("minuto")).trim()) * 60;
+                 if(value.contains("minutos")) {
+                     time = Integer.parseInt(value.substring(value.toLowerCase().indexOf("recordarme en") + 13, value.toLowerCase().indexOf("minuto")).trim()) * 60;
+                     temporizador = "minutos";
+                 }else{
+                     time = (Integer.parseInt(value.substring(value.toLowerCase().indexOf("recordarme en") + 13, value.toLowerCase().indexOf("minuto")).trim()) * 60) *60;
+                      temporizador = "horas";
+                 }
                 }
                 titulo = value.substring(value.toLowerCase().indexOf("que tengo que") + 14);
             }
