@@ -37,6 +37,7 @@ public class Alarm  extends BroadcastReceiver {
    public static int time;
    public static String titulo;
    static String temporizador;
+   static String inputHour;
   static boolean bHour = false;
     public static void startAlertAtParticularTime() {
 
@@ -71,6 +72,9 @@ public class Alarm  extends BroadcastReceiver {
                     , pendingIntent);
             if(!bHour) {
                 Toast.makeText(asistenteservice.getContext(), "Alarm will set in " + time + " " + temporizador,
+                        Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(asistenteservice.getContext(), "Alarm will set to " + inputHour ,
                         Toast.LENGTH_LONG).show();
             }
 
@@ -115,11 +119,22 @@ public class Alarm  extends BroadcastReceiver {
             }else if(value.toLowerCase().contains("cuando sean las")){
                 bHour = true;
                 LocalDateTime now = LocalDateTime.now();
-                int hour = now.getHour();
-                int minute = now.getMinute();
-                int actualTime = Integer.parseInt(String.valueOf(hour)+String.valueOf(minute));
-                time = Integer.parseInt(value.substring(value.indexOf("cuando sean las")+16).replace(":","").trim());
-                time = ((time - actualTime) * 60)*60;
+                String hour = String.valueOf(now.getHour());
+                String minute = now.getMinute() < 10 ? "0"+String.valueOf(now.getMinute()) : String.valueOf(now.getMinute()) ;
+                int actualTime = Integer.parseInt(hour+minute);
+                inputHour = value.substring(value.indexOf("cuando sean las")+16);
+                if(inputHour.contains(":")){
+                    time = Integer.parseInt(inputHour.replace(":","").trim());
+                }else{
+                    time = Integer.parseInt(inputHour.trim()+"00");
+                }
+               // time = Integer.parseInt(value.substring(value.indexOf("cuando sean las")+16).replace(":","").trim());
+                time = (time - actualTime) -40;
+                if(time > 0) {
+                    time = time * 60;
+                }else{
+                    time = 10;
+                }
             }
 
 
