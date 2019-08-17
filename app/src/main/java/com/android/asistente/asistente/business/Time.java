@@ -187,6 +187,7 @@ public class Time {
                             weather.sky = "y hay llovizna";
                             break;
                         default:
+                            Log.appendLog("Cielo: " + details.getString("description").toLowerCase());
                             weather.sky="";
                             break;
                     }

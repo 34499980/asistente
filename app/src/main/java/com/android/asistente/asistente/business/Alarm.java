@@ -71,8 +71,14 @@ public class Alarm  extends BroadcastReceiver {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + (time * 1000), 10000
                     , pendingIntent);
             if(!bHour) {
-                Toast.makeText(asistenteservice.getContext(), "Alarm will set in " + time + " " + temporizador,
-                        Toast.LENGTH_LONG).show();
+                if(temporizador.equals("horas")){
+                    Toast.makeText(asistenteservice.getContext(), "Alarm will set in " + inputHour + " " + temporizador,
+                            Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(asistenteservice.getContext(), "Alarm will set in " + (time/60) + " " + temporizador,
+                            Toast.LENGTH_LONG).show();
+                }
+
             }else{
                 Toast.makeText(asistenteservice.getContext(), "Alarm will set to " + inputHour ,
                         Toast.LENGTH_LONG).show();
@@ -100,6 +106,7 @@ public class Alarm  extends BroadcastReceiver {
 
             if (value.toLowerCase().contains("recordarme en")) {
                 bHour = false;
+
                 if(value.toLowerCase().indexOf("recordarme en una") > -1){
                     time = (1 * 60)*60;
                     temporizador = "horas";
@@ -113,6 +120,7 @@ public class Alarm  extends BroadcastReceiver {
                  }else{
                      time = (Integer.parseInt(value.substring(value.toLowerCase().indexOf("recordarme en") + 13, value.toLowerCase().indexOf("hora")).trim()) * 60) *60;
                       temporizador = "horas";
+                     inputHour = value.substring(value.toLowerCase().indexOf("recordarme en") + 13, value.toLowerCase().indexOf("hora")).trim();
                  }
                 }
                 titulo = value.substring(value.toLowerCase().indexOf("que tengo que") + 14);
@@ -124,17 +132,21 @@ public class Alarm  extends BroadcastReceiver {
                 int actualTime = Integer.parseInt(hour+minute);
                 inputHour = value.substring(value.indexOf("cuando sean las")+16);
                 if(inputHour.contains(":")){
-                    time = Integer.parseInt(inputHour.replace(":","").trim());
+                    time = Integer.parseInt(inputHour.replace(":","").trim())+1;
                 }else{
-                    time = Integer.parseInt(inputHour.trim()+"00");
+                    time = Integer.parseInt(inputHour.trim()+"00")+1;
                 }
                // time = Integer.parseInt(value.substring(value.indexOf("cuando sean las")+16).replace(":","").trim());
-                time = (time - actualTime) -40;
-                if(time > 0) {
+                time = time - actualTime;
+                int div = time / 100;
+                if(div > 100) {
+                    time = time - (div * 40);
+                }
+               /* if(time > 0) {
                     time = time * 60;
                 }else{
                     time = 10;
-                }
+                }*/
             }
 
 
