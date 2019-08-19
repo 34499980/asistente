@@ -159,7 +159,7 @@ public class SearchWeb {
              String KEY = "AIzaSyD0xPBxooSwcSxb2J16vPJE7HQtvxjqyPk";
              String cx = "016697470152593144145:catp7rewrfa";
 
-             String buildUrl= url +"?key=" +KEY+ "&cx=" + cx + "&q=" + URLEncoder.encode(query);
+             String buildUrl= "https://www.googleapis.com/customsearch/v1?key=AIzaSyD0xPBxooSwcSxb2J16vPJE7HQtvxjqyPk&cx=016697470152593144145:catp7rewrfa&q="+args[0]+"Wikipedia, enciclopedia libre";
             String xml = excuteGet(buildUrl);
             return xml;
         }

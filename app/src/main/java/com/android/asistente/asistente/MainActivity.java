@@ -23,6 +23,7 @@ import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.NotificationService;
 //import com.android.asistente.asistente.business;
 import com.android.asistente.asistente.Services.TTSService;
+import com.android.asistente.asistente.business.SearchWeb;
 import com.android.asistente.asistente.business.VoiceRecognition;
 import com.android.asistente.asistente.Services.asistenteservice;
 
