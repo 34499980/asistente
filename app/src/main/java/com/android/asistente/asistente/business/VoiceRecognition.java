@@ -391,7 +391,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                       asistenteservice.getContext().startActivity(intent);
 
                         break;
-                    case "Searh":
+                    case "Search":
                        SearchWeb search = new SearchWeb();
                        search.Searh(matches.get(0).toLowerCase());
 
