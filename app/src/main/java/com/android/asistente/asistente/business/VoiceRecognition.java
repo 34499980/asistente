@@ -391,6 +391,11 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                       asistenteservice.getContext().startActivity(intent);
 
                         break;
+                    case "Searh":
+                       SearchWeb search = new SearchWeb();
+                       search.Searh(matches.get(0).toLowerCase());
+
+                        break;
                     default:
                         TTSService.speak("Lo siento, no tengo una respuesta");
                         break;
@@ -425,6 +430,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "Wifi";
             }else if(matches.get(0).toLowerCase().indexOf("llegar") > -1 || matches.get(0).toLowerCase().indexOf("ir") > -1) {
                 letters = "GPS";
+            }else{
+                letters = "Search";
             }
         }catch(Exception ex){
             Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());

@@ -1,5 +1,11 @@
 package com.android.asistente.asistente.business;
 
+import android.os.AsyncTask;
+
+import com.android.asistente.asistente.Helper.Log;
+import com.android.asistente.asistente.Services.TTSService;
+
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +25,7 @@ import java.net.URLEncoder;
 
 
 public class SearchWeb {
-
+        public String query="";
 
     public class HttpRequest {
 
@@ -86,5 +92,98 @@ public class SearchWeb {
 
             return result;
         }*/
+    }
+    public  void Searh(String input){
+        try {
+
+            DownloadWeather weather = new DownloadWeather();
+            weather.execute(input);
+        }catch(Exception ex){
+            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+        }
+    }
+    private static  String excuteGet(String targetURL) {
+        URL url;
+        HttpURLConnection connection = null;
+        try {
+            //Create connection
+            url = new URL(targetURL);
+            connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestProperty("content-type", "application/json;  charset=utf-8");
+            connection.setRequestProperty("Content-Language", "en-US");
+            connection.setUseCaches (false);
+            connection.setDoInput(true);
+            connection.setDoOutput(false);
+
+            InputStream is;
+            int status = connection.getResponseCode();
+            if (status != HttpURLConnection.HTTP_OK)
+                is = connection.getErrorStream();
+            else
+                is = connection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                response.append('\r');
+            }
+            rd.close();
+            return response.toString();
+        } catch (Exception e) {
+            Log.appendLog(Time.class.getName()+"->"+ Time.class.getEnclosingMethod().getName());
+            return null;
+        } finally {
+            if(connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+    class DownloadWeather extends AsyncTask< String, Void, String > {
+        Time.DownloadWeather instance=null;
+        /* private DownloadWeather(){};
+         public DownloadWeather getInstance(){
+             if(instance == null){
+                 instance = new DownloadWeather();
+             }
+             return instance;
+         }*/
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // loader.setVisibility(View.VISIBLE);
+
+        }
+        protected String doInBackground(String...args) {
+             String url = "https://www.googleapis.com/customsearch/v1?";
+             String KEY = "AIzaSyD0xPBxooSwcSxb2J16vPJE7HQtvxjqyPk";
+             String cx = "016697470152593144145:catp7rewrfa";
+
+             String buildUrl= url +"?key=" +KEY+ "&cx=" + cx + "&q=" + URLEncoder.encode(query);
+            String xml = excuteGet(buildUrl);
+            return xml;
+        }
+        @Override
+        protected void onPostExecute(String xml) {
+
+            try {
+                JSONObject json = new JSONObject(xml);
+                if (json != null) {
+                    JSONObject details = json.getJSONArray("items").getJSONObject(0);
+                   // JSONObject main = json.getJSONObject("main");
+                   // DateFormat df = DateFormat.getDateTimeInstance();
+                    TTSService.speak(details.getString("htmlSnippet").toLowerCase());
+                    // cityField.setText(json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country"));
+
+                }
+            } catch (JSONException e) {
+                Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            }
+
+
+        }
+
+
+
     }
 }
