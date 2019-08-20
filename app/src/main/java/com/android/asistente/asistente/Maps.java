@@ -3,6 +3,8 @@ package com.android.asistente.asistente;
 import androidx.fragment.app.FragmentActivity;
 
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 
 import com.android.asistente.asistente.business.GPS;
@@ -14,7 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class Maps extends FragmentActivity implements OnMapReadyCallback {
+public class Maps extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
 
@@ -55,5 +57,30 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         LatLng latLong2 = new LatLng(GPS._latDestino, GPS._longDestino);
         mMap.addMarker(new MarkerOptions().position(new LatLng(GPS._latDestino,GPS._longDestino)).title(GPS.destino));
         mMap.addPolyline(new PolylineOptions().add(latLong,latLong2).width(5).color(Color.RED));
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        GPS._latOrigen = location.getLatitude();
+        GPS._longOrigen = location.getLongitude();
+        LatLng latLong = new LatLng(GPS._latOrigen, GPS._longOrigen);
+        mMap.addMarker(new MarkerOptions().position(latLong).title(GPS.origen));
+        float zoomLevel = 16.0f; //This goes up to 21
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, zoomLevel));
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
