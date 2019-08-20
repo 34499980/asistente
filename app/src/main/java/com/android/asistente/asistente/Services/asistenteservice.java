@@ -74,7 +74,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
 
             }
         }catch(Exception ex){
-            Log.appendLog(ex.getMessage());
+          //  Log.appendLog(ex.getMessage());
         }
     }
 

@@ -190,7 +190,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 stopService(new Intent(this,asistenteservice.class));
                 break;
             case R.id.btnHablar:
-
+                   // SearchWeb search = new SearchWeb();
+                   // search.Searh("mirtah legrand");
                     shape.setColor(Color.parseColor("#ef5350"));//Color rojo
                     voice.InitSpeech();
                     voice.StartvoiceListening();

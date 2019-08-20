@@ -13,6 +13,7 @@ import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,6 +36,21 @@ public class General extends Activity {
   }
   return limpio;
  }
+    public static String CleanStringFromHTML(String cadena) {
+        String limpio =null;
+        if (cadena !=null) {
+            String valor = cadena;
+            valor = valor.toUpperCase();
+            // Normalizar texto para eliminar acentos, dieresis, cedillas y tildes
+            limpio = Normalizer.normalize(valor, Normalizer.Form.NFD);
+            // Quitar caracteres no ASCII excepto la enie, interrogacion que abre, exclamacion que abre, grados, U con dieresis.
+            limpio = limpio.replaceAll("<BR>","").replaceAll("<B>","").replaceAll("</B>","")
+                    .replaceAll("\n","").replaceAll("&NBSP","");
+            // Regresar a la forma compuesta, para poder comparar la enie con la tabla de valores
+
+        }
+        return limpio;
+    }
  public  boolean isMyServiceRunning(Class<?> serviceClass) {
      try {
          //ConnectivityManager manager = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
