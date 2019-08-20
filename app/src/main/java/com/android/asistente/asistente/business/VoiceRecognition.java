@@ -428,7 +428,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "Alarm";
             }else if(matches.get(0).toLowerCase().indexOf("wi-fi") > -1 || matches.get(0).toLowerCase().indexOf("wi fi") > -1){
                 letters = "Wifi";
-            }else if(matches.get(0).toLowerCase().indexOf("llegar") > -1 || matches.get(0).toLowerCase().indexOf("ir") > -1) {
+            }else if(matches.get(0).toLowerCase().indexOf("llegar") > -1 || matches.get(0).toLowerCase().indexOf("cómo ir ") > -1) {
                 letters = "GPS";
             }else{
                 letters = "Search";
