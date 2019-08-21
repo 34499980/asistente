@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 
 import com.android.asistente.asistente.Helper.Log;
+import com.android.asistente.asistente.Maps;
 import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class GPS extends Activity implements LocationListener {
             public void onLocationChanged(Location location) {
                 _latOrigen = location.getLatitude();
                 _longOrigen = location.getLongitude();
+                Maps.updateMarker();
 
 
             }
@@ -139,7 +141,7 @@ public class GPS extends Activity implements LocationListener {
 
             if (value.toLowerCase().contains("llegar a")) {
                 result = value.substring(value.toLowerCase().indexOf("llegar a") + 9);
-            } else if((value.toLowerCase().contains("ir a"))){
+            } else if((value.toLowerCase().contains("ir hasta")) || (value.toLowerCase().contains("ir a"))){
                 result = value.substring(value.toLowerCase().indexOf("ir a") + 4);
             } else if((value.toLowerCase().contains("ir de"))){
                 int indexOrigen = value.toLowerCase().indexOf("ir de")+6;

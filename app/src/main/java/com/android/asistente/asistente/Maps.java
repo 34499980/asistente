@@ -18,7 +18,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 public class Maps extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
+    static LatLng latLong;
+    static  LatLng latLong2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +47,16 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback, Locati
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng latLong = new LatLng(GPS._latOrigen, GPS._longOrigen);
+        latLong = new LatLng(GPS._latOrigen, GPS._longOrigen);
         mMap.addMarker(new MarkerOptions().position(latLong).title(GPS.origen));
         addMarkers();
         float zoomLevel = 16.0f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, zoomLevel));
 
     }
-    public void addMarkers(){
-        LatLng latLong = new LatLng(GPS._latOrigen, GPS._longOrigen);
-        LatLng latLong2 = new LatLng(GPS._latDestino, GPS._longDestino);
+    public static void addMarkers(){
+       // LatLng latLong = new LatLng(GPS._latOrigen, GPS._longOrigen);
+        latLong2 = new LatLng(GPS._latDestino, GPS._longDestino);
         mMap.addMarker(new MarkerOptions().position(new LatLng(GPS._latDestino,GPS._longDestino)).title(GPS.destino));
         mMap.addPolyline(new PolylineOptions().add(latLong,latLong2).width(5).color(Color.RED));
     }
@@ -68,7 +70,15 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback, Locati
         float zoomLevel = 16.0f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, zoomLevel));
     }
-
+    public static void updateMarker(){
+        mMap.clear();
+        addMarkers();
+        latLong = new LatLng(GPS._latOrigen, GPS._longOrigen);
+        mMap.addMarker(new MarkerOptions().position(latLong).title(GPS.origen));
+        mMap.addPolyline(new PolylineOptions().add(latLong,latLong2).width(5).color(Color.RED));
+        float zoomLevel = 16.0f; //This goes up to 21
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, zoomLevel));
+    }
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 

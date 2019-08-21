@@ -192,7 +192,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnHablar:
 
-                    shape.setColor(Color.parseColor("#ef5350"));//Color rojo
+                shape.setColor(Color.parseColor("#ef5350"));//Color rojo
+
                    voice.InitSpeech();
                     voice.StartvoiceListening();
                 break;
