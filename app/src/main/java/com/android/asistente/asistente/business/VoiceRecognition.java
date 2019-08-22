@@ -386,8 +386,20 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                         break;
                     case "Search":
-                       SearchWeb search = new SearchWeb();
-                       search.Searh(matches.get(0).toLowerCase());
+                        if(matches.get(0).toLowerCase().indexOf("mostrar detalles") > -1 && SearchWeb.url != null) {
+                            try {
+
+                                Intent intent = Intent.parseUri(SearchWeb.url, Intent.URI_INTENT_SCHEME);
+
+                                asistenteservice.getContext().startActivity(intent);
+                                SearchWeb.url = null;
+                            }catch(Exception ex){
+                                Toast.makeText(asistenteservice.getContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
+                            }
+                        }else{
+                            SearchWeb search = new SearchWeb();
+                            search.Searh(matches.get(0).toLowerCase());
+                        }
 
                         break;
                     default:

@@ -27,6 +27,7 @@ import java.net.URLEncoder;
 
 public class SearchWeb {
         public String query="";
+        public static String url;
 
     public class HttpRequest {
 
@@ -173,6 +174,7 @@ public class SearchWeb {
                     JSONObject details = json.getJSONArray("items").getJSONObject(0);
                    // JSONObject main = json.getJSONObject("main");
                    // DateFormat df = DateFormat.getDateTimeInstance();
+                    url = details.getString("formattedUrl");
                     TTSService.speak(General.CleanStringFromHTML(details.getString("htmlSnippet").toLowerCase()));
                     // cityField.setText(json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country"));
 
