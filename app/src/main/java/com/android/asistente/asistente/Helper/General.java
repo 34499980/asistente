@@ -62,7 +62,7 @@ public class General extends Activity {
          }
          return false;
      }catch(Exception ex){
-         Log.appendLog(ex.getMessage());
+         Log.appendLog("General:"+ex.getMessage());
          throw ex;
      }
  }
@@ -71,7 +71,7 @@ public class General extends Activity {
         new MainActivity();
         MainActivity.getContext().startService(new Intent(MainActivity.getContext(), serviceClass));
     }catch(Exception ex){
-        Log.appendLog(ex.getMessage());
+        Log.appendLog("General:"+ex.getMessage());
     }
  }
  public static boolean isHeadSetConnect(){

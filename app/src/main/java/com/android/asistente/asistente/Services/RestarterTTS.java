@@ -23,7 +23,7 @@ public class RestarterTTS extends BroadcastReceiver {
             }
           //  Toast.makeText(context, "Service restarted", Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
-            Log.appendLog(getClass().getName() + "->" + getClass().getEnclosingMethod().getName());
+            Log.appendLog("RestarterTTS:"+ex.getMessage());
             throw ex;
         }
     }

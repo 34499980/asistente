@@ -17,7 +17,7 @@ public class Call extends AppCompatActivity {
                 asistenteservice.getContext().startActivity(callIntent);
             }
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("Call:"+ex.getMessage());
             Toast.makeText(this, "No se pudo realizar la llamada", Toast.LENGTH_SHORT).show();
         }
     }

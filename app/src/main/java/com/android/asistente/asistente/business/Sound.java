@@ -21,7 +21,7 @@ int val;
             AudioManager audioManager = (AudioManager) asistenteservice.getContext().getSystemService(Context.AUDIO_SERVICE);
             audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, val, 0);
         }catch (Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("Sound:"+ex.getMessage());
             throw ex;
         }
     }
@@ -31,7 +31,7 @@ int val;
             AudioManager audioManager = (AudioManager) asistenteservice.getContext().getSystemService(Context.AUDIO_SERVICE);
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, val, 0);
         }catch (Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("Sound:"+ex.getMessage());
             throw ex;
         }
     }

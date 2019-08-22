@@ -67,7 +67,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
         try {
             btnPrueba = (Button) findViewById(R.id.btnHablar);
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("VoiceRecognition:"+ex.getMessage());
         }
 
 
@@ -187,7 +187,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
          //   Log.appendLog("StartvoiceListening Fin");
 
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("VoiceRecognition:"+ex.getMessage());
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -214,7 +214,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                     weather.humidity +" porciento "  +weather.sky);*/
                             }
                         }catch(Exception ex){
-                            Log.appendLog(ex.getMessage());
+                            Log.appendLog("VoiceRecognition:"+ex.getMessage());
                             Toast.makeText(this,"No se pudo obtener el clima",Toast.LENGTH_LONG).show();
                         }
                         CancelAction();
@@ -275,7 +275,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                         asistenteservice.getContext().startActivity(t);
                                     }
                                 } catch (Exception ex) {
-                                    Log.appendLog(ex.getMessage());
+                                    Log.appendLog("VoiceRecognition:"+ex.getMessage());
                                     Toast.makeText(asistenteservice.getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
@@ -327,7 +327,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                         asistenteservice.getContext().startActivity(t);
                                     }
                                 } catch (Exception ex) {
-                                    Log.appendLog(ex.getMessage());
+                                    Log.appendLog("VoiceRecognition:"+ex.getMessage());
                                     CancelAction();
                                     Toast.makeText(asistenteservice.getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
@@ -410,7 +410,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 TTSService.speak("Lo siento, no tengo una respuesta");
             }
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("VoiceRecognition:"+ex.getMessage());
         }
     }
     private void Input(){
@@ -440,7 +440,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "Search";
             }
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("VoiceRecognition:"+ex.getMessage());
         }
     }
     private void CancelAction(){
@@ -472,7 +472,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
        //     Log.appendLog("InitSpeech Fin");
 
         }catch(Exception ex){
-            Log.appendLog(ex.getMessage());
+            Log.appendLog("VoiceRecognition:"+ex.getMessage());
             throw ex;
         }
     }

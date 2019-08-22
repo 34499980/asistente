@@ -99,7 +99,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         try {
 
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("asistenteservice:"+ex.getMessage());
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
@@ -122,7 +122,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
                 this.sendBroadcast(broadcastIntent);
             }
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("asistenteservice:"+ex.getMessage());
         }
 
     }

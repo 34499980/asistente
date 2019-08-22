@@ -36,7 +36,7 @@ public class Whatsapp extends AppCompatActivity{
 
         }catch(Exception ex){
             Toast.makeText(this, "No se pudo enviar el whatsapp", Toast.LENGTH_SHORT).show();
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("Whatsapp:"+ex.getMessage());
         }
     }
     public String ProcesarDatosEntrada(String value){
@@ -53,7 +53,7 @@ public class Whatsapp extends AppCompatActivity{
             }
             return result;
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("Whatsapp:"+ex.getMessage());
             return result;
         }
     }

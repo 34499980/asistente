@@ -122,7 +122,7 @@ public class TTSService extends Service {
             broadcastIntent.setClass(this, RestarterTTS.class);
             this.sendBroadcast(broadcastIntent);
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("TTSService:"+ex.getMessage());
         }
         super.onDestroy();
     }
@@ -185,7 +185,7 @@ public class TTSService extends Service {
                Voice algo = voice;
             }
         }catch(Exception ex){
-            Log.appendLog(ex.getMessage());
+            Log.appendLog("TTSService:"+ex.getMessage());
         }
     }
 }

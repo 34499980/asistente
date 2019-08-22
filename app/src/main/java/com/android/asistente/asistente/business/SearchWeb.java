@@ -101,7 +101,7 @@ public class SearchWeb {
             DownloadWeather weather = new DownloadWeather();
             weather.execute(input);
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("SearchWeb:"+ex.getMessage());
         }
     }
     private static  String excuteGet(String targetURL) {
@@ -132,8 +132,8 @@ public class SearchWeb {
             }
             rd.close();
             return response.toString();
-        } catch (Exception e) {
-            Log.appendLog(Time.class.getName()+"->"+ Time.class.getEnclosingMethod().getName());
+        } catch (Exception ex) {
+            Log.appendLog("SearchWeb:"+ex.getMessage());
             return null;
         } finally {
             if(connection != null) {
@@ -160,9 +160,14 @@ public class SearchWeb {
              String url = "https://www.googleapis.com/customsearch/v1?";
              String KEY = "AIzaSyD0xPBxooSwcSxb2J16vPJE7HQtvxjqyPk";
              String cx = "016697470152593144145:catp7rewrfa";
+            String buildUrl;
+            if(args[0].toLowerCase().contains("buscar")) {
+                buildUrl = "https://www.googleapis.com/customsearch/v1?key=AIzaSyD0xPBxooSwcSxb2J16vPJE7HQtvxjqyPk&cx=016697470152593144145:catp7rewrfa&q=" + args[0];
+            }else{
+                buildUrl = "https://www.googleapis.com/customsearch/v1?key=AIzaSyD0xPBxooSwcSxb2J16vPJE7HQtvxjqyPk&cx=016697470152593144145:catp7rewrfa&q=" + args[0] + "Wikipedia, enciclopedia libre";
 
-             String buildUrl= "https://www.googleapis.com/customsearch/v1?key=AIzaSyD0xPBxooSwcSxb2J16vPJE7HQtvxjqyPk&cx=016697470152593144145:catp7rewrfa&q="+args[0]+"Wikipedia, enciclopedia libre";
-            String xml = excuteGet(buildUrl);
+            }
+             String xml = excuteGet(buildUrl);
             return xml;
         }
         @Override
@@ -179,8 +184,8 @@ public class SearchWeb {
                     // cityField.setText(json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country"));
 
                 }
-            } catch (JSONException e) {
-                Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            } catch (JSONException ex) {
+                Log.appendLog("SearchWeb:"+ex.getMessage());
             }
 
 

@@ -141,8 +141,10 @@ public class GPS extends Activity implements LocationListener {
 
             if (value.toLowerCase().contains("llegar a")) {
                 result = value.substring(value.toLowerCase().indexOf("llegar a") + 9);
-            } else if((value.toLowerCase().contains("ir hasta")) || (value.toLowerCase().contains("ir a"))){
+            } else if((value.toLowerCase().contains("ir a"))) {
                 result = value.substring(value.toLowerCase().indexOf("ir a") + 4);
+            }else if((value.toLowerCase().contains("ir hasta"))){
+                result = value.substring(value.toLowerCase().indexOf("ir hasta") + 9);
             } else if((value.toLowerCase().contains("ir de"))){
                 int indexOrigen = value.toLowerCase().indexOf("ir de")+6;
                 int indexDestino= value.toLowerCase().indexOf("hasta")+5;
@@ -183,7 +185,7 @@ public class GPS extends Activity implements LocationListener {
             intent.putExtra("enabled", status);
             asistenteservice.getContext().sendBroadcast(intent);
         }catch(Exception ex){
-            Log.appendLog("Helper.GPS:" +ex.getMessage());
+            Log.appendLog("GPS:" +ex.getMessage());
         }
     }
 }

@@ -60,7 +60,7 @@ public class Time {
         result.put("minutes",Minutes);
         return result;
         }catch(Exception ex){
-        Log.appendLog(Time.class.getName()+"->"+ Time.class.getEnclosingMethod().getName());
+        Log.appendLog("Time:"+ex.getMessage());
         throw ex;
          }
     }
@@ -75,7 +75,7 @@ public class Time {
             DownloadWeather weather = new DownloadWeather();
             weather.execute("Buenos Aires,AR");
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("Time:"+ex.getMessage());
         }
     }
     private static  String excuteGet(String targetURL) {
@@ -106,8 +106,8 @@ public class Time {
             }
             rd.close();
             return response.toString();
-        } catch (Exception e) {
-            Log.appendLog(Time.class.getName()+"->"+ Time.class.getEnclosingMethod().getName());
+        } catch (Exception ex) {
+            Log.appendLog("Time:"+ex.getMessage());
             return null;
         } finally {
             if(connection != null) {
@@ -215,8 +215,8 @@ public class Time {
                     }
 
                 }
-            } catch (JSONException e) {
-                Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            } catch (JSONException ex) {
+                Log.appendLog("Time:"+ex.getMessage());
             }
 
 

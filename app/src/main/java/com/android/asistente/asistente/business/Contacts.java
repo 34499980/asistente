@@ -68,7 +68,7 @@ public class Contacts extends AppCompatActivity {
 
             return listContacs;
         }catch(Exception ex){
-            Log.appendLog(Contacts.class.getName()+"->"+ Contacts.class.getEnclosingMethod().getName());
+            Log.appendLog("Contacts:"+ex.getMessage());
             throw ex;
         }
 
@@ -88,7 +88,7 @@ public class Contacts extends AppCompatActivity {
             }
             return result;
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("Contacts:"+ex.getMessage());
             throw ex;
         }
     }

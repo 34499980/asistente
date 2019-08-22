@@ -16,7 +16,7 @@ public class Gallery extends AppCompatActivity {
         startActivity(intent);}
         catch(Exception ex){
             Toast.makeText(this, "Error al abrir galeria", Toast.LENGTH_SHORT).show();
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("Gallery:"+ex.getMessage());
         }
     }
 }

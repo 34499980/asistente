@@ -51,7 +51,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
                 }
             }catch(Exception ex){
                 Toast.makeText(context,ex.getMessage(),Toast.LENGTH_SHORT).show();
-                Log.appendLog( ex.getMessage());
+                Log.appendLog("Widget:"+ ex.getMessage());
             }
 
         }

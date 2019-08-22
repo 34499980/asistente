@@ -22,7 +22,7 @@ public class Restarter extends BroadcastReceiver {
             }
           //  Toast.makeText(context, "Service restarted", Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
-            Log.appendLog(getClass().getName() + "->" + getClass().getEnclosingMethod().getName());
+            Log.appendLog("Restarter:"+ex.getMessage());
             throw ex;
         }
     }

@@ -25,7 +25,7 @@ public class ExternalApp extends AppCompatActivity {
             }
             return app;
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("ExternalApp:"+ex.getMessage());
             throw ex;
         }
     }
@@ -46,7 +46,7 @@ public class ExternalApp extends AppCompatActivity {
             }
             return result;
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("ExternalApp:"+ex.getMessage());
             throw ex;
         }
     }
@@ -58,7 +58,7 @@ public class ExternalApp extends AppCompatActivity {
             }
         }catch(Exception ex){
             Toast.makeText(this, "No se pudo abrir la app", Toast.LENGTH_SHORT).show();
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("ExternalApp:"+ex.getMessage());
         }
     }
 }

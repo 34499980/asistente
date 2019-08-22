@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view = inflater.inflate(R.layout.example_widget, null);
             buttonWidget = (Button) view.findViewById(R.id.btnHablarWidget);
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("MainActivity:" + ex.getMessage());
         }
 
 
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
             startTimer();
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("MainActivity:" + ex.getMessage());
         }
       //  speech.speek("");
         //Fuerzo el click de hablar.
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("MainActivity:" + ex.getMessage());
             Toast.makeText(getBaseContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
         }
 
@@ -253,13 +253,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try {
                 timerObj.schedule(timerTaskObj, 0, 1000);
             }catch(Exception ex){
-                Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+                Log.appendLog("MainActivity:" + ex.getMessage());
                 throw ex;
             }
 
 
         }catch(Exception ex){
-            Log.appendLog(getClass().getName()+"->"+getClass().getEnclosingMethod().getName());
+            Log.appendLog("MainActivity:" + ex.getMessage());
             throw ex;
         }
 
@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return false;
 
         } catch (Exception ex) {
-            Log.appendLog(getClass().getName() + "->" + getClass().getEnclosingMethod().getName());
+            Log.appendLog("MainActivity:" + ex.getMessage());
             throw ex;
         }
     }

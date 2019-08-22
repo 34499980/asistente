@@ -13,7 +13,7 @@ public class Camera{
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             startActivity(asistenteservice.getContext(), intent, null);
         }catch(Exception ex){
-            Log.appendLog(Camera.class.getName()+"->"+ Camera.class.getEnclosingMethod().getName());
+            Log.appendLog("Camera:"+ex.getMessage());
             throw ex;
         }
      }
