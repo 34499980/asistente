@@ -3,12 +3,25 @@ package com.android.asistente.asistente.business;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioFormat;
 import android.media.AudioManager;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
+import android.media.MediaScannerConnection;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.view.KeyEvent;
 
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.asistenteservice;
+
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class Sound extends BroadcastReceiver {
 int val;
@@ -66,5 +79,146 @@ int val;
                 break;
         }
         abortBroadcast();
+    }
+
+
+    private static final String TAG = "MainActivity";
+
+
+    private static int RECORDER_SAMPLERATE = 44100;
+    private static int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_STEREO;
+    private static int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+
+
+
+    boolean isRecording = false;
+    private File file;
+    private AudioRecord audioRecord;
+    int bufferSizeInBytes = 0;
+    Context context = asistenteservice.getContext();
+
+    // path
+    final String path = Environment.getExternalStorageDirectory().getAbsolutePath() +"/Document/final.pcm" ;
+    final String outpath = path.replace(".pcm", ".wav");
+
+    public void autoRecording(){
+        // Get the minimum buffer size required for the successful creation of an AudioRecord object.
+        bufferSizeInBytes = AudioRecord.getMinBufferSize( RECORDER_SAMPLERATE,
+                RECORDER_CHANNELS,
+                RECORDER_AUDIO_ENCODING
+        );
+        // Initialize Audio Recorder.
+        AudioRecord audioRecorder = new AudioRecord( MediaRecorder.AudioSource.MIC,
+                RECORDER_SAMPLERATE,
+                RECORDER_CHANNELS,
+                RECORDER_AUDIO_ENCODING,
+                bufferSizeInBytes
+        );
+        // Start Recording.
+
+        audioRecorder.startRecording();
+        isRecording = true;
+
+        // for auto stop
+        int numberOfReadBytes   = 0;
+        byte audioBuffer[]      = new  byte[bufferSizeInBytes];
+        boolean recording       = false;
+        float tempFloatBuffer[] = new float[3];
+        int tempIndex           = 0;
+
+        // create file
+
+        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/final.pcm");
+
+
+        if (file.exists()){
+
+            file.delete();
+        }
+        try {
+
+            file.createNewFile();
+        } catch (IOException e) {
+
+            throw new IllegalStateException("did not create file:" + file.toString());
+        }
+
+        // initiate media scan and put the new things into the path array to
+        // make the scanner aware of the location and the files you want to see
+        MediaScannerConnection.scanFile(context, new String[] {file.toString()}, null, null);
+
+        // output stream
+        OutputStream os = null;
+        DataOutputStream dos = null;
+        try {
+            os = new FileOutputStream(file);
+            BufferedOutputStream bos = new BufferedOutputStream(os);
+            dos = new DataOutputStream(bos);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        // While data come from microphone.
+        while( true )
+        {
+            float totalAbsValue = 0.0f;
+            short sample        = 0;
+
+            numberOfReadBytes = audioRecorder.read( audioBuffer, 0, bufferSizeInBytes );
+
+            // Analyze Sound.
+            for( int i=0; i<bufferSizeInBytes; i+=2 )
+            {
+                sample = (short)( (audioBuffer[i]) | audioBuffer[i + 1] << 8 );
+                totalAbsValue += (float)Math.abs( sample ) / ((float)numberOfReadBytes/(float)2);
+            }
+
+            // read in file
+            for (int i = 0; i < numberOfReadBytes; i++) {
+                try {
+                    dos.writeByte(audioBuffer[i]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Analyze temp buffer.
+            tempFloatBuffer[tempIndex%3] = totalAbsValue;
+            float temp                   = 0.0f;
+            for( int i=0; i<3; ++i )
+                temp += tempFloatBuffer[i];
+
+            if( (temp >=0 && temp <= 2100) && recording == false )  // the best number for close to device: 3000
+            {                                                       // the best number for a little bit distance : 2100
+
+                tempIndex++;
+                continue;
+            }
+
+            if( temp > 2100 && recording == false )
+            {
+
+                recording = true;
+            }
+
+            if( (temp >= 0 && temp <= 2100) && recording == true )
+            {
+
+
+                //isRecording = false;
+
+
+                //*/
+                tempIndex++;
+                audioRecorder.stop();
+                try {
+                    dos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
     }
 }
