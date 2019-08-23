@@ -91,17 +91,17 @@ int val;
 
 
 
-    boolean isRecording = false;
-    private File file;
+    static boolean isRecording = false;
+   static  private File file;
     private AudioRecord audioRecord;
-    int bufferSizeInBytes = 0;
-    Context context = asistenteservice.getContext();
+    static int bufferSizeInBytes = 0;
+   static  Context context = asistenteservice.getContext();
 
     // path
     final String path = Environment.getExternalStorageDirectory().getAbsolutePath() +"/Document/final.pcm" ;
     final String outpath = path.replace(".pcm", ".wav");
 
-    public void autoRecording(){
+    public static void autoRecording(){
         // Get the minimum buffer size required for the successful creation of an AudioRecord object.
         bufferSizeInBytes = AudioRecord.getMinBufferSize( RECORDER_SAMPLERATE,
                 RECORDER_CHANNELS,
@@ -145,7 +145,7 @@ int val;
 
         // initiate media scan and put the new things into the path array to
         // make the scanner aware of the location and the files you want to see
-        MediaScannerConnection.scanFile(context, new String[] {file.toString()}, null, null);
+        MediaScannerConnection.scanFile(asistenteservice.getContext(), new String[] {file.toString()}, null, null);
 
         // output stream
         OutputStream os = null;
@@ -186,8 +186,29 @@ int val;
             // Analyze temp buffer.
             tempFloatBuffer[tempIndex%3] = totalAbsValue;
             float temp                   = 0.0f;
-            for( int i=0; i<3; ++i )
+            for( int i=0; i<3; ++i ) {
                 temp += tempFloatBuffer[i];
+                System.out.println(tempFloatBuffer[i]);
+                if(tempFloatBuffer[i] > 600){
+                    if(isRecording) {
+                        audioRecorder.stop();
+                        audioRecorder.release();
+                        try {
+                            dos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        isRecording = false;
+                    }
+                    VoiceRecognition voice = new VoiceRecognition();
+                    if(!VoiceRecognition.listening) {
+                        voice.InitSpeech();
+                        asistenteservice.startVoice();
+
+                    }
+
+                }
+            }
 
             if( (temp >=0 && temp <= 2100) && recording == false )  // the best number for close to device: 3000
             {                                                       // the best number for a little bit distance : 2100
@@ -221,4 +242,5 @@ int val;
             }
         }
     }
+
 }

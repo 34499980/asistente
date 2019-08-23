@@ -458,8 +458,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
           // Log.appendLog("InitSpeech inicio");
 
             if(voice == null) {
-               General general = new General();
-                       general.startService(asistenteservice.class);
+              // General general = new General();
+                //       general.startService(asistenteservice.class);
 
 
                 asis =  new asistenteservice();

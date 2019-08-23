@@ -25,6 +25,7 @@ import com.android.asistente.asistente.Services.NotificationService;
 import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.business.GPS;
 import com.android.asistente.asistente.business.SearchWeb;
+import com.android.asistente.asistente.business.Sound;
 import com.android.asistente.asistente.business.VoiceRecognition;
 import com.android.asistente.asistente.Services.asistenteservice;
 
@@ -191,11 +192,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 stopService(new Intent(this,asistenteservice.class));
                 break;
             case R.id.btnHablar:
-
+               // Sound.autoRecording();
                 shape.setColor(Color.parseColor("#ef5350"));//Color rojo
 
-                   voice.InitSpeech();
-                    voice.StartvoiceListening();
+                  voice.InitSpeech();
+                   voice.StartvoiceListening();
                 break;
         }
         }catch(Exception ex){
