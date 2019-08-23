@@ -11,6 +11,7 @@ import android.media.MediaScannerConnection;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.asistenteservice;
@@ -190,22 +191,16 @@ int val;
                 temp += tempFloatBuffer[i];
                 System.out.println(tempFloatBuffer[i]);
                 if(tempFloatBuffer[i] > 600){
-                    if(isRecording) {
-                        audioRecorder.stop();
-                        audioRecorder.release();
-                        try {
-                            dos.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        isRecording = false;
-                    }
-                    VoiceRecognition voice = new VoiceRecognition();
-                    if(!VoiceRecognition.listening) {
-                        voice.InitSpeech();
-                        asistenteservice.startVoice();
 
-                    }
+                        isRecording = false;
+
+                   // VoiceRecognition voice = new VoiceRecognition();
+                    //if(!VoiceRecognition.listening) {
+                     //   voice.InitSpeech();
+                       // asistenteservice.startVoice();
+                    Toast.makeText(asistenteservice.getContext(),"Escuchando...",Toast.LENGTH_LONG).show();
+                    break;
+                    //}
 
                 }
             }
@@ -223,7 +218,7 @@ int val;
                 recording = true;
             }
 
-            if( (temp >= 0 && temp <= 2100) && recording == true )
+            if( ((temp >= 0) && recording == true) || temp < 0)
             {
 
 
@@ -233,6 +228,12 @@ int val;
                 //*/
                 tempIndex++;
                 audioRecorder.stop();
+                audioRecorder.release();
+                 VoiceRecognition voice = new VoiceRecognition();
+                if(!VoiceRecognition.listening) {
+                    voice.InitSpeech();
+                    asistenteservice.startVoice();
+                }
                 try {
                     dos.close();
                 } catch (IOException e) {

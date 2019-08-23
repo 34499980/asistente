@@ -192,11 +192,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 stopService(new Intent(this,asistenteservice.class));
                 break;
             case R.id.btnHablar:
-               // Sound.autoRecording();
+                Sound.autoRecording();
                 shape.setColor(Color.parseColor("#ef5350"));//Color rojo
 
-                  voice.InitSpeech();
-                   voice.StartvoiceListening();
+                //  voice.InitSpeech();
+                //   voice.StartvoiceListening();
                 break;
         }
         }catch(Exception ex){
