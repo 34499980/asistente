@@ -176,13 +176,13 @@ Toast.makeText(asistenteservice.getContext(),"Start listening..",Toast.LENGTH_LO
             }
 
             // read in file
-            for (int i = 0; i < numberOfReadBytes; i++) {
+          /*  for (int i = 0; i < numberOfReadBytes; i++) {
                 try {
                     dos.writeByte(audioBuffer[i]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
 
             // Analyze temp buffer.
             tempFloatBuffer[tempIndex%3] = totalAbsValue;
