@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
+import com.android.asistente.asistente.business.Sound;
 import com.android.asistente.asistente.business.VoiceRecognition;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     static ArrayList<String> matches;
     static Context context;
     public static boolean bActive;
+    static boolean listening=false;
 
 
 
@@ -85,6 +87,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
         bActive = true;
         context = getApplicationContext();
         startService(new Intent(this, TTSService.class));
+
         //Agrego accion de boton de headset
        /* IntentFilter ifilterHeadSet = new IntentFilter(Intent.ACTION_MEDIA_BUTTON);
         Sound sound = new Sound();

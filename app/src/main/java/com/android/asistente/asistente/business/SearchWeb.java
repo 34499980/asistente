@@ -182,7 +182,7 @@ public class SearchWeb {
                     url = details.getString("formattedUrl");
                     TTSService.speak(General.CleanStringFromHTML(details.getString("htmlSnippet").toLowerCase()));
                     // cityField.setText(json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country"));
-
+                    VoiceRecognition.CancelAction();
                 }
             } catch (JSONException ex) {
                 Log.appendLog("SearchWeb:"+ex.getMessage());

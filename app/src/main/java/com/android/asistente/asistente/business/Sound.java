@@ -116,10 +116,10 @@ int val;
                 bufferSizeInBytes
         );
         // Start Recording.
-
+        //txv.setText("Ing");
         audioRecorder.startRecording();
         isRecording = true;
-
+Toast.makeText(asistenteservice.getContext(),"Start listening..",Toast.LENGTH_LONG).show();
         // for auto stop
         int numberOfReadBytes   = 0;
         byte audioBuffer[]      = new  byte[bufferSizeInBytes];
@@ -130,17 +130,17 @@ int val;
         // create file
 
         file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/final.pcm");
-
+        //Log.d(TAG, "recording: file path:" + file.toString());
 
         if (file.exists()){
-
+            //Log.d(TAG,"file exist, delete file");
             file.delete();
         }
         try {
-
+            //Log.d(TAG,"file created");
             file.createNewFile();
         } catch (IOException e) {
-
+            //Log.d(TAG,"didn't create the file:" + e.getMessage());
             throw new IllegalStateException("did not create file:" + file.toString());
         }
 
@@ -190,52 +190,40 @@ int val;
             for( int i=0; i<3; ++i ) {
                 temp += tempFloatBuffer[i];
                 System.out.println(tempFloatBuffer[i]);
-                if(tempFloatBuffer[i] > 600){
-
-                        isRecording = false;
-
-                   // VoiceRecognition voice = new VoiceRecognition();
-                    //if(!VoiceRecognition.listening) {
-                     //   voice.InitSpeech();
-                       // asistenteservice.startVoice();
-                    Toast.makeText(asistenteservice.getContext(),"Escuchando...",Toast.LENGTH_LONG).show();
-                    break;
-                    //}
-
-                }
             }
-
             if( (temp >=0 && temp <= 2100) && recording == false )  // the best number for close to device: 3000
             {                                                       // the best number for a little bit distance : 2100
-
+            //    Log.i("TAG", "1");
                 tempIndex++;
                 continue;
             }
 
             if( temp > 2100 && recording == false )
             {
-
+          //      Log.i("TAG", "2");
                 recording = true;
             }
 
-            if( ((temp >= 0) && recording == true) || temp < 0)
+            if( (temp >= 0 && temp <= 2100) && recording == true )
             {
 
-
+                //Log.i("TAG", "final run");
                 //isRecording = false;
 
-
+              //  txv.setText("Stop Record.");
                 //*/
                 tempIndex++;
                 audioRecorder.stop();
-                audioRecorder.release();
-                 VoiceRecognition voice = new VoiceRecognition();
-                if(!VoiceRecognition.listening) {
-                    voice.InitSpeech();
-                    asistenteservice.startVoice();
-                }
                 try {
                     dos.close();
+                    Toast.makeText(asistenteservice.getContext(),"Stop listening..",Toast.LENGTH_LONG).show();
+                    Sound sound = new Sound();
+                    sound.setMusicVolumen(0);
+                            VoiceRecognition voice = new VoiceRecognition();
+                            voice.InitSpeech();
+                            voice.StartvoiceListening();
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

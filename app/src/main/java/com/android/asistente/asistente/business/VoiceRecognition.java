@@ -44,9 +44,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     Whatsapp whatsapp = new Whatsapp();
     ExternalApp externalApp = new ExternalApp();
     Contacts contacts = new Contacts();
-    int countSearch = 0;
+    static int countSearch = 0;
     public static boolean  bFlag= false;
-    boolean bConfirm = false;
+   static boolean bConfirm = false;
     public static boolean bSelectContac = false;
     //final Speech speech = new Speech();
     Sound sound = new Sound();
@@ -57,7 +57,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
     public static String letters=null;
     public static boolean listening;
     asistenteservice asis=null;
-    private Boolean continuos = false;
+    private static Boolean continuos = false;
 
 
     @Override
@@ -86,6 +86,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 rec = new RecognitionListener() {
                     @Override
                     public void onReadyForSpeech(Bundle bundle) {
+                        sound.setMusicVolumen(70);
                         listening=false;
                         if(matches == null){
                             StartvoiceListening();
@@ -138,6 +139,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                             if (matches.get(0).toLowerCase().equals("hola")) {
                                     TTSService.speak("En que lo puedo ayudar");
+                                CancelAction();
                             } else if(matches.get(0).toLowerCase().indexOf("cancelar acción") > -1){
                                 CancelAction();
                             }else if(matches.get(0).toLowerCase().indexOf("desactivar servicio") > -1) {
@@ -155,7 +157,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 }
 
                                 //Ejecuta los comandos
-                                ExecuteCommand();
+                              //  if(matches.get(0).toLowerCase().contains("gallega")) {
+                                    ExecuteCommand();
+                               // }
                             }
                             VoiceRecognition.matches = null;
 
@@ -168,7 +172,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onPartialResults(Bundle bundle) {
+
                         listening = false;
+                        sound.setMusicVolumen(70);
                     }
 
                     @Override
@@ -200,6 +206,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         try {
                             if (matches.get(0).toLowerCase().indexOf("hora") > -1) {
                                 TTSService.speak(Time.getHoursAndMinutes());
+                                CancelAction();
                             } else if (matches.get(0).toLowerCase().indexOf("temperatura") > -1) {
 
                                 Time time = Time.getInstance();
@@ -217,7 +224,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             Log.appendLog("VoiceRecognition:"+ex.getMessage());
                             Toast.makeText(this,"No se pudo obtener el clima",Toast.LENGTH_LONG).show();
                         }
-                        CancelAction();
+
                         break;
                     case "ExternalApp":
                         appName = externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
@@ -363,6 +370,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     case "Alarm":
                        Alarm.ProcesarDatosEntrada(matches.get(0));
                        Alarm.startAlert();
+                        CancelAction();
                         break;
                     case "Wifi":
                         if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
@@ -373,6 +381,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             General.enabledDesabledWifi(true);
                             TTSService.speak("wifi activado");
                         }
+                        CancelAction();
                         break;
                     case "GPS":
                         GPS gps = new GPS();
@@ -383,14 +392,21 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                       intent = new Intent(asistenteservice.getContext(), Maps.class);
                       asistenteservice.getContext().startActivity(intent);
+                        CancelAction();
+                        break;
+                    case "Modo asistente":
+                      if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
 
+                      }else{
+                          Sound.autoRecording();
+                      }
                         break;
                     case "Search":
                         if(matches.get(0).toLowerCase().indexOf("mostrar detalles") > -1 && SearchWeb.url != null) {
                             try {
 
                                 Intent intent = Intent.parseUri(SearchWeb.url, Intent.URI_INTENT_SCHEME);
-
+                                CancelAction();
                                 asistenteservice.getContext().startActivity(intent);
                                 SearchWeb.url = null;
                             }catch(Exception ex){
@@ -404,6 +420,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         break;
                     default:
                         TTSService.speak("Lo siento, no tengo una respuesta");
+                        CancelAction();
                         break;
                 }
             } else {
@@ -436,6 +453,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "Wifi";
             }else if(matches.get(0).toLowerCase().indexOf("llegar") > -1 || matches.get(0).toLowerCase().indexOf("cómo ir ") > -1) {
                 letters = "GPS";
+            }  else if(matches.get(0).toLowerCase().indexOf("modo asistente") > -1) {
+                    letters = "Modo asistente";
             }else{
                 letters = "Search";
             }
@@ -443,7 +462,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             Log.appendLog("VoiceRecognition:"+ex.getMessage());
         }
     }
-    private void CancelAction(){
+    public static void CancelAction(){
         bConfirm = false;
         bFlag = false;
         bSelectContac= false;
@@ -451,6 +470,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
         letters = "";
         countSearch = 0;
         continuos = false;
+        Sound.autoRecording();
     }
     public  void InitSpeech() {
         try {
@@ -458,8 +478,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
           // Log.appendLog("InitSpeech inicio");
 
             if(voice == null) {
-              // General general = new General();
-                //       general.startService(asistenteservice.class);
+               General general = new General();
+               general.startService(asistenteservice.class);
 
 
                 asis =  new asistenteservice();

@@ -216,6 +216,7 @@ public class Time {
                                 weather.min+ " de mínima y "+ weather.max + "de máximo, con una humedad de "+
                                 weather.humidity +" porciento "  +weather.sky);
                     }
+                    VoiceRecognition.CancelAction();
 
                 }
             } catch (JSONException ex) {
