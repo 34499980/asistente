@@ -455,7 +455,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "GPS";
             }  else if(matches.get(0).toLowerCase().indexOf("modo asistente") > -1) {
                     letters = "Modo asistente";
-            }else{
+            }else if(matches.get(0).toLowerCase().indexOf("gallega") > -1){
                 letters = "Search";
             }
         }catch(Exception ex){
