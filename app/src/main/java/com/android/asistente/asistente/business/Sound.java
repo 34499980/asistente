@@ -96,6 +96,7 @@ int val;
    static  private File file;
     private AudioRecord audioRecord;
     static int bufferSizeInBytes = 0;
+    public static boolean bActiveListening;
    static  Context context = asistenteservice.getContext();
 
     // path

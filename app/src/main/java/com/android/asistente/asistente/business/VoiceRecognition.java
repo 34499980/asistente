@@ -396,9 +396,16 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         break;
                     case "Modo asistente":
                       if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
-
+                        Sound.bActiveListening = false;
                       }else{
-                          Sound.autoRecording();
+                          Sound.bActiveListening = true;
+                          new Thread(new Runnable() {
+                              @Override
+                              public void run() {
+                                  Sound.autoRecording();
+                              }
+                          }).run();
+
                       }
                         break;
                     case "Search":
@@ -419,6 +426,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                         break;
                     default:
+                        if(matches.get(0).toLowerCase().indexOf("gallega") > -1)
                         TTSService.speak("Lo siento, no tengo una respuesta");
                         CancelAction();
                         break;
@@ -470,6 +478,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
         letters = "";
         countSearch = 0;
         continuos = false;
+        if(Sound.bActiveListening)
         Sound.autoRecording();
     }
     public  void InitSpeech() {
