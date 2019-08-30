@@ -1,11 +1,7 @@
 package com.android.asistente.asistente.business;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -29,7 +25,6 @@ import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -110,12 +105,13 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                     @Override
                     public void onEndOfSpeech() {
-
+                        //Toast.makeText(asistenteservice.getContext(),"No escucho nada",Toast.LENGTH_LONG).show();
                         listening=false;
                        // sound.setMusicVolumen(70);
-                        if(matches == null){
-                            StartvoiceListening();
+                        if(matches == null && Sound.bActiveListening){
+                            Sound.autoRecording();
                         }
+
                     }
 
                     @Override
@@ -408,6 +404,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
 
                       }
                         break;
+                    case "Calendar":
+                       CalendarsAs.getEvent();
+                        break;
                     case "Search":
                         if(matches.get(0).toLowerCase().indexOf("mostrar detalles") > -1 && SearchWeb.url != null) {
                             try {
@@ -465,6 +464,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     letters = "Modo asistente";
             }else if(matches.get(0).toLowerCase().indexOf("gallega") > -1){
                 letters = "Search";
+            }else if(matches.get(0).toLowerCase().indexOf("eventos") > -1 || matches.get(0).toLowerCase().indexOf("feriados") > -1 || matches.get(0).toLowerCase().indexOf("cumple") > -1){
+                letters = "Calendar";
             }
         }catch(Exception ex){
             Log.appendLog("VoiceRecognition:"+ex.getMessage());
