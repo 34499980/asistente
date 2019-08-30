@@ -109,7 +109,13 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         listening=false;
                        // sound.setMusicVolumen(70);
                         if(matches == null && Sound.bActiveListening){
-                            Sound.autoRecording();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Sound.autoRecording();
+                                }
+                            });
+
                         }
 
                     }
