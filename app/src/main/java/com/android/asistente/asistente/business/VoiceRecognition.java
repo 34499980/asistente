@@ -114,7 +114,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 public void run() {
                                     Sound.autoRecording();
                                 }
-                            });
+                            }).run();
 
                         }
 
