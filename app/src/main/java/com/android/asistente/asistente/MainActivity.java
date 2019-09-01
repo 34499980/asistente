@@ -7,30 +7,28 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.NotificationService;
-//import com.android.asistente.asistente.business;
 import com.android.asistente.asistente.Services.TTSService;
-import com.android.asistente.asistente.business.CalendarsAs;
-import com.android.asistente.asistente.business.VoiceRecognition;
 import com.android.asistente.asistente.Services.asistenteservice;
+import com.android.asistente.asistente.business.VoiceRecognition;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static android.app.PendingIntent.getActivity;
+//import com.android.asistente.asistente.business;
+//import com.android.asistente.asistente.business.CalendarsAs;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
    public static Button btnStartService, btnStopService;

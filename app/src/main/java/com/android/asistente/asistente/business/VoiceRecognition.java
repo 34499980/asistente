@@ -6,16 +6,16 @@ import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.asistente.asistente.Entities.Phone;
 import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.ListContacts;
-
 import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.Maps;
 import com.android.asistente.asistente.R;
@@ -411,10 +411,11 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                       }
                         break;
                     case "Calendar":
-                       CalendarsAs.getEvent();
+                       //CalendarsAs.getEvent();
                         break;
                     case "Calculate":
-
+                            String result = Calculator.ProcesarDatosEntrada(matches.get(0).toLowerCase());
+                            TTSService.speak(result);
                         break;
                     case "Search":
                         if(matches.get(0).toLowerCase().indexOf("mostrar detalles") > -1 && SearchWeb.url != null) {

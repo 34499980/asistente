@@ -1,7 +1,6 @@
-package com.android.asistente.asistente.business;
+/*package com.android.asistente.asistente.business;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -132,4 +131,4 @@ public class CalendarsAs {
 
 
 
-}
+}*/
