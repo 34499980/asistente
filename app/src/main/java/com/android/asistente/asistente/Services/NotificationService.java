@@ -53,9 +53,15 @@ public class NotificationService extends NotificationListenerService {
                 if (flag){
                     if (pack.contains("whatsapp") || pack.contains("facebook") || pack.contains("instagram") || pack.contains("com.google.android.gm")) {
                         if (asistenteservice.bActive && !title.equals("whatsapp")) {
-                            switch (pack) {
+                            switch (pack.toLowerCase()) {
                                 case "com.google.android.gm":
                                     TTSService.speak("Ha recibido un mail.");
+                                    break;
+                                case "com.facebook.katana":
+                                   // if(text.contains("cumple")){
+                                        TTSService.speak(title);
+                                   // }
+
                                     break;
                                 default:
                                     if(General.isHeadSetConnect() || Sound.getVolume() > 0) {

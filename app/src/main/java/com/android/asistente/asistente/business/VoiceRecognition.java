@@ -413,6 +413,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                     case "Calendar":
                        CalendarsAs.getEvent();
                         break;
+                    case "Calculate":
+
+                        break;
                     case "Search":
                         if(matches.get(0).toLowerCase().indexOf("mostrar detalles") > -1 && SearchWeb.url != null) {
                             try {
@@ -472,6 +475,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "Search";
             }else if(matches.get(0).toLowerCase().indexOf("eventos") > -1 || matches.get(0).toLowerCase().indexOf("feriados") > -1 || matches.get(0).toLowerCase().indexOf("cumple") > -1){
                 letters = "Calendar";
+            }else if(matches.get(0).toLowerCase().indexOf("cuanto es") > -1 || matches.get(0).toLowerCase().indexOf("calcular") > -1 ){
+                letters = "Calculate";
             }
         }catch(Exception ex){
             Log.appendLog("VoiceRecognition:"+ex.getMessage());
