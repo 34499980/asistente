@@ -22,6 +22,7 @@ import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.NotificationService;
 import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.Services.asistenteservice;
+import com.android.asistente.asistente.business.Calculator;
 import com.android.asistente.asistente.business.VoiceRecognition;
 
 import java.util.Timer;
@@ -189,11 +190,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnHablar:
                // CalendarsAs.getEvent();
-
+                String result = Calculator.ProcesarDatosEntrada("cuanto es 1,5 por 2");
+                TTSService.speak("El resultado es "+result);
                 shape.setColor(Color.parseColor("#ef5350"));//Color rojo
 
-                  voice.InitSpeech();
-                  voice.StartvoiceListening();
+                //  voice.InitSpeech();
+                //  voice.StartvoiceListening();
                 break;
         }
         }catch(Exception ex){
