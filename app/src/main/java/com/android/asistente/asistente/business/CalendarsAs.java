@@ -1,4 +1,4 @@
-/*package com.android.asistente.asistente.business;
+package com.android.asistente.asistente.business;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -126,9 +126,11 @@ public class CalendarsAs {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
+    public static void prueba(){
+
+    }
 
 
 
 
-
-}*/
+}

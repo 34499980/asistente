@@ -415,7 +415,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         break;
                     case "Calculate":
                             String result = Calculator.ProcesarDatosEntrada(matches.get(0).toLowerCase());
-                            TTSService.speak("El resultado es "+result);
+                            if(!result.equals("")) {
+                                TTSService.speak("El resultado es " + result);
+                            }
                         break;
                     case "Search":
                         if(matches.get(0).toLowerCase().indexOf("mostrar detalles") > -1 && SearchWeb.url != null) {
