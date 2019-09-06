@@ -59,7 +59,7 @@ public class NotificationService extends NotificationListenerService {
                                     break;
                                 case "com.facebook.katana":
                                    // if(text.contains("cumple")){
-                                        TTSService.speak(title);
+                                        TTSService.speak(text);
                                    // }
 
                                     break;

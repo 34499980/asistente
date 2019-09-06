@@ -23,6 +23,7 @@ import com.android.asistente.asistente.Services.NotificationService;
 import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.Services.asistenteservice;
 import com.android.asistente.asistente.business.Calculator;
+import com.android.asistente.asistente.business.CalendarsAs;
 import com.android.asistente.asistente.business.VoiceRecognition;
 
 import java.util.Timer;
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 stopService(new Intent(this,asistenteservice.class));
                 break;
             case R.id.btnHablar:
-               // CalendarsAs.getEvent();
+                //CalendarsAs.getEvent();
                 //String result = Calculator.ProcesarDatosEntrada("cuanto es 3 dividido 2");
                 //TTSService.speak("El resultado es "+result);
                 shape.setColor(Color.parseColor("#ef5350"));//Color rojo
