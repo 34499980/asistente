@@ -59,6 +59,7 @@ public class NotificationService extends NotificationListenerService {
                                     break;
                                 case "com.facebook.katana":
                                     if(text.contains("cumple") || text.contains("muro") || text.contains("en tu biografía")){
+                                        text = text.toLowerCase().replace("(tarta de cumpleaños)","");
                                         TTSService.speak(text);
                                     }
 
