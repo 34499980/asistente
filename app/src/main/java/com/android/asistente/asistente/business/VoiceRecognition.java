@@ -477,7 +477,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             }else if(matches.get(0).toLowerCase().indexOf("licy") > -1 || matches.get(0).toLowerCase().indexOf("lici") > -1
                     || matches.get(0).toLowerCase().indexOf("lizy") > -1 || matches.get(0).toLowerCase().indexOf("lizzy") > -1  ){
                 letters = "Search";
-            }else if(matches.get(0).toLowerCase().indexOf("eventos") > -1 || matches.get(0).toLowerCase().indexOf("feriados") > -1 || matches.get(0).toLowerCase().indexOf("cumple") > -1){
+            }else if(matches.get(0).toLowerCase().indexOf("eventos") > -1 || matches.get(0).toLowerCase().indexOf("feriado") > -1 || matches.get(0).toLowerCase().indexOf("cumple") > -1){
                 letters = "Calendar";
             }else if(matches.get(0).toLowerCase().indexOf("cuanto es") > -1 || matches.get(0).toLowerCase().indexOf("calcular") > -1 ){
                 letters = "Calculate";

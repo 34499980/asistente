@@ -163,7 +163,7 @@ public class CalendarsAs {
                     //Uri.Builder builder = Uri.parse("content://com.android.calendar/calendars").buildUpon();
                     Cursor eventCursor = cr.query(builder.build(),
                             new String[]{"title", "description", "eventLocation", "dtstart", "dtend"}, selectionEvent,
-                            null, "dtstart DESC");
+                            null, "dtstart ASC");
                     while (eventCursor.moveToNext()) {
                         String title = eventCursor.getString(0);
                         String description = eventCursor.getString(1);
@@ -171,9 +171,36 @@ public class CalendarsAs {
                         String start = eventCursor.getString(3);
                         Date mDate = new Date(eventCursor.getLong(3));
                         Date nDate = new Date(eventCursor.getLong(4));
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd");
                         String sDate = simpleDateFormat.format(mDate);
-                        messages.put(title, sDate);
+
+                        SimpleDateFormat simpleDateformatDay = new SimpleDateFormat("EEEE"); // the day of the week spelled out completely
+                        String day = simpleDateformatDay.format(mDate);
+                        switch (simpleDateformatDay.format(mDate).toLowerCase()){
+                            case"monday":
+                                day = "lunes";
+                                break;
+                            case"tuesday":
+                                day = "martes";
+                                    break;
+                            case"wednesday":
+                                day = "miercoles";
+                                break;
+                            case"thursday":
+                                day = "jueves";
+                                break;
+                            case"friday":
+                                day = "viernes";
+                                break;
+                            case"saturday":
+                                day = "sabado";
+                                break;
+                            case"sunday":
+                                day = "domingo";
+                                break;
+
+                        }
+                        messages.put(title, day+" "+sDate);
 
                     }
 
