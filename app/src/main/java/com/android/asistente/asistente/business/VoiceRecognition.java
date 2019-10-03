@@ -411,7 +411,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                       }
                         break;
                     case "Calendar":
-                       //CalendarsAs.getEvent();
+                       CalendarsAs.getCalendar();
                         break;
                     case "Calculate":
                             String result = Calculator.ProcesarDatosEntrada(matches.get(0).toLowerCase());

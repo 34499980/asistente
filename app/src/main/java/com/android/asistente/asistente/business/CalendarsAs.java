@@ -1,12 +1,14 @@
 package com.android.asistente.asistente.business;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 
 import com.android.asistente.asistente.Helper.Log;
+import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.Services.asistenteservice;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -27,12 +29,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+
+
+
+
 public class CalendarsAs {
+    static Map<String, String> messages = new HashMap<String, String>();
     String CLINTID = "756261266614-s9gtom27puq9ag5n73igirq74472f3e1.apps.googleusercontent.com";
     String KEY = "mgUAx8GpQL5UTVPlxCgWT0zf";
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
@@ -78,163 +91,123 @@ public class CalendarsAs {
         return calendars;
     }
 
-    public static void getEvent() throws GeneralSecurityException, IOException {
-        final NetHttpTransport HTTP_TRANSPORT = new com.google.api.client.http.javanet.NetHttpTransport();
 
-        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
 
-        // List the next 10 events from the primary calendar.
-        DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = service.events().list("primary")
-                .setMaxResults(10)
-                .setTimeMin(now)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-        List<Event> items = events.getItems();
-        if (items.isEmpty()) {
-            System.out.println("No upcoming events found.");
-        } else {
-            System.out.println("Upcoming events");
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    start = event.getStart().getDate();
+    public static void getCalendar() {
+        try {
+            if(messages.isEmpty()) {
+                final String DEBUG_TAG = "MyActivity";
+                final String[] INSTANCE_PROJECTION = new String[]{
+                        CalendarContract.Instances.EVENT_ID,      // 0
+                        CalendarContract.Instances.BEGIN,         // 1
+                        CalendarContract.Instances.TITLE          // 2
+                };
+
+                ContentResolver cr = asistenteservice.getContext().getContentResolver();
+
+                String selection = CalendarContract.Instances.EVENT_ID + " = ?";
+
+                Cursor cur = null;
+                final String[] EVENT_PROJECTION =
+                        new String[]{
+                                /*CalendarContract.Calendars.NAME,
+                                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                                CalendarContract.Calendars.CALENDAR_COLOR,
+                                CalendarContract.Calendars.VISIBLE           // 3*/
+                                "_id", "calendar_displayName"
+                        };
+                Uri uri = CalendarContract.Calendars.CONTENT_URI;
+                selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
+                        + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
+                        + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
+                String[] selectionArgs = new String[]{"aribrenman@gmail.com", "com.google"};
+// Submit the query and get a Cursor object back.
+                cur = cr.query(uri, EVENT_PROJECTION, null, null, null);
+
+
+// Submit the query
+                final int PROJECTION_ID_INDEX = 0;
+                final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
+                final int PROJECTION_DISPLAY_NAME_INDEX = 1;
+                final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
+                HashSet<Long> calendarIds = new HashSet<Long>();
+                long calID = 0;
+                while (cur.moveToNext()) {
+                    String displayName = null;
+                    String accountName = null;
+                    String ownerName = null;
+
+                    // Get the field values
+                    calID = cur.getLong(PROJECTION_ID_INDEX);
+                    displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX);
+                    //accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX);
+                    //ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
+                    calendarIds.add(calID);
                 }
-                System.out.printf("%s (%s)\n", event.getSummary(), start);
+                cur.close();
+                //Fecha uno
+                Date date1 = new Date();
+
+                long time1 = date1.getTime();
+                //Fecha dos
+                java.util.Calendar cal = java.util.Calendar.getInstance();
+                cal.add(java.util.Calendar.MONTH, 1);
+
+
+                long time2 = cal.getTimeInMillis();
+
+
+                String selectionEvent = "((dtstart >= " + time1 + ") AND (dtend <= " + time2 + "))";
+                for (Long id : calendarIds) {
+                    Uri.Builder builder = Uri.parse("content://com.android.calendar/events").buildUpon();
+                    //Uri.Builder builder = Uri.parse("content://com.android.calendar/calendars").buildUpon();
+                    Cursor eventCursor = cr.query(builder.build(),
+                            new String[]{"title", "description", "eventLocation", "dtstart", "dtend"}, selectionEvent,
+                            null, "dtstart DESC");
+                    while (eventCursor.moveToNext()) {
+                        String title = eventCursor.getString(0);
+                        String description = eventCursor.getString(1);
+                        String eventLocation = eventCursor.getString(2);
+                        String start = eventCursor.getString(3);
+                        Date mDate = new Date(eventCursor.getLong(3));
+                        Date nDate = new Date(eventCursor.getLong(4));
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        String sDate = simpleDateFormat.format(mDate);
+                        messages.put(title, sDate);
+
+                    }
+
+                    eventCursor.close();
+                }
             }
+           boolean flag;
+            String afterTitle="";
+            String afterDate="";
+            for(Map.Entry<String, String> entry : messages.entrySet()) {
+                if(entry.getKey().contains("Puente")) {
+                     afterDate = entry.getValue();
+                     afterTitle = entry.getKey();
+
+                }else{
+                    if(!afterTitle.equals(""))
+                    {
+                        TTSService.speak("El proximo feriado es el: " + entry.getValue() + " por " + entry.getKey());
+                    }else{
+                        TTSService.speak("El proximo feriado es el: " + afterDate + " por " +afterTitle + " del " + entry.getKey());
+                    }
+                    break;
+                }
+
+
+            }
+
+
+
+
+        } catch (Exception ex) {
+            Log.appendLog("Calendar: "+ex.getMessage());
         }
     }
-
-    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-        // Load client secrets.
-        InputStream in = CalendarsAs.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
-        // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType("offline")
-                .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-    }
-
-    public static void prueba(){
-       /* private com.google.api.services.calendar.Calendar mService = null;
-        private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {     private Exception mLastError = null;
-            private boolean FLAG = false;     public MakeRequestTask(GoogleAccountCredential credential) {
-                HttpTransport transport = AndroidHttp.newCompatibleTransport();
-                JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-                mService = new com.google.api.services.calendar.Calendar.Builder(
-                        transport, jsonFactory, credential)
-                        .setApplicationName(“Google Calendar API Android Quickstart”)
-                        .build();
-            }
-             * Background task to call Google Calendar API.
-             * @param params no parameters needed for this task.
-
-            @Override
-            protected List<String> doInBackground(Void… params) {
-                try {
-                    getDataFromApi();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    mLastError = e;
-                    cancel(true);
-                    return null;
-                }
-                return null;
-            }
-             * Fetch a list of the next 10 events from the primary calendar.
-             * @return List of Strings describing returned events.
-             * @throws IOException
-
-            private void getDataFromApi() throws IOException {
-                // List the next 10 events from the primary calendar.
-                DateTime now = new DateTime(System.currentTimeMillis());
-                List<String> eventStrings = new ArrayList<String>();
-                Events events = mService.events().list(“primary”)
-                        .setMaxResults(10)
-                        .setTimeMin(now)
-                        .setOrderBy(“startTime”)
-                        .setSingleEvents(true)
-                        .execute();
-                List<Event> items = events.getItems();
-                ScheduledEvents scheduledEvents;
-                scheduledEventsList.clear();
-                for (Event event : items) {
-                    DateTime start = event.getStart().getDateTime();
-                    if (start == null) {
-                        start = event.getStart().getDate();
-                    }
-                    scheduledEvents = new ScheduledEvents();
-                    scheduledEvents.setEventId(event.getId());
-                    scheduledEvents.setDescription(event.getDescription());
-                    scheduledEvents.setEventSummery(event.getSummary());
-                    scheduledEvents.setLocation(event.getLocation());
-                    scheduledEvents.setStartDate(start.toString());
-                    scheduledEvents.setEndDate(“”);
-                    StringBuffer stringBuffer = new StringBuffer();
-                    if(event.getAttendees()!=null) {
-                        for (EventAttendee eventAttendee : event.getAttendees()) {
-                            if(eventAttendee.getEmail()!=null)
-                                stringBuffer.append(eventAttendee.getEmail() + ”       “);
-                        }
-                        scheduledEvents.setAttendees(stringBuffer.toString());
-                    }
-                    else{
-                        scheduledEvents.setAttendees(“”);
-                    }
-                    scheduledEventsList.add(scheduledEvents);
-                    System.out.println(“—–“+event.getDescription()+”, “+event.getId()+”, “+event.getLocation());
-                    System.out.println(event.getAttendees());
-                    eventStrings.add(
-                            String.format(“%s (%s)”, event.getSummary(), start));
-                }
-            }     @Override
-            protected void onPreExecute() {
-                mOutputText.setText(“”);
-                mProgress.show();
-            }     @Override
-            protected void onPostExecute(List<String> output) {
-                mProgress.hide();
-                System.out.println(“——————–“+scheduledEventsList.size());
-                if (scheduledEventsList.size()<=0) {
-                    mOutputText.setText(“No results returned.”);
-                } else {
-                    eventListAdapter = new EventListAdapter(CalendarActivity.this, scheduledEventsList);
-                    eventListView.setAdapter(eventListAdapter);
-                }
-            }     @Override
-            protected void onCancelled() {
-                mProgress.hide();
-                if (mLastError != null) {
-                    if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
-                        showGooglePlayServicesAvailabilityErrorDialog(
-                                ((GooglePlayServicesAvailabilityIOException) mLastError)
-                                        .getConnectionStatusCode());
-                    } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                        startActivityForResult(
-                                ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                                CalendarActivity.REQUEST_AUTHORIZATION);
-                    } else {
-                        mOutputText.setText(“The following error occurred:\n”
-                        + mLastError.getMessage());
-                    }
-                } else {
-                    mOutputText.setText(“Request cancelled.”);
-                }
-            }
-        }*/
-    }
-
 
 
 

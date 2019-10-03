@@ -190,13 +190,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 stopService(new Intent(this,asistenteservice.class));
                 break;
             case R.id.btnHablar:
-                //CalendarsAs.getEvent();
+
                 //String result = Calculator.ProcesarDatosEntrada("cuanto es 3 dividido 2");
                 //TTSService.speak("El resultado es "+result);
                 shape.setColor(Color.parseColor("#ef5350"));//Color rojo
 
-                  voice.InitSpeech();
-                  voice.StartvoiceListening();
+                 voice.InitSpeech();
+                 voice.StartvoiceListening();
                 break;
         }
         }catch(Exception ex){
