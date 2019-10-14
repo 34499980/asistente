@@ -189,6 +189,9 @@ public class Time {
                         case "fog":
                             weather.sky = "y hay niebla";
                             break;
+                        case "thunderstorm with light rain":
+                            weather.sky = "y hay tormenta electrica";
+                            break;
                         default:
                             Log.appendLog("Cielo: " + details.getString("description").toLowerCase());
                             weather.sky="";

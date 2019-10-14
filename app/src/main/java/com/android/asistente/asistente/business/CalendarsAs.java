@@ -156,8 +156,8 @@ public class CalendarsAs {
 
                 long time2 = cal.getTimeInMillis();
 
-
-                String selectionEvent = "((dtstart >= " + time1 + ") AND (dtend <= " + time2 + "))";
+                String selectionEvent = "((dtstart >= " + time1 + "))";
+               // String selectionEvent = "((dtstart >= " + time1 + ") AND (dtend <= " + time2 + "))";
                 for (Long id : calendarIds) {
                     Uri.Builder builder = Uri.parse("content://com.android.calendar/events").buildUpon();
                     //Uri.Builder builder = Uri.parse("content://com.android.calendar/calendars").buildUpon();
@@ -216,11 +216,12 @@ public class CalendarsAs {
                      afterTitle = entry.getKey();
 
                 }else{
-                    if(!afterTitle.equals(""))
+                    if(afterTitle =="")
                     {
                         TTSService.speak("El proximo feriado es el: " + entry.getValue() + " por " + entry.getKey());
                     }else{
                         TTSService.speak("El proximo feriado es el: " + afterDate + " por " +afterTitle + " del " + entry.getKey());
+
                     }
                     break;
                 }

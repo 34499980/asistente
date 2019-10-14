@@ -58,9 +58,11 @@ public class NotificationService extends NotificationListenerService {
                                     TTSService.speak("Ha recibido un mail.");
                                     break;
                                 case "com.facebook.katana":
+                                    Log.appendLog(text);
                                     if(text.contains("cumple") || text.contains("muro") || text.contains("en tu biografía")){
                                         text = text.toLowerCase().replace("(tarta de cumpleaños)","")
                                                 .replace("tarta de cumpleaños","");
+                                        Log.appendLog(text);
                                         TTSService.speak(text);
                                     }
 
