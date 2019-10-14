@@ -3,6 +3,7 @@ package com.android.asistente.asistente.business;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -245,11 +246,11 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         if(matches.get(0).toLowerCase().indexOf("leer") > -1){
 
                             if(matches.get(0).toLowerCase().indexOf("todos") > -1){
-                                if(General.isHeadSetConnect() || Sound.getVolume() > 0) {
+                                if(General.isHeadSetConnect() || Sound.getVolume() > 0 || General.isBluetoothEnabled()) {
                                     Whatsapp.getAllMessage();
                                 }
                             }else{
-                                if(General.isHeadSetConnect() || Sound.getVolume() > 0) {
+                                if(General.isHeadSetConnect() || Sound.getVolume() > 0 || General.isBluetoothEnabled()) {
                                     appName = whatsapp.ProcesarDatosEntrada(matches.get(0).toLowerCase());
                                     TTSService.speak(whatsapp.getMessageByUser(appName));
                                 }
@@ -419,6 +420,9 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                                 TTSService.speak("El resultado es " + result);
                             }
                         break;
+                    case "Bluetooth":
+                        General.enabledDesabledBluetooth();
+                        break;
                     case "Search":
                         if(matches.get(0).toLowerCase().indexOf("mostrar detalles") > -1 && SearchWeb.url != null) {
                             try {
@@ -481,6 +485,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                 letters = "Calendar";
             }else if(matches.get(0).toLowerCase().indexOf("cuanto es") > -1 || matches.get(0).toLowerCase().indexOf("calcular") > -1 ){
                 letters = "Calculate";
+            }else if(matches.get(0).toLowerCase().indexOf("bluetooth") > -1){
+                letters = "Bluetooth";
             }
         }catch(Exception ex){
             Log.appendLog("VoiceRecognition:"+ex.getMessage());

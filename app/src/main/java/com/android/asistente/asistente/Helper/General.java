@@ -2,6 +2,7 @@ package com.android.asistente.asistente.Helper;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -87,5 +88,16 @@ public class General extends Activity {
      WifiManager wifiManager = (WifiManager)asistenteservice.getContext().getSystemService(Context.WIFI_SERVICE);
      wifiManager.setWifiEnabled(status);
  }
-
+    public static void enabledDesabledBluetooth(){
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(bluetoothAdapter.isEnabled()){
+            bluetoothAdapter.disable();
+        }else{
+            bluetoothAdapter.enable();
+        }
+    }
+    public static boolean isBluetoothEnabled(){
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+       return bluetoothAdapter.isEnabled();
+    }
 }
