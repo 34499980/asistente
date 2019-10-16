@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 
+import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.Services.asistenteservice;
@@ -32,6 +33,7 @@ import java.security.GeneralSecurityException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,6 +48,7 @@ import java.util.Set;
 
 public class CalendarsAs {
     static Map<String, String> messages = new HashMap<String, String>();
+
     String CLINTID = "756261266614-s9gtom27puq9ag5n73igirq74472f3e1.apps.googleusercontent.com";
     String KEY = "mgUAx8GpQL5UTVPlxCgWT0zf";
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
@@ -65,31 +68,9 @@ public class CalendarsAs {
     static ContentResolver contentResolver;
     static Set<String> calendars = new HashSet<String>();
 
-    public ContentResolver CalendarContentResolver(Context ctx) {
-        return contentResolver = ctx.getContentResolver();
-    }
 
-    public static Set<String> getCalendars() {
-        // Fetch a list of all calendars sync'd with the device and their display names
-        Cursor cursor = asistenteservice.getContext().getContentResolver().query(CALENDAR_URI, FIELDS, null, null, null);
 
-        try {
-            if (cursor.getCount() > 0) {
-                while (cursor.moveToNext()) {
-                    String name = cursor.getString(0);
-                    String displayName = cursor.getString(1);
-                    // This is actually a better pattern:
-                    String color = cursor.getString(cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_COLOR));
-                    Boolean selected = !cursor.getString(3).equals("0");
-                    calendars.add(displayName);
-                }
-            }
-        } catch (AssertionError ex) {
-            Log.appendLog("Calendar: " + ex.getMessage());
-        }
 
-        return calendars;
-    }
 
 
 
@@ -151,28 +132,30 @@ public class CalendarsAs {
                 long time1 = date1.getTime();
                 //Fecha dos
                 java.util.Calendar cal = java.util.Calendar.getInstance();
-                cal.add(java.util.Calendar.MONTH, 1);
+                cal.add(java.util.Calendar.MONTH, 3);
 
 
                 long time2 = cal.getTimeInMillis();
 
-                String selectionEvent = "((dtstart >= " + time1 + "))";
-               // String selectionEvent = "((dtstart >= " + time1 + ") AND (dtend <= " + time2 + "))";
+               // String selectionEvent = "((dtstart >= " + time1 + "))";
+                String selectionEvent = "((dtstart >= " + time1 + ") AND (dtend <= " + time2 + "))";
                 for (Long id : calendarIds) {
                     Uri.Builder builder = Uri.parse("content://com.android.calendar/events").buildUpon();
                     //Uri.Builder builder = Uri.parse("content://com.android.calendar/calendars").buildUpon();
                     Cursor eventCursor = cr.query(builder.build(),
                             new String[]{"title", "description", "eventLocation", "dtstart", "dtend"}, selectionEvent,
-                            null, "dtstart ASC");
+                            null, "dtstart");
                     while (eventCursor.moveToNext()) {
                         String title = eventCursor.getString(0);
                         String description = eventCursor.getString(1);
                         String eventLocation = eventCursor.getString(2);
                         String start = eventCursor.getString(3);
-                        Date mDate = new Date(eventCursor.getLong(3));
+                        Date mDate = General.addDays(new Date(eventCursor.getLong(3)),1);
                         Date nDate = new Date(eventCursor.getLong(4));
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd");
                         String sDate = simpleDateFormat.format(mDate);
+                        SimpleDateFormat simpleDateFormatMonth = new SimpleDateFormat("MMMM");
+                        String smonth = simpleDateFormatMonth.format(mDate);
 
                         SimpleDateFormat simpleDateformatDay = new SimpleDateFormat("EEEE"); // the day of the week spelled out completely
                         String day = simpleDateformatDay.format(mDate);
@@ -200,7 +183,11 @@ public class CalendarsAs {
                                 break;
 
                         }
-                        messages.put(title, day+" "+sDate);
+                        messages.put(title, day+" "+sDate+" de "+smonth);
+                        if(!title.toLowerCase().contains("puente")){
+                            break;
+                        }
+
 
                     }
 
@@ -236,6 +223,7 @@ public class CalendarsAs {
             Log.appendLog("Calendar: "+ex.getMessage());
         }
     }
+
 
 
 

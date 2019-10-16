@@ -15,6 +15,8 @@ import com.android.asistente.asistente.Services.asistenteservice;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -99,5 +101,12 @@ public class General extends Activity {
     public static boolean isBluetoothEnabled(){
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
        return bluetoothAdapter.isEnabled();
+    }
+    public static Date addDays(Date date, int days)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return cal.getTime();
     }
 }
