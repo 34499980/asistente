@@ -139,12 +139,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
+                //Inicio del servicio principal del asistente
                 asistenteservice.bActive= true;
                 ContextCompat.startForegroundService(this,new Intent(this, asistenteservice.class));
 
-               // Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-               //// startActivity(intent);
+               //Agrego la observer la llegada de notificaciones
                 NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 NotificationCompat.Builder ncomp = new NotificationCompat.Builder(this);
                 ncomp.setContentTitle("My Notification");
@@ -153,32 +152,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ncomp.setSmallIcon(R.drawable.ic_launcher_background);
                 ncomp.setAutoCancel(true);
                 nManager.notify((int)System.currentTimeMillis(),ncomp.build());
-                /* BroadcastReceiver onNotice= new BroadcastReceiver() {
-
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        String pack = intent.getStringExtra("package");
-                        String title = intent.getStringExtra("title");
-                        String text = intent.getStringExtra("text");
-
-
-
-                      /*  TableRow tr = new TableRow(getApplicationContext());
-                        tr.setLayoutParams(new TableRow.LayoutParams( TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-                        TextView textview = new TextView(getApplicationContext());
-                        textview.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT,1.0f));
-                        textview.setTextSize(20);
-                        textview.setTextColor(Color.parseColor("#0B0719"));
-                        textview.setText(Html.fromHtml(pack +"<br><b>" + title + " : </b>" + text));
-                        tr.addView(textview);
-                        tab.addView(tr);
-
-
-
-
-                    }
-                };*/
-               // TTSService.speak("Servicio Iniciado");
 
                 break;
             case R.id.btnStopService:

@@ -81,22 +81,14 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     }
 
     @Override
-    public int onStartCommand(Intent intente, int flag,int idProcess){
+    public int onStartCommand(Intent intente, int flag,int idProcess) {
         super.onStartCommand(intente, flag, idProcess);
-       // Log.appendLog("asistenteSrvice"+"->"+"onStartComand");
+        // Log.appendLog("asistenteSrvice"+"->"+"onStartComand");
         bActive = true;
         context = getApplicationContext();
+        //Inicio del servicio para hablar
         startService(new Intent(this, TTSService.class));
-
-        //Agrego accion de boton de headset
-       /* IntentFilter ifilterHeadSet = new IntentFilter(Intent.ACTION_MEDIA_BUTTON);
-        Sound sound = new Sound();
-        registerReceiver(sound, ifilterHeadSet);*/
-
-      //  Time time = Time.getInstance();
-       // time.getTemperatureNow();
-       // startForeground(idProcess,null);
-
+        //Inicio del servicio de notificaciones
         startService(new Intent(this, NotificationService.class));
 
         try {

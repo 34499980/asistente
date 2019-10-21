@@ -206,6 +206,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
             if (letters != null) {
                 switch (letters) {
                     case "tiempo":
+                        //region
                         try {
                             if (matches.get(0).toLowerCase().indexOf("hora") > -1) {
                                 TTSService.speak(Time.getHoursAndMinutes());
@@ -219,30 +220,32 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             } else if (matches.get(0).toLowerCase().indexOf("clima") > -1) {
                                 Time time = Time.getInstance();
                                 time.getTemperatureNow("clima");
-                           /* TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados. Se espera "+
-                                   weather.min+ " de mínima y "+ weather.max + "de máximo, con una humedad de "+
-                                    weather.humidity +" porciento "  +weather.sky);*/
                             }
                         }catch(Exception ex){
                             Log.appendLog("VoiceRecognition:"+ex.getMessage());
                             Toast.makeText(this,"No se pudo obtener el clima",Toast.LENGTH_LONG).show();
                         }
-
+                        //endregion
                         break;
                     case "ExternalApp":
+                        //region
                         appName = externalApp.procesarDatosEntrada(matches.get(0).toLowerCase());
                         ResolveInfo app = externalApp.getAllAplication(appName);
                         externalApp.startApp(app);
                         CancelAction();
+                        //endregion
                         break;
                     case "NotificationService":
+                        //region
                        if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
                            NotificationService.DesactivateService();
                        }else if(matches.get(0).toLowerCase().indexOf("activar") > -1){
                            NotificationService.ActivateService();
                        }
+                        //endregion
                         break;
                     case "whatsapp":
+                        //region
                         if(matches.get(0).toLowerCase().indexOf("leer") > -1){
 
                             if(matches.get(0).toLowerCase().indexOf("todos") > -1){
@@ -310,9 +313,10 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             }
                         }
                         }
-
+                        //endregion
                         break;
                     case "contacto":
+                        //region
                         if (matches.get(0).toLowerCase().indexOf("contacto") > -1) {
                             contacts.OpenContacts();
                         } else {
@@ -344,13 +348,16 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             }
 
                         }
-
+                        //endregion
                         break;
                     case "cámara":
+                        //region
                         Camera.OpenCammera();
                         CancelAction();
+                        //endregion
                         break;
                     case "volumen":
+                        //region
                         int volume;
                         matches.set(0, matches.get(0).replace("%", "").replace("porcentaje", ""));
                         if (matches.get(0).toLowerCase().indexOf("multimedia") > 0) {
@@ -364,18 +371,24 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         }
                         TTSService.speak("El volumen se encuentra en " + String.valueOf(volume) + " porciento");
                         CancelAction();
+                        //endregion
                         break;
                     case "Battery":
+                        //region
                         Battery battery = new Battery();
                         TTSService.speak("El nivel de bateria es "+ String.valueOf(battery.getLevel())+" porciento");
                         CancelAction();
+                        //endregion
                         break;
                     case "Alarm":
+                        //region
                        Alarm.ProcesarDatosEntrada(matches.get(0));
                        Alarm.startAlert();
                         CancelAction();
+                        //endregion
                         break;
                     case "Wifi":
+                        //region
                         if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
                             General.enabledDesabledWifi(false);
                             TTSService.speak("wifi desactivado");
@@ -385,8 +398,10 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             TTSService.speak("wifi activado");
                         }
                         CancelAction();
+                        //endregion
                         break;
                     case "GPS":
+                        //region
                         GPS gps = new GPS();
                         String destino = gps.ProcesarDatosEntrada(matches.get(0).toLowerCase());
                         gps.getLatLongByAddress(destino);
@@ -396,8 +411,10 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                       intent = new Intent(asistenteservice.getContext(), Maps.class);
                       asistenteservice.getContext().startActivity(intent);
                         CancelAction();
+                        //endregion
                         break;
                     case "Modo asistente":
+                        //region
                       if(matches.get(0).toLowerCase().indexOf("desactivar") > -1){
                         Sound.bActiveListening = false;
                       }else{
@@ -410,20 +427,28 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                           }).run();
 
                       }
+                        //endregion
                         break;
                     case "Calendar":
+                        //region
                        CalendarsAs.getCalendar();
+                        //endregion
                         break;
                     case "Calculate":
+                        //region
                             String result = Calculator.ProcesarDatosEntrada(matches.get(0).toLowerCase());
                             if(!result.equals("")) {
                                 TTSService.speak("El resultado es " + result);
                             }
+                        //endregion
                         break;
                     case "Bluetooth":
+                        //region
                         General.enabledDesabledBluetooth();
+                        //endregion
                         break;
                     case "Search":
+                        //region
                         if(matches.get(0).toLowerCase().indexOf("mostrar detalles") > -1 && SearchWeb.url != null) {
                             try {
 
@@ -438,7 +463,7 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             SearchWeb search = new SearchWeb();
                             search.Searh(matches.get(0).toLowerCase());
                         }
-
+                        //endregion
                         break;
                     default:
                         if(matches.get(0).toLowerCase().indexOf("gallega") > -1)
