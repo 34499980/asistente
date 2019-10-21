@@ -15,13 +15,18 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import android.widget.Toast;
 
+import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.MainActivity;
 import com.android.asistente.asistente.R;
 import com.android.asistente.asistente.business.Sound;
+import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,7 +38,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
     static Context context;
     public static boolean bActive;
     static boolean listening=false;
-
+    boolean firstTime = false;
 
 
     @Nullable
@@ -73,6 +78,21 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
                 ncomp.setSmallIcon(R.drawable.ic_launcher_background);
                 ncomp.setAutoCancel(true);
                 nManager.notify((int)System.currentTimeMillis(),ncomp.build());
+
+                Calendar cal = Calendar.getInstance();
+                String Hour = String.valueOf(cal.get(Calendar.HOUR));
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH");
+                int hour = Integer.parseInt(simpleDateFormat.format(new Date()));
+                while(TTSService.context != null) {
+                }
+
+                if ((General.isHeadSetConnect() || Sound.getVolume() > 0 && !firstTime)&& hour < 12) {
+                    firstTime = true;
+                    TTSService.speak("");
+                    Time time = Time.getInstance();
+                    time.getTemperatureNow("dia");
+                }
+
 
             }
         }catch(Exception ex){

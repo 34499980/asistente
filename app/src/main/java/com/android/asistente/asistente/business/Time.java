@@ -214,10 +214,13 @@ public class Time {
                     //  loader.setVisibility(View.GONE);
                     if(_input.equals("temperatura")){
                         TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados " +weather.sky);
-                    }else{
+                    }else if(_input.equals("clima")){
                         TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados. Se espera "+
                                 weather.min+ " de mínima y "+ weather.max + "de máximo, con una humedad de "+
                                 weather.humidity +" porciento "  +weather.sky);
+                    }else{
+                        TTSService.speak("Buenos días señor. Hay "+ String.valueOf(weather.temperature) + " grados. Se espera "+
+                                + weather.max + " de máxima "+weather.sky);
                     }
                     VoiceRecognition.CancelAction();
 
