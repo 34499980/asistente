@@ -177,60 +177,117 @@ public class Time {
                     DateFormat df = DateFormat.getDateTimeInstance();
 
                     // cityField.setText(json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country"));
-                    switch (tempweather){
-                        case "clear sky":
-                            weather.sky = "y el cielo se encuentra despejado";
-                            break;
-                        case "few clouds":
-                            weather.sky = "y el cielo se encuentra nublado";
-                            break;
-                        case "scattered clouds":
-                            weather.sky = "y el cielo se encuentra algo nublado";
-                            break;
-                        case "broken clouds":
-                            weather.sky = "y el cielo se encuentra algo nublado";
-                            break;
-                        case "shower rain":
-                            weather.sky = "y esta lloviendo";
-                            break;
-                        case "rain":
-                            weather.sky = "y esta lloviendo";
-                            break;
-                        case "thunderstorm":
-                            weather.sky = "y hay tormenta electrica";
-                            break;
-                        case "snow":
-                            weather.sky = "y esta nevando";
-                            break;
-                        case "moderate rain":
-                            weather.sky = "y hay llovizna";
-                            break;
-                        case "mist":
-                            weather.sky = "y hay niebla";
-                            break;
-                        case "light intensity drizzle":
-                            weather.sky = "y hay llovizna";
-                            break;
-                        case "drizzle":
-                            weather.sky = "y hay llovizna";
-                            break;
-                        case "light rain":
-                            weather.sky = "y hay llovizna";
-                            break;
-                        case "fog":
-                            weather.sky = "y hay niebla";
-                            break;
-                        case "thunderstorm with light rain":
-                            weather.sky = "y hay tormenta electrica";
-                            break;
-                        case "overcast clouds":
-                            weather.sky = "y algunas nubes";
-                            break;
-                        default:
-                            Log.appendLog("Cielo: " + details.getString("description").toLowerCase());
-                            weather.sky="";
-                            break;
-                    }
+                   if(day.contains("weather")) {
+                       switch (tempweather) {
+                           case "clear sky":
+                               weather.sky = "y el cielo se encuentra despejado";
+                               break;
+                           case "few clouds":
+                               weather.sky = "y el cielo se encuentra nublado";
+                               break;
+                           case "scattered clouds":
+                               weather.sky = "y el cielo se encuentra algo nublado";
+                               break;
+                           case "broken clouds":
+                               weather.sky = "y el cielo se encuentra algo nublado";
+                               break;
+                           case "shower rain":
+                               weather.sky = "y esta lloviendo";
+                               break;
+                           case "rain":
+                               weather.sky = "y esta lloviendo";
+                               break;
+                           case "thunderstorm":
+                               weather.sky = "y hay tormenta electrica";
+                               break;
+                           case "snow":
+                               weather.sky = "y esta nevando";
+                               break;
+                           case "moderate rain":
+                               weather.sky = "y hay llovizna";
+                               break;
+                           case "mist":
+                               weather.sky = "y hay niebla";
+                               break;
+                           case "light intensity drizzle":
+                               weather.sky = "y hay llovizna";
+                               break;
+                           case "drizzle":
+                               weather.sky = "y hay llovizna";
+                               break;
+                           case "light rain":
+                               weather.sky = "y hay llovizna";
+                               break;
+                           case "fog":
+                               weather.sky = "y hay niebla";
+                               break;
+                           case "thunderstorm with light rain":
+                               weather.sky = "y hay tormenta electrica";
+                               break;
+                           case "overcast clouds":
+                               weather.sky = "y algunas nubes";
+                               break;
+                           default:
+                               Log.appendLog("Cielo: " + details.getString("description").toLowerCase());
+                               weather.sky = "";
+                               break;
+                       }
+                   }else{
+                       switch (tempweather) {
+                           case "clear sky":
+                               weather.sky = "y el cielo se encontrara despejado";
+                               break;
+                           case "few clouds":
+                               weather.sky = "y el cielo se encontrara nublado";
+                               break;
+                           case "scattered clouds":
+                               weather.sky = "y el cielo se encontrara algo nublado";
+                               break;
+                           case "broken clouds":
+                               weather.sky = "y el cielo se encontrara algo nublado";
+                               break;
+                           case "shower rain":
+                               weather.sky = "y se esperan lluvias";
+                               break;
+                           case "rain":
+                               weather.sky = "y se esperan lluvias";
+                               break;
+                           case "thunderstorm":
+                               weather.sky = "y habrá tormenta electrica";
+                               break;
+                           case "snow":
+                               weather.sky = "y caera nieve";
+                               break;
+                           case "moderate rain":
+                               weather.sky = "y habrá llovizna";
+                               break;
+                           case "mist":
+                               weather.sky = "y habrá niebla";
+                               break;
+                           case "light intensity drizzle":
+                               weather.sky = "y habrá llovizna";
+                               break;
+                           case "drizzle":
+                               weather.sky = "y habrá llovizna";
+                               break;
+                           case "light rain":
+                               weather.sky = "y habrá llovizna";
+                               break;
+                           case "fog":
+                               weather.sky = "y habrá niebla";
+                               break;
+                           case "thunderstorm with light rain":
+                               weather.sky = "y habrá tormenta electrica";
+                               break;
+                           case "overcast clouds":
+                               weather.sky = "y habrá algunas nubes";
+                               break;
+                           default:
+                               Log.appendLog("Cielo: " + details.getString("description").toLowerCase());
+                               weather.sky = "";
+                               break;
+                       }
+                   }
                     weather.temperature = Integer.parseInt( main.getString("temp").substring(0,main.getString("temp").indexOf(".")));
                     weather.min = Math.round(main.getLong("temp_min"));//.substring(0,main.getString("temp_min").indexOf(".")));
 
