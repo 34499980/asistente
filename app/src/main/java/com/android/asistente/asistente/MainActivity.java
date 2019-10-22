@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.Services.asistenteservice;
 import com.android.asistente.asistente.business.Calculator;
 import com.android.asistente.asistente.business.CalendarsAs;
+import com.android.asistente.asistente.business.ExternalApp;
 import com.android.asistente.asistente.business.Sound;
 import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
@@ -171,12 +173,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnHablar:
 
-                //String result = Calculator.ProcesarDatosEntrada("cuanto es 3 dividido 2");
-                //TTSService.speak("El resultado es "+result);
                 shape.setColor(Color.parseColor("#ef5350"));//Color rojo
 
                  voice.InitSpeech();
-                 voice.StartvoiceListening();
+                voice.StartvoiceListening();
                 break;
         }
         }catch(Exception ex){

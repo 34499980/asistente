@@ -214,7 +214,13 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             } else if (matches.get(0).toLowerCase().indexOf("mañana") > -1) {
 
                                 Time time = Time.getInstance();
-                                time.getTemperatureTomorrow("temperatura");
+                                if(matches.get(0).toLowerCase().indexOf("temperatura") > -1)
+                                {
+                                    time.getTemperatureTomorrow("temperatura");
+                                }else{
+                                    time.getTemperatureTomorrow("clima");
+                                }
+
 
                                 //  TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados " +weather.sky);
                             }

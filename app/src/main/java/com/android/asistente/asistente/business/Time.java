@@ -1,5 +1,6 @@
 package com.android.asistente.asistente.business;
 
+import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.view.View;
@@ -304,9 +305,14 @@ public class Time {
 
                     //  loader.setVisibility(View.GONE);
                     if(day.contains("forecast")) {
-                        TTSService.speak("Mañana habrá " + String.valueOf(weather.temperature) + " grados. Se espera " +
-                                weather.min + " de mínima y " + weather.max + "de máximo, con una humedad de " +
-                                weather.humidity + " porciento " + weather.sky);
+
+                        if (_input.equals("temperatura")) {
+                            TTSService.speak("Mañana habrá " + String.valueOf(weather.temperature) + " grados " + weather.sky);
+                        } else {
+                            TTSService.speak("Mañana habrá " + String.valueOf(weather.temperature) + " grados. Se espera " +
+                                    weather.min + " de mínima y " + weather.max + "de máximo, con una humedad de " +
+                                    weather.humidity + " porciento " + weather.sky);
+                        }
                     }else{
                         if (_input.equals("temperatura")) {
                             TTSService.speak("Hay " + String.valueOf(weather.temperature) + " grados " + weather.sky);
@@ -332,4 +338,5 @@ public class Time {
 
 
     }
+
 }

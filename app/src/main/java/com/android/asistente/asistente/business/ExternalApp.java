@@ -42,6 +42,7 @@ public class ExternalApp extends AppCompatActivity {
                         .replace("calendario", "calendar")
                         .replace("música", "music")
                         .replace("cámara", "cam")
+                        .replace("configuración", "settings")
                         .replace("calculadora", "calculator");
             }
             return result;
