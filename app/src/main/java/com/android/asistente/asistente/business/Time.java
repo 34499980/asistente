@@ -9,6 +9,7 @@ import com.android.asistente.asistente.Entities.Weather;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.TTSService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +35,7 @@ public class Time {
     private Time(){};
     private static Weather weather;
     String _input = null;
+    String day = "";
 
     static Dictionary result = new Hashtable();
     public static Time getInstance(){
@@ -68,12 +70,22 @@ public class Time {
         getDate();
       return "Son las "+ result.get("hour") + " y "+ result.get("minutes");
     }
-
+    public void getTemperatureTomorrow(String input){
+        try {
+            _input = input;
+            DownloadWeather weather = new DownloadWeather();
+            weather.execute("Buenos Aires,AR");
+            day = "forecast";
+        }catch(Exception ex){
+            Log.appendLog("Time:"+ex.getMessage());
+        }
+    }
     public  void getTemperatureNow(String input){
         try {
             _input = input;
             DownloadWeather weather = new DownloadWeather();
             weather.execute("Buenos Aires,AR");
+            day = "weather";
         }catch(Exception ex){
             Log.appendLog("Time:"+ex.getMessage());
         }
@@ -131,7 +143,7 @@ public class Time {
 
         }
         protected String doInBackground(String...args) {
-            String xml = Time.excuteGet("http://api.openweathermap.org/data/2.5/weather?q=" + args[0] +
+            String xml = Time.excuteGet("http://api.openweathermap.org/data/2.5/"+day+"?q=" + args[0] +
                     "&units=metric&appid=" + OPEN_WEATHER_MAP_API);
             return xml;
         }
@@ -140,13 +152,32 @@ public class Time {
 
             try {
                 JSONObject json = new JSONObject(xml);
+                JSONArray array=null;
+                String tempweather = "";
+                JSONObject details;
                 if (json != null) {
-                    JSONObject details = json.getJSONArray("weather").getJSONObject(0);
-                    JSONObject main = json.getJSONObject("main");
+
+                    if(day.equals("weather")){
+                         details = json.getJSONArray("weather").getJSONObject(0);
+                        tempweather = details.getString("description").toLowerCase();
+
+                    }else{
+                         details = json.getJSONArray("list").getJSONObject(0);
+                        tempweather = details.getJSONArray("weather").toString();
+                        tempweather = tempweather.substring(tempweather.indexOf("description\":\"")+14,tempweather.indexOf("\",\"icon\""));
+
+                    }
+                    JSONObject main=null;
+                    if(day.contains("weather")){
+                        main = json.getJSONObject("main");
+                    }else{
+                        main = details.getJSONObject("main");
+                    }
+
                     DateFormat df = DateFormat.getDateTimeInstance();
 
                     // cityField.setText(json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country"));
-                    switch (details.getString("description").toLowerCase()){
+                    switch (tempweather){
                         case "clear sky":
                             weather.sky = "y el cielo se encuentra despejado";
                             break;
@@ -192,6 +223,9 @@ public class Time {
                         case "thunderstorm with light rain":
                             weather.sky = "y hay tormenta electrica";
                             break;
+                        case "overcast clouds":
+                            weather.sky = "y algunas nubes";
+                            break;
                         default:
                             Log.appendLog("Cielo: " + details.getString("description").toLowerCase());
                             weather.sky="";
@@ -212,15 +246,21 @@ public class Time {
                     //   json.getJSONObject("sys").getLong("sunset") * 1000)));
 
                     //  loader.setVisibility(View.GONE);
-                    if(_input.equals("temperatura")){
-                        TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados " +weather.sky);
-                    }else if(_input.equals("clima")){
-                        TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados. Se espera "+
-                                weather.min+ " de mínima y "+ weather.max + "de máximo, con una humedad de "+
-                                weather.humidity +" porciento "  +weather.sky);
+                    if(day.contains("forecast")) {
+                        TTSService.speak("Mañana habrá " + String.valueOf(weather.temperature) + " grados. Se espera " +
+                                weather.min + " de mínima y " + weather.max + "de máximo, con una humedad de " +
+                                weather.humidity + " porciento " + weather.sky);
                     }else{
-                        TTSService.speak("Buenos días señor. Hay "+ String.valueOf(weather.temperature) + " grados. Se espera "+
-                                + weather.max + " de máxima "+weather.sky);
+                        if (_input.equals("temperatura")) {
+                            TTSService.speak("Hay " + String.valueOf(weather.temperature) + " grados " + weather.sky);
+                        } else if (_input.equals("clima")) {
+                            TTSService.speak("Hay " + String.valueOf(weather.temperature) + " grados. Se espera " +
+                                    weather.min + " de mínima y " + weather.max + "de máximo, con una humedad de " +
+                                    weather.humidity + " porciento " + weather.sky);
+                        } else if (_input.equals("dia")) {
+                            TTSService.speak("Buenos días señor. Hay " + String.valueOf(weather.temperature) + " grados. Se espera " +
+                                    +weather.max + " de máxima " + weather.sky);
+                        }
                     }
                     VoiceRecognition.CancelAction();
 

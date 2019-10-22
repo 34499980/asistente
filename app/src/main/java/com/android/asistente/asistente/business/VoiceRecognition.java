@@ -211,7 +211,14 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                             if (matches.get(0).toLowerCase().indexOf("hora") > -1) {
                                 TTSService.speak(Time.getHoursAndMinutes());
                                 CancelAction();
-                            } else if (matches.get(0).toLowerCase().indexOf("temperatura") > -1) {
+                            } else if (matches.get(0).toLowerCase().indexOf("mañana") > -1) {
+
+                                Time time = Time.getInstance();
+                                time.getTemperatureTomorrow("temperatura");
+
+                                //  TTSService.speak("Hay "+ String.valueOf(weather.temperature) + " grados " +weather.sky);
+                            }
+                            else if (matches.get(0).toLowerCase().indexOf("temperatura") > -1) {
 
                                 Time time = Time.getInstance();
                                 time.getTemperatureNow("temperatura");
