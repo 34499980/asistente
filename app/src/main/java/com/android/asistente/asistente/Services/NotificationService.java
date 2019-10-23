@@ -66,7 +66,11 @@ public class NotificationService extends NotificationListenerService {
                                     break;
                                 default:
                                     if(General.isHeadSetConnect() || Sound.getVolume() > 0) {
-                                        TTSService.speak("Mensaje de " + title);
+                                        if(text.equals("📷 Foto")){
+                                            TTSService.speak(  title + " le ha enviado una foto por whatsapp");
+                                        }else{
+                                            TTSService.speak("Mensaje de " + title);                                        }
+
                                         if(pack.contains("whatsapp")) {
                                             Whatsapp.putMessages(title, text);
                                         }
