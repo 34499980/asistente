@@ -78,7 +78,8 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
                 ncomp.setSmallIcon(R.drawable.ic_launcher_background);
                 ncomp.setAutoCancel(true);
                 nManager.notify((int)System.currentTimeMillis(),ncomp.build());
-
+                //Deberia hablar cuando se inicia el servicio
+                /*
                 Calendar cal = Calendar.getInstance();
                 String Hour = String.valueOf(cal.get(Calendar.HOUR));
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH");
@@ -91,7 +92,7 @@ public class asistenteservice extends Service implements TextToSpeech.OnInitList
                     TTSService.speak("");
                     Time time = Time.getInstance();
                     time.getTemperatureNow("dia");
-                }
+                }*/
 
 
             }
