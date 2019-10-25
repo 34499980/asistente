@@ -457,7 +457,8 @@ public class VoiceRecognition extends AppCompatActivity implements Serializable 
                         break;
                     case "Bluetooth":
                         //region
-                        General.enabledDesabledBluetooth();
+                        result = General.enabledDesabledBluetooth();
+                        TTSService.speak("El wifi se encuentra "+ result);
                         //endregion
                         break;
                     case "Search":

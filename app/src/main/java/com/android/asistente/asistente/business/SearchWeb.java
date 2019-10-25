@@ -162,9 +162,9 @@ public class SearchWeb {
              String cx = "016697470152593144145:catp7rewrfa";
             String buildUrl;
             if(args[0].toLowerCase().contains("busca")) {
-                buildUrl = "https://www.googleapis.com/customsearch/v1?key=AIzaSyD0xPBxooSwcSxb2J16vPJE7HQtvxjqyPk&cx=016697470152593144145:catp7rewrfa&q=" + args[0];
+                buildUrl = url+"key="+KEY+"&cx="+cx+"&q=" + args[0];
             }else{
-                buildUrl = "https://www.googleapis.com/customsearch/v1?key=AIzaSyD0xPBxooSwcSxb2J16vPJE7HQtvxjqyPk&cx=016697470152593144145:catp7rewrfa&q=" + args[0] + "Wikipedia, enciclopedia libre";
+                buildUrl = url+"key="+KEY+"&cx="+cx+"&q=" + args[0] + "Wikipedia, enciclopedia libre";
 
             }
              String xml = excuteGet(buildUrl);

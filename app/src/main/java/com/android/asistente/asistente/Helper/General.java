@@ -90,12 +90,14 @@ public class General extends Activity {
      WifiManager wifiManager = (WifiManager)asistenteservice.getContext().getSystemService(Context.WIFI_SERVICE);
      wifiManager.setWifiEnabled(status);
  }
-    public static void enabledDesabledBluetooth(){
+    public static String enabledDesabledBluetooth(){
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(bluetoothAdapter.isEnabled()){
             bluetoothAdapter.disable();
+            return "desactivado";
         }else{
             bluetoothAdapter.enable();
+            return "activado";
         }
     }
     public static boolean isBluetoothEnabled(){
