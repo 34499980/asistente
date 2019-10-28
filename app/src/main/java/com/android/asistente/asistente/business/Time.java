@@ -228,6 +228,9 @@ public class Time {
                            case "overcast clouds":
                                weather.sky = "y algunas nubes";
                                break;
+                           case "thunderstorm with rain":
+                               weather.sky = "y hay tormenta electrica";
+                               break;
                            default:
                                Log.appendLog("Cielo: " + details.getString("description").toLowerCase());
                                weather.sky = "";
@@ -282,6 +285,9 @@ public class Time {
                                break;
                            case "overcast clouds":
                                weather.sky = "y habrá algunas nubes";
+                               break;
+                           case "thunderstorm with rain":
+                               weather.sky = "y habrá tormenta electrica";
                                break;
                            default:
                                Log.appendLog("Cielo: " + details.getString("description").toLowerCase());
