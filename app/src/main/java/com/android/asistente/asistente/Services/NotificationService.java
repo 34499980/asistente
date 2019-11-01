@@ -58,7 +58,7 @@ public class NotificationService extends NotificationListenerService {
                                     TTSService.speak("Ha recibido un mail.");
                                     break;
                                 case "com.facebook.katana":
-                                    if(text.contains("cumple") || text.contains("muro") || text.contains("en tu biografía")|| text.contains("alerta")){
+                                    if(text.contains("cumple") || text.contains("muro") || text.contains("en tu biografía")|| text.toLowerCase().contains("alerta") && !title.contains("burbujas de chat")){
                                         text = text.toLowerCase().substring(text.toLowerCase().indexOf("hoy"));
                                         TTSService.speak(text);
                                     }
