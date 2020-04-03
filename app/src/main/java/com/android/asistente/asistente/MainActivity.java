@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -19,21 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.Services.NotificationService;
 import com.android.asistente.asistente.Services.TTSService;
 import com.android.asistente.asistente.Services.asistenteservice;
-import com.android.asistente.asistente.business.Calculator;
-import com.android.asistente.asistente.business.CalendarsAs;
-import com.android.asistente.asistente.business.ExternalApp;
-import com.android.asistente.asistente.business.Sound;
-import com.android.asistente.asistente.business.Time;
 import com.android.asistente.asistente.business.VoiceRecognition;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -160,6 +150,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ncomp.setSmallIcon(R.drawable.ic_launcher_background);
                 ncomp.setAutoCancel(true);
                 nManager.notify((int)System.currentTimeMillis(),ncomp.build());
+                //Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+               // startActivity(intent);
 
 
                 break;

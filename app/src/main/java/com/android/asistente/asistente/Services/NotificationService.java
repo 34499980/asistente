@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
-import androidx.appcompat.widget.ThemedSpinnerAdapter;
-
 import com.android.asistente.asistente.Helper.General;
 import com.android.asistente.asistente.Helper.Log;
 import com.android.asistente.asistente.business.Sound;
@@ -69,9 +67,10 @@ public class NotificationService extends NotificationListenerService {
                                         if(text.equals("📷 Foto")){
                                             TTSService.speak(  title + " le ha enviado una foto por whatsapp");
                                         }else{
+                                            if(!title.equals("whatsapp web") &&  !title.equals("burbujas de chat activas"))
                                             TTSService.speak("Mensaje de " + title);                                        }
 
-                                        if(pack.contains("whatsapp")) {
+                                        if(pack.contains("whatsapp") && !title.equals("whatsapp web")) {
                                             Whatsapp.putMessages(title, text);
                                         }
                                     }
