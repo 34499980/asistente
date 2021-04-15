@@ -1,10 +1,6 @@
 package com.android.asistente.asistente.business;
 
-import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
-import android.text.Html;
-import android.view.View;
-import android.widget.Toast;
 
 import com.android.asistente.asistente.Entities.Weather;
 import com.android.asistente.asistente.Helper.Log;
@@ -21,12 +17,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.Locale;
 
 public class Time {
     private static Time instance = null;
@@ -144,7 +138,7 @@ public class Time {
 
         }
         protected String doInBackground(String...args) {
-            String xml = Time.excuteGet("http://api.openweathermap.org/data/2.5/"+day+"?q=" + args[0] +
+            String xml = Time.excuteGet("https://api.openweathermap.org/data/2.5/"+day+"?q=" + args[0] +
                     "&units=metric&appid=" + OPEN_WEATHER_MAP_API);
             return xml;
         }

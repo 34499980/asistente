@@ -150,8 +150,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ncomp.setSmallIcon(R.drawable.ic_launcher_background);
                 ncomp.setAutoCancel(true);
                 nManager.notify((int)System.currentTimeMillis(),ncomp.build());
-                //Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-               // startActivity(intent);
+               // Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                //startActivity(intent);
 
 
                 break;
